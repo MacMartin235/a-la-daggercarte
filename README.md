@@ -20,3 +20,9 @@ The tables have the ability to be sorted by clicking on the column headers, and 
 The search bar can be used to type keywords and phrases to further filter the cards and tables. For example, try searching "token". This will display all cards that mention the word "token", which inspired me to create a character which maximizes the number of tokens on the table at any given time (my max is 52 using a Seaborne Druid multiclassed into Grace). The search function is a 'fuzzy' search, and takes the card's or table entry's name, domain, type, and description into consideration.
 
 ## Screenshots
+![Top of the Character Sheet](https://github.com/user-attachments/assets/047b7ec7-4988-427d-ae03-24809011d7d0)
+![Features Section](https://github.com/user-attachments/assets/90d64c7f-be0c-4273-b7dc-84aa2f44ac94)
+![Domain Cards Section](https://github.com/user-attachments/assets/06132dc3-b500-4caf-bd29-177bcca0b6aa)
+![Leveling Section](https://github.com/user-attachments/assets/f9d446a6-f118-44b1-b565-cd2e14513c63)
+![Card Examples](https://github.com/user-attachments/assets/938e97e4-655b-4f69-b349-f04eebfdc554)
+
