@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="330"
+   height="465"
+   viewBox="0 0 330 465"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1"><linearGradient
+       id="linearGradient5"><stop
+         style="stop-color:#ffcb74;stop-opacity:1;"
+         offset="0"
+         id="stop5" /><stop
+         style="stop-color:#feef92;stop-opacity:1;"
+         offset="0.40000001"
+         id="stop6" /><stop
+         style="stop-color:#feef92;stop-opacity:1;"
+         offset="0.60000002"
+         id="stop8" /><stop
+         style="stop-color:#ffcb74;stop-opacity:1;"
+         offset="1"
+         id="stop7" /></linearGradient><linearGradient
+       xlink:href="#linearGradient5"
+       id="linearGradient10"
+       x1="-0.25"
+       y1="201.45508"
+       x2="330.25"
+       y2="201.45508"
+       gradientUnits="userSpaceOnUse" /></defs><g
+     id="layer3"
+     style="display:inline"><path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.4;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"
+       d="M 0,238.63477 H 320.47266 L 330,229.20898 V 465 H 0 Z"
+       id="path99" /><path
+       id="path10"
+       style="display:inline;fill:url(#linearGradient10);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"
+       d="m 330.25,164.27539 -15.23849,14.21367 -0.21073,40.50313 H 190.00391 l -2.11524,13.50781 5.71289,-2.4043 1.48047,-6.87304 20.3125,-0.21094 3.38477,4.01953 h 71.72851 l 5.05312,-5.34863 19.19102,-0.0615 -0.21093,11.62696 -282.851567,-0.0664 -2.583984,-3.97266 H 58.947266 L 56.404297,226.81445 0,226.96484 v 2.24414 h 17.720703 l 2.644531,3.96875 L -0.25,233.17383 0,238.63477 H 320.47266 L 330,229.20898 v -7.33203 l -12.36914,11.3711 -0.0332,-11.57813 L 330,221.87695 v -3.18398 l -12.41016,0.29923 0.33947,-38.10898 12.32069,-12.5668 z m -116.125,34.82617 -3.38477,2.75196 v 10.36718 l 3.17383,2.11524 h 91.19336 l 3.17383,-2.75 -0.21289,-10.36719 -2.96094,-2.11719 z M 21.544922,229.20898 h 3.800781 l 2.332031,3.97071 h -3.662109 z" /></g></svg>
