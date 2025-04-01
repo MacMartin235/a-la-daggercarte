@@ -1167,20 +1167,40 @@
 				#lockIcon{
 					position: absolute;
 					top: 0.675rem;
-					right: 1.875rem;
-					width: 1.5rem;
-					height: 1.5rem;
-					font-size: 1.5rem;
-					background-color: white;
-					display: flex;
-					justify-content: center;
-					align-items: center;
+					right: 3rem;
+					//width: 1.5rem;
+					//height: 1.5rem;
+					//font-size: 1.5rem;
+					//background-color: white;
+					//display: flex;
+					//justify-content: center;
+					//align-items: center;
+					
+					.mark{
+						background-color: transparent;
+						width: 1.5rem;
+						aspect-ratio: 1 / 1;
+						color: black;
+						font-size: 1.5rem;
+						border: 0;
+						
+						&:before{
+							content: "🔓";
+						}
+					}
+					input:checked ~ .mark{
+						background-color: transparent;
+						
+						&:before{
+							content: "🔒";
+						}
+					}
 				}
 				#lockIcon[data-toggled="true"]:before{
-					content: "🔒";
+					//content: "🔒";
 				}
 				#lockIcon[data-toggled="false"]:before{
-					content: "🔓";
+					//content: "🔓";
 				}
 				.meatballMenu{
 					position: absolute;
@@ -1348,19 +1368,23 @@
 					input:checked ~ .mark{
 						background-color: grey;
 					}
-					input:disabled ~ .mark{
+					input[readonly] ~ .mark{
 						background-color: transparent;
 						border: medium dotted lightgrey;
 					}
-				}
-				.checkboxContainer:hover input ~ .mark{
-					//background-color: lightgrey;
-				}
-				[data-toggled="false"]{
-					//background-color: white;
-				}
-				[data-toggled="true"]{
-					//background-color: grey;
+					input:disabled ~ .mark{
+						//border: medium dotted lightgrey;
+					}
+					input:focus ~ .mark,
+					input:active ~ .mark,
+					input:focus-visible ~ .mark{
+						outline: auto;
+					}
+					input:disabled:focus ~ .mark,
+					input:disabled:active ~ .mark,
+					input:disabled:focus-visible ~ .mark{
+						outline: 0;
+					}
 				}
 				.numArea{
 					//width: 100px;
@@ -1757,6 +1781,7 @@
 						
 						.mark{
 							border: thin solid grey;
+							background-color: transparent;
 						}
 						.checkboxContainer:hover input ~ .mark{
 							background-color: lightgrey;
@@ -1764,6 +1789,7 @@
 						input:checked ~ .mark{
 							background-color: grey;
 						}
+						input[readonly] ~ .mark,
 						input:disabled ~ .mark{
 							background-color: transparent;
 							border: medium dotted lightgrey;
@@ -1785,10 +1811,10 @@
 							aspect-ratio: 1 / 1;
 						}
 						.checkboxContainer:hover input ~ .mark{
-							background-color: lightgrey;
+							
 						}
 						input:checked ~ .mark{
-							background-color: grey;
+							
 						}
 					}
 					.ability{
@@ -1956,6 +1982,7 @@
 						input:checked ~ .mark{
 							background-color: grey;
 						}
+						input[readonly] ~ .mark,
 						input:disabled ~ .mark{
 							border: dotted lightgrey;
 							background-color: transparent;
@@ -2026,6 +2053,7 @@
 						input:checked ~ .mark{
 							background-color: grey;
 						}
+						input[readonly] ~ .mark,
 						input:disabled ~ .mark{
 							background-image: linear-gradient(90deg, #FFFFFF00 0%, #FFFFFF00 47%, #000000FF 47%, #000000FF 50%, #000000FF 53%, #FFFFFF00 53%),linear-gradient(180deg, #FFFFFF00 0%, #FFFFFF00 46%, #000000FF 46%, #000000FF 50%, #000000FF 54%, #FFFFFF00 54%);
 						}
@@ -2876,7 +2904,10 @@
 		</div>
 		
 		<div class="sheet">
-			<div id="lockIcon" onclick="toggleLock(this)" data-toggled="false" tabindex="0"></div>
+			<label id="lockIcon" class="checkboxContainer" onclick="toggleLock(this.querySelector('input'))" onkeyup="if(event.key==='enter'){event.preventDefault();console.log('did a thing');this.click();}">
+				.<input type="checkbox">
+				<span class="mark"></span>
+			</label>
 			<div class="meatballMenu" id="sheetOptions" onmouseleave="closeDropdown(this)">
 				<button id="sheetOptionsButton" onclick="toggleDropdown(this.parentElement)">•••</button>
 				<div class="options" style="display: none">
@@ -3281,52 +3312,52 @@
 					</div>
 				</div>
 				<div id="armorCheckboxArea">
-					<label class="checkboxContainer" id="armor00" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor00" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor01" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor01" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor02" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor02" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor03" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor03" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor04" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor04" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor05" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" disabled onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor05" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor06" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor06" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor07" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor07" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor08" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor08" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor09" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor09" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor10" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor10" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
-					<label class="checkboxContainer" id="armor11" ondblclick="toggleDisabled(this.querySelector('input')); fillObjectFromSheet();">
-						.<input type="checkbox" onchange="fillObjectFromSheet()">
+					<label class="checkboxContainer" id="armor11" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+						.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 						<span class="mark"></span>
 					</label>
 				</div>
@@ -3334,8 +3365,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">AGILITY</div>
-						<label id="agilityCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="agilityCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3346,8 +3377,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">STRENGTH</div>
-						<label id="strengthCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="strengthCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3358,8 +3389,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">FINESSE</div>
-						<label id="finesseCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="finesseCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3370,8 +3401,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">INSTINCT</div>
-						<label id="instinctCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="instinctCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3382,8 +3413,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">PRESENCE</div>
-						<label id="presenceCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="presenceCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3394,8 +3425,8 @@
 				<div class="numArea abilityArea">
 					<div class="flow-row labelArea abilityLabelArea">
 						<div class="label abilityLabel">KNOWLEDGE</div>
-						<label id="knowledgeCheckbox" class="checkboxContainer lockable" data-lock="button">
-							.<input type="checkbox" onchange="fillObjectFromSheet()">
+						<label id="knowledgeCheckbox" class="checkboxContainer">
+							.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
 					</div>
@@ -3426,103 +3457,103 @@
 						</div>
 						<div id="hpArea" class="flow-row">
 							<span id="hpLabel">HP</span>
-							<label id="hpCheckbox00" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox00" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox01" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox01" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox02" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox02" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox03" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox03" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox04" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox04" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox05" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hpCheckbox05" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox06" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox06" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox07" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox07" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox08" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox08" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox09" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox09" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox10" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox10" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="hpCheckbox11" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="hpCheckbox11" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 						</div>
 						<div id="stressArea" class="flow-row">
 							<span id="stressLabel">STRESS</span>
-							<label id="stressCheckbox00" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox00" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox01" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox01" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox02" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox02" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox03" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox03" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox04" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox04" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox05" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="stressCheckbox05" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox06" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox06" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox07" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox07" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox08" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox08" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox09" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox09" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox10" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox10" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
-							<label id="stressCheckbox11" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox" disabled>
+							<label id="stressCheckbox11" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -3531,33 +3562,33 @@
 						<div class="areaTitle">HOPE</div>
 						<p class="caption">Spend a Hope to use an experience or help an ally.</p>
 						<div id="hopeCheckboxArea" class="flow-row">
-							<label id="hopeCheckbox0" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox0" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 							<div class="hopeDivider"></div>
-							<label id="hopeCheckbox1" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox1" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 							<div class="hopeDivider"></div>
-							<label id="hopeCheckbox2" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox2" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 							<div class="hopeDivider"></div>
-							<label id="hopeCheckbox3" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox3" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 							<div class="hopeDivider"></div>
-							<label id="hopeCheckbox4" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox4" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 							<div class="hopeDivider"></div>
-							<label id="hopeCheckbox5" class="checkboxContainer" ondblclick="toggleDisabled(this.querySelector('input'))">
-								.<input type="checkbox">
+							<label id="hopeCheckbox5" class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); fillObjectFromSheet();}">
+								.<input type="checkbox" class="lockable" data-lock="check">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -3693,28 +3724,28 @@
 						<div id="proficiency" class="areaSubtitle flow-row">
 							<div id="proficiencyShape"></div>
 							<span class="label">PROFICIENCY </span>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -3823,15 +3854,15 @@
 								<h2>INVENTORY WEAPON</h2>
 								<div class="flow-row weaponTypeCheckboxes">
 									<div class="flow-row weaponTypeBoxAndLabel">
-										<label class="checkboxContainer primaryCheckbox lockable" data-lock="button">
-											.<input type="checkbox" onchange="fillObjectFromSheet()">
+										<label class="checkboxContainer primaryCheckbox">
+											.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
 										<p>PRIMARY</p>
 									</div>
 									<div class="flow-row weaponTypeBoxAndLabel">
-										<label class="checkboxContainer secondaryCheckbox lockable" data-lock="button">
-											.<input type="checkbox" onchange="fillObjectFromSheet()">
+										<label class="checkboxContainer secondaryCheckbox">
+											.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
 										<p>SECONDARY</p>
@@ -3876,15 +3907,15 @@
 								<h2>INVENTORY WEAPON</h2>
 								<div class="flow-row weaponTypeCheckboxes">
 									<div class="flow-row weaponTypeBoxAndLabel">
-										<label class="checkboxContainer primaryCheckbox lockable" data-lock="button">
-											.<input type="checkbox" onchange="fillObjectFromSheet()">
+										<label class="checkboxContainer primaryCheckbox">
+											.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
 										<p>PRIMARY</p>
 									</div>
 									<div class="flow-row weaponTypeBoxAndLabel">
-										<label class="checkboxContainer secondaryCheckbox lockable" data-lock="button">
-											.<input type="checkbox" onchange="fillObjectFromSheet()">
+										<label class="checkboxContainer secondaryCheckbox">
+											.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
 										<p>SECONDARY</p>
@@ -3968,16 +3999,16 @@
 					<p>Choose two available options from the list below and mark them.</p>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -3985,8 +4016,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -3994,8 +4025,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4003,8 +4034,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4012,8 +4043,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4021,8 +4052,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4030,8 +4061,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4039,12 +4070,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4052,12 +4083,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4074,16 +4105,16 @@
 					<p>Choose two from the list below or any unmarked from the previous tier and mark them.</p>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4091,12 +4122,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4104,12 +4135,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4117,8 +4148,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4126,8 +4157,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4135,8 +4166,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4144,12 +4175,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4157,12 +4188,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4170,8 +4201,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4179,12 +4210,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn bolded flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4192,12 +4223,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn bolded flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="toggleMulticlass();">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4214,16 +4245,16 @@
 					<p>Choose two from the list below or any unmarked from the previous tiers and mark them.</p>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4231,12 +4262,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4244,12 +4275,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4257,8 +4288,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4266,8 +4297,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4275,8 +4306,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4284,12 +4315,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4297,12 +4328,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4310,8 +4341,8 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4319,12 +4350,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn bolded flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -4332,12 +4363,12 @@
 					</div>
 					<div class="flow-row listItem">
 						<div class="checkboxColumn bolded flow-row">
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer" onclick="toggleMulticlass();">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
-							<label class="checkboxContainer lockable" data-lock="button">
-								.<input type="checkbox" onchange="fillObjectFromSheet()">
+							<label class="checkboxContainer">
+								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
@@ -14247,8 +14278,8 @@
 		function toggleLock(lockIcon){ //lock, disable, or set to read-only mode for certain elements to prevent accidental updates during play
 			var lockableElements = document.querySelectorAll('.lockable');
 			//lockable elements include number inputs, checkboxes except armor, health, stress, and hope, and any contenteditable divs
-			if(lockIcon.dataset.toggled === 'true'){
-				lockIcon.dataset.toggled = 'false';
+			if(lockIcon.checked){
+				lockIcon.checked = false;
 				locked = false;
 				for(var elem of lockableElements){
 					switch(elem.dataset.lock){
@@ -14257,19 +14288,23 @@
 							break;
 						case 'select':
 						case 'input':
+						case 'button':
 							elem.readOnly = false;
 							break;
 						case 'content':
 							elem.contentEditable = 'true';
 							break;
-						case 'button':
-							elem.style.pointerEvents = 'auto';
+						case 'disable':
+							elem.disabled = false;
+							break;
+						case 'check':
+							elem.disabled = false;
 							break;
 					}
 				}
 			}
 			else{
-				lockIcon.dataset.toggled = 'true';
+				lockIcon.checked = true;
 				locked = true;
 				for(var elem of lockableElements){
 					switch(elem.dataset.lock){
@@ -14278,13 +14313,18 @@
 							break;
 						case 'select':
 						case 'input':
+						case 'button':
 							elem.readOnly = true;
 							break;
 						case 'content':
 							elem.contentEditable = 'false';
 							break;
-						case 'button':
-							elem.style.pointerEvents = 'none';
+						case 'disable':
+							elem.disabled = 'true';
+							break;
+						case 'check':
+							if(elem.readOnly)
+								elem.disabled = 'true';
 							break;
 					}
 				}
@@ -14306,16 +14346,15 @@
 			localStorage.setItem('safeMode',safeMode);
 			localStorage.setItem('locked',locked);
 		}
-		//WIP update tabindex for slots (armor,hp,stress,hope) (unless I change them to buttons OTL)
 		function loadLocalStorage() {
 			Object.assign(characterSheet, JSON.parse(localStorage.getItem('characterSheet')));
 			fillSheetFromObject();
 			//for(let [key, value] of Object.entries(characterSheet)){
 			//	characterSheet.key = tempSheet.key;
 			//}
-			locked = localStorage.getItem('locked') === 'true';
-			if( locked )
-				toggleLock(document.getElementById('lockIcon'));
+			locked = localStorage.getItem('locked') != 'true';
+			document.querySelector('#lockIcon input').checked = locked;
+			toggleLock(document.querySelector('#lockIcon input'));
 			safeMode = localStorage.getItem('safeMode') != 'true';
 			toggleSafeMode();
 			if( characterSheet.multiclass != 'true' )
@@ -14342,7 +14381,7 @@
 			var armorCheckboxes = document.querySelectorAll('#armorCheckboxArea input');
 			for(let i = 0; i < armorCheckboxes.length; i++){
 				characterSheet.armorSlots[i] = 0b00;
-				if( armorCheckboxes[i].disabled ){
+				if( armorCheckboxes[i].readOnly ){
 					characterSheet.armorSlots[i] = characterSheet.armorSlots[i] | 0b10;
 				}
 				if( armorCheckboxes[i].checked ){
@@ -14366,30 +14405,30 @@
 			var hpCheckboxes = document.querySelectorAll('.hpCheckbox');
 			for(let i = 0; i < hpCheckboxes.length; i++){
 				characterSheet.hpSlots[i] = 0b00;
-				if( hpCheckboxes[i].dataset.disabled === 'true' ){
+				if( hpCheckboxes[i].readOnly ){
 					characterSheet.hpSlots[i] = characterSheet.hpSlots[i] | 0b10;
 				}
-				if( hpCheckboxes[i].dataset.toggled === 'true' ){
+				if( hpCheckboxes[i].checked ){
 					characterSheet.hpSlots[i] = characterSheet.hpSlots[i] | 0b01;
 				}
 			}
 			var stressCheckboxes = document.querySelectorAll('.stressCheckbox');
 			for(let i = 0; i < stressCheckboxes.length; i++){
 				characterSheet.stressSlots[i] = 0b00;
-				if( stressCheckboxes[i].dataset.disabled === 'true' ){
+				if( stressCheckboxes[i].readOnly ){
 					characterSheet.stressSlots[i] = characterSheet.stressSlots[i] | 0b10;
 				}
-				if( stressCheckboxes[i].dataset.toggled === 'true' ){
+				if( stressCheckboxes[i].checked ){
 					characterSheet.stressSlots[i] = characterSheet.stressSlots[i] | 0b01;
 				}
 			}
 			var hopeCheckboxes = document.querySelectorAll('.hopeCheckbox');
 			for(let i = 0; i < hopeCheckboxes.length; i++){
 				characterSheet.hopeSlots[i] = 0b00;
-				if( hopeCheckboxes[i].dataset.disabled === 'true' ){
+				if( hopeCheckboxes[i].readOnly ){
 					characterSheet.hopeSlots[i] = characterSheet.hopeSlots[i] | 0b10;
 				}
-				if( hopeCheckboxes[i].dataset.toggled === 'true' ){
+				if( hopeCheckboxes[i].checked ){
 					characterSheet.hopeSlots[i] = characterSheet.hopeSlots[i] | 0b01;
 				}
 			}
@@ -14523,9 +14562,9 @@
 			var armorCheckboxes = document.getElementById('armorCheckboxArea').querySelectorAll('input');
 			for(let i = 0; i < armorCheckboxes.length; i++){
 				if( (characterSheet.armorSlots[i] & 0b10) > 0 )
-					armorCheckboxes[i].disabled = true;
+					armorCheckboxes[i].readOnly = true;
 				else
-					armorCheckboxes[i].disabled = false;
+					armorCheckboxes[i].readOnly = false;
 				if( (characterSheet.armorSlots[i] & 0b01) > 0 )
 					armorCheckboxes[i].checked = true;
 				else
@@ -14548,9 +14587,9 @@
 			var hpCheckboxes = document.getElementById('hpArea').querySelectorAll('input');
 			for(let i = 0; i < hpCheckboxes.length; i++){
 				if( (characterSheet.hpSlots[i] & 0b10) > 0 )
-					hpCheckboxes[i].disabled = true;
+					hpCheckboxes[i].readOnly = true;
 				else
-					hpCheckboxes[i].disabled = false;
+					hpCheckboxes[i].readOnly = false;
 				if( (characterSheet.hpSlots[i] & 0b01) > 0 )
 					hpCheckboxes[i].checked = true;
 				else
@@ -14559,9 +14598,9 @@
 			var stressCheckboxes = document.getElementById('stressArea').querySelectorAll('input');
 			for(let i = 0; i < stressCheckboxes.length; i++){
 				if( (characterSheet.stressSlots[i] & 0b10) > 0 )
-					stressCheckboxes[i].disabled = true;
+					stressCheckboxes[i].readOnly = true;
 				else
-					stressCheckboxes[i].disabled = false;
+					stressCheckboxes[i].readOnly = false;
 				if( (characterSheet.stressSlots[i] & 0b01) > 0 )
 					stressCheckboxes[i].checked = true;
 				else
@@ -14570,9 +14609,9 @@
 			var hopeCheckboxes = document.getElementById('hopeCheckboxArea').querySelectorAll('input');
 			for(let i = 0; i < hopeCheckboxes.length; i++){
 				if( (characterSheet.hopeSlots[i] & 0b10) > 0 )
-					hopeCheckboxes[i].disabled = true;
+					hopeCheckboxes[i].readOnly = true;
 				else
-					hopeCheckboxes[i].disabled = false;
+					hopeCheckboxes[i].readOnly = false;
 				if( (characterSheet.hopeSlots[i] & 0b01) > 0 )
 					hopeCheckboxes[i].checked = true;
 				else
@@ -15223,7 +15262,7 @@
 			//button to move from vault to loadout and vice versa
 			element = document.createElement('button');
 			element.className = 'moveDomainCard lockable';
-			element.dataset.lock = 'button';
+			element.dataset.lock = 'disable';
 			element.innerHTML = '↑';
 			element.style.cursor = 'pointer';
 			element.addEventListener('click', function(){moveDomainCard(this.parentElement.parentElement);fillObjectFromSheet()} );
@@ -15231,7 +15270,7 @@
 			//button to remove entry from list
 			element = document.createElement('button');
 			element.className = 'removeDomainCard lockable';
-			element.dataset.lock = 'button';
+			element.dataset.lock = 'disable';
 			element.innerHTML = '-';
 			element.style.cursor = 'pointer';
 			element.addEventListener('click', function(){removeDomainCard(this.parentElement.parentElement);fillObjectFromSheet()} );
@@ -15367,6 +15406,9 @@
 			
 			fillObjectFromSheet();
 			updateSheet();
+		}
+		function toggleReadonly(elem){
+			elem.readOnly = !elem.readOnly;
 		}
 		function turnOnMulticlass(){
 			characterSheet.multiclass = 'true';
