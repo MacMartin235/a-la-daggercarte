@@ -1197,12 +1197,6 @@
 						}
 					}
 				}
-				#lockIcon[data-toggled="true"]:before{
-					//content: "🔒";
-				}
-				#lockIcon[data-toggled="false"]:before{
-					//content: "🔓";
-				}
 				.meatballMenu{
 					position: absolute;
 					//width: 24px;
@@ -2777,6 +2771,250 @@
 							}
 							input:disabled ~ .mark{
 								border: 0.1875em solid black;
+							}
+						}
+					}
+				}
+				#companionSidebar{
+					position: absolute;
+					--width: 70%;
+					width: var(--width);
+					top: 0%;
+					right: calc(var(--width)*-1);
+					background: white;
+					border: thick solid black;
+					//z-index: -1;
+					
+					.topRow{
+						margin-top: 1rem;
+						padding-left: 1rem;
+						position: relative;
+						height: 140px;
+						
+						.trapezoid{
+							position: absolute;
+							z-index: 0;
+							height: var(--trapezoidHeightShort);
+						}
+						h2, h3{
+							z-index: 1;
+							position: relative;
+							color: white;
+							margin-bottom: 0;
+							padding-top: 0.7rem;
+						}
+						h3{
+							margin-top: 0;
+							padding-top: 0;
+							font-size: 1.425rem;
+							line-height: 1.25rem;
+						}
+						.numArea{
+							float: right;
+							width: 5rem;
+							top: -5.875rem;
+							
+							.labelArea{
+								position: absolute;
+								bottom: 3.125rem;
+							}
+							.num{
+								background-image: var(--evasionShape);
+								background-size: 100% 100%;
+								background-repeat: no-repeat;
+								border: none;
+							}
+						}
+						.equipmentLine{
+							width: 35rem;
+							top: 1rem;
+							min-height: 1.5rem;
+							margin-bottom: 0.75rem;
+							margin-top: 0.375rem;
+							border-bottom: 0.0625rem solid black;
+							border-radius: 0 0 0.375rem 0.375rem;
+							position: relative;
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							word-break: break-word;
+							background-color: white;
+							
+							.equipmentTraitArea{
+								flex-grow: 1;
+								
+								.traitLabel{
+									position: absolute;
+									bottom: -1rem;
+									font-size: 0.6rem;
+								}
+							}
+						}
+					}
+					#companionDescription{
+						border: thin solid black;
+						border-radius: 0.375rem;
+						width: 90%;
+						height: 264px;
+						margin: auto;
+					}
+					.subtitle{
+						width: 90%;
+						margin: auto;
+						text-align: center;
+						font-size: 0.85rem;
+						margin-top: 0.5rem;
+						margin-bottom: 0.5rem;
+					}
+					.floating{
+						position: relative;
+						float: right;
+						width: 220px;
+						font-size: 0.85rem;
+						margin: 2rem;
+					}
+					#companionExperienceArea{
+						margin-left: 2.25rem;
+						margin-bottom: 1rem;
+						
+						h4{
+							font-family: Heavitas;
+							margin-bottom: 0.5rem;
+						}
+						.subtitle{
+							text-align: left;
+							margin: 0;
+						}
+						.experience{
+							border-bottom: thin solid black;
+							border-radius: 0 0 0 0.375rem;
+							margin: 0.1875rem;
+							position: relative;
+							
+							.experienceText{
+								width: 90%;
+								display: flex;
+								align-items: end;
+							}
+							.experienceMod{
+								height: 1.5rem;
+								width: 10%;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								border: none;
+								border-bottom: 0.1875rem solid grey;
+								font-size: 1rem;
+								align-self: flex-end;
+							}
+						}
+					}
+					#companionExperienceArea + .subtitle{
+						padding-right: 40px;
+					}
+					.twoCol{
+						#companionAttackArea{
+							.equipmentLine{
+								margin-top: 16px;
+							}
+							#companionDieArea{
+								margin-top: 10px;
+								margin-bottom: 10px;
+								justify-content: space-evenly;
+								
+								input{
+									accent-color: grey;
+								}
+								label{
+									font-family: Heavitas;
+								}
+							}
+							.subtitle{
+								text-align: left;
+								margin: 0;
+								width: 100%;
+							}
+						}
+						#companionStressArea{
+							padding-top: 2rem;
+							
+							#companionStressCheckboxArea{
+								width: 100%;
+								align-items: center;
+								justify-content: space-between;
+								margin-bottom: 1rem;
+								
+								#stressLabel{
+									font-weight: 900;
+									margin-right: 0.1875rem;
+								}
+								.checkboxContainer{
+									flex-grow: 1;
+									margin: 0.1875rem;
+									
+									.mark{
+										height: 100%;
+										width: 100%;
+										border-radius: 0.1875rem;
+									}
+								}
+							}
+							.subtitle{
+								text-align: left;
+								margin: auto;
+							}
+						}
+						#companionTrainingArea{
+							padding-top: 1.5rem;
+							padding-left: 0.5rem;
+							
+							.subtitle{
+								text-align: left;
+								margin: auto;
+								margin-bottom: 0.5rem;
+							}
+							.listItem{
+								margin: 0.1875rem;
+								
+								.checkboxColumn{
+									justify-content: flex-end;
+									min-width: 3.2rem;
+									margin-right: 1.6%;
+									
+									.checkboxContainer{
+										margin-left: 0.0625rem;
+										
+										.mark{
+											border-radius: 0.1875rem;
+										}
+										input:disabled ~ .mark{
+											border: thin solid grey;
+										}
+									}
+								}
+								p{
+									margin-bottom: 0.5rem;
+								}
+								#companionHopeCheckbox{
+									background-color: lightgrey;
+									margin: 0.375rem;
+									width: 30px;
+									border-radius: 0.375rem;
+									padding: 0.1875rem 0.75rem;
+									
+									.checkboxContainer{
+										margin: auto;
+										
+										.mark{
+											border: 0.125rem solid white;
+											border-radius: 0;
+											transform: translate(-50%, -50%) rotate(45deg);
+										}
+										input:checked ~ .mark{
+											background-color: grey;
+										}
+									}
+								}
 							}
 						}
 					}
@@ -4639,6 +4877,257 @@
 						<button class="xButton" onclick="this.closest('.tutorialStep').togglePopover(false);">X</button>
 					</div>
 				</div>-->
+			</div>
+			<div id="companionSidebar">
+				<div class="topRow">
+					<div class="trapezoid"></div>
+					<h2>RANGER</h2>
+					<h3>COMPANION</h3>
+					<div class="equipmentLine">
+						<div class="equipmentTraitArea">
+							<span class="traitLabel">Companion Name</span>
+							<div id="companionName" class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						</div>
+					</div>
+					<div class="numArea">
+						<input id="companionEvasion" class="num lockable" type="number" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet();" onfocus="this.select();">
+						<div class="labelArea">
+							<div class="label">EVASION</div>
+						</div>
+						<p class="caption">Start at 10.</p>
+					</div>
+				</div>
+				<div id="companionDescription" contenteditable class="lockable" data-lock="content"></div>
+				<div class="subtitle">Work with the GM to decide what kind of animal you have as your companion. Use the space above to draw or attach an image for them, and give them a name. Then create two experiences for your companion based on their training and history you have together. Finally, describe their method of dealing damage (weapon) and record it in the Attack &amp; Damage section. Their range starts at melee.</div>
+				<div class="floating">
+					<b>Example Companion Experiences</b>
+					<br>
+					On High Alert, Bold Distraction, Navigation, We Always Find Them, Fetch, Protective, Expert Climber, Nobody Left Behind, Friendly, Nimble, Guardian of the Forest, You Can't Hit What You Can't Find, Intimidating, Service Animal, Scout, Royal Companion, Trusted Mount
+				</div>
+				<div id="companionExperienceArea">
+					<h4>Companion Experience</h4>
+					<p class="subtitle">Start with +2 in both experiences. Whenever you take an experience, also give one to your companion.</p>
+					<div class="experience flow-row">
+						<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+					</div>
+					<div class="experience flow-row">
+						<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+					</div>
+					<div class="experience flow-row">
+						<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+					</div>
+					<div class="experience flow-row">
+						<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+					</div>
+					<div class="experience flow-row">
+						<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+						<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+					</div>
+				</div>
+				<div class="subtitle">You can make a Spellcast Roll to connect with your companion and command them to take action. When you do, you may spend Hope to add an applicable Companion Experience to the roll. On a success with Hope, you may take an action immediately without using an action token.</div>
+				<div class="twoCol">
+					<div class="colLeft">
+						<div id="companionAttackArea" class="leftArea">
+							<div class="areaTitle">Attack &amp; Damage</div>
+							<div class="equipmentLine flow-row">
+								<div class="equipmentTraitArea">
+									<span class="traitLabel">Weapon</span>
+									<div id="companionWeaponName" class="text name lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								</div>
+								<div class="verticalDivider shortest dotted"></div>
+								<div class="equipmentTraitArea">
+									<span class="traitLabel">Range</span>
+									<div id="companionWeaponRange" class="text name lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								</div>
+							</div>
+							<div id="companionDieArea" class="flow-row">
+								<label for="d6">
+									<input type="radio" name="companionDie" value="d6" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+									D6
+								</label>
+								<label for="d8">
+									<input type="radio" name="companionDie" value="d8" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+									D8
+								</label>
+								<label for="d10">
+									<input type="radio" name="companionDie" value="d10" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+									D10
+								</label>
+								<label for="d12">
+									<input type="radio" name="companionDie" value="d12" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+									D12
+								</label>
+							</div>
+							<div class="subtitle">If you command your companion to attack, they have any benefits that would normally only apply to you (like the effects of Ranger's Focus). On a success, their damage roll uses your proficiency and their damage dice.</div>
+						</div>
+						<div id="companionStressArea" class="leftArea">
+							<div class="areaTitle">Stress</div>
+							<div id="companionStressCheckboxArea" class="flow-row">
+								<span id="stressLabel">Stress</span>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+									<span class="mark"></span>
+								</label>
+							</div>
+							<div class="subtitle">
+								Anytime your companion would take damage, they mark one stress. When their stress slots are full, they drop out of the scene (hide, flee, etc). They are unavailable to you, and will return at your next long rest with one stress cleared.
+								<br>
+								Whenever you use the Clear Stress downtime action on yourself, it automatically clears that much stress on your companion as well.
+							</div>
+						</div>
+					</div>
+					<div class="colRight">
+						<div id="companionTrainingArea" class="rightArea">
+							<div class="areaTitle">Training</div>
+							<div class="subtitle">Whenever your character levels up, also choose one option for your companion from the list below and mark it.</div>
+							<div class="checkboxes">
+								<div class="flow-row listItem">
+									<!--3 checkboxes-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Intelligent:</b> <i>Raise an Experience by +1.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--1 checkbox-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Light in the Dark:</b>
+									<div id="companionHopeCheckbox" class="flow-row">
+										<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
+											.<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<i>Use this as an additional Hope Slot your character may mark.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--1 checkbox-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Creature Comfort:</b> <i>Once per short rest, when you take time during a quiet moment to give your companion love and attention, you may both clear a Stress or take Hope.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--1 checkbox-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Armored:</b> <i>Your armor score increases by +2 when your companion is in melee.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--3 checkboxes-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Vicious:</b> <i>Increase your companion's damage dice (<b>d6</b> to <b>d8</b>, etc.) or range (<b>melee</b> to <b>very close</b>, etc.)</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--3 checkboxes-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Resilient:</b> <i>Add an additional stress slot.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--1 checkbox-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Bonded:</b> <i>When you mark your last Hit Point, your Companion rushes to your side to comfort you. Roll a number of <b>d6</b> equal to the available stress slots they have and mark them. On a 6, they get you up. Clear your last Hit Point and return to the scene.</i></p>
+								</div>
+								<div class="flow-row listItem">
+									<!--3 checkboxes-->
+									<div class="checkboxColumn flow-row">
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+										<label class="checkboxContainer">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+											<span class="mark"></span>
+										</label>
+									</div>
+									<p><b>Aware:</b> <i>Increase your companion's Evasion by +2</i></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -14660,7 +15149,7 @@
 					characterSheet.hopeSlots[i] = characterSheet.hopeSlots[i] | 0b01;
 				}
 			}
-			var experienceList = document.querySelectorAll('.experience');
+			var experienceList = document.querySelectorAll('#experienceArea .experience');
 			for(let i = 0; i < experienceList.length; i++){
 				characterSheet.experiences[i][0] = experienceList[i].querySelector('.experienceText').innerText;
 				characterSheet.experiences[i][1] = experienceList[i].querySelector('.experienceMod').innerText;
@@ -14846,7 +15335,7 @@
 				else
 					hopeCheckboxes[i].checked = false;
 			}
-			var experienceList = document.querySelectorAll('.experience');
+			var experienceList = document.querySelectorAll('#experienceArea .experience');
 			for(let i = 0; i < experienceList.length; i++){
 				experienceList[i].querySelector('.experienceText').innerHTML = characterSheet.experiences[i][0];
 				experienceList[i].querySelector('.experienceMod').innerHTML = characterSheet.experiences[i][1];
@@ -15902,8 +16391,9 @@
 			ancestry1 = prune(document.getElementById('ancestryDropdown1').value);
 			community = prune(document.getElementById('communityDropdown').value);
 			
-			//WIP REMOVE
-			console.log(classChoice, multiclassChoice,subclassChoice,ancestry0,ancestry1,community);
+			hide(document.getElementById('companionSidebar'));
+			if( subclassName.includes('beastbound') )
+				show(document.getElementById('companionSidebar'));
 			
 			features.innerHTML = '';
 			
