@@ -1,5 +1,5 @@
 # A-La-Daggercarte
-A single-page website that has a character sheet for Daggerheart Open Beta v1.5 and has a search function for filtering the various cards and tables in the game.
+A single-page website that has a character sheet for Daggerheart and has a search tab for filtering the various cards and tables in the game.
 
 ## Character Sheet
 An interactive Character Sheet based on the look of the Open Beta v1.5 Character Sheets.
@@ -10,16 +10,26 @@ Also included is a 'locked' character sheet mode. Clicking the lock icon in the 
 
 Finally, the sheet has a couple sections which can autofill suggestions. When typing the name of weapons or armor, or domain cards, the sheet pulls information from the cards and tables in the game to automatically fill the other sections. Weapons will autofill their damage, ability, features, etc. while domain cards will autofill the card description, cost, and domain. Alternatively, you can (at least for weapons and armor) fill out your own values instead of using pre-selected items. When starting a new character sheet, you can also use the "Autofill Sheet" option in the meatball menu once you have chosen a class, and the site will pull information from the class card to autofill values like evasion, ability scores, and starting weapons and armor (optionally overriding entered values if desired). This allows new players to easily fill out most of their sheet without having to go through the whole character creation process.
 
-## Cards and Tables
-All the cards and tables included in the Open Beta v1.5 materials, with a search bar that allows you to easily find things.
+## Searching
+The first tab is dedicated to searching materials in the game. There are filters for card types, weapons and armor, level and tier, adversaries and environments, and so on.
 
-The cards and tables are lovingly recreated to look like the beta materials, while adding searchability and moddability. The cards use inline svgs to display flags in the upper left, domain symbols, and decorative backgrounds for easy visual differentiation. Inline svgs ensure quick loading and 100% offline functionality.
+The cards and tables are lovingly recreated to look like the source materials, while adding searchability and moddability. The cards use inline svgs to display flags in the upper left, domain symbols, and decorative backgrounds for easy visual differentiation. Inline svgs ensure quick loading and 100% offline functionality.
 
-The tables have the ability to be sorted by clicking on the column headers, and the cards can be filtered with the dropdown on the top left.
+The tables also have the ability to be sorted by clicking on the column headers.
 
-The search bar can be used to type keywords and phrases to further filter the cards and tables. For example, try searching "token". This will display all cards that mention the word "token", which inspired me to create a character which maximizes the number of tokens on the table at any given time (my max is 52 using a Seaborne Druid multiclassed into Grace). The search function is a 'fuzzy' search, and takes the card's or table entry's name, domain, type, and description into consideration.
+The search input can be used to type keywords and phrases to further filter the cards and tables. For example, try searching "token". This will display all cards that mention the word "token", which inspired me to create a character which maximizes the number of tokens on the table at any given time (my max is 52 - in the 1.5 Open Beta materials - using a Seaborne Druid multiclassed into Grace). The search function takes the card's or table entry's name, domain, type, and description into consideration, and highlights the matched phrases in the results.
+
+## Notes, Encounters, and Options
+The remaining tabs are under development.
+
+The Notes tab can be used for keeping notes during a game. It spans the whole page, which is far more space than the inventory section on the character sheet allows for. Currently the notes do not get saved to localstorage and will be erased if you refresh the page.
+
+The Encounter Builder tab will be used for tracking enemy health, stress, and GM Fear. This feature is upcoming and not yet implemented.
+
+The Options tab will have options for changing dark/light mode, changing font size (and even font family!), saving and loading multiple character sheets, clearing localstorage, adding homebrew cards and tables, and more! This feature is upcoming and not yet implemented.
 
 ## Screenshots
+**Note: This section is not yet updated for the full release update**<br/>
 _Top Section of the Character Sheet_<br/>
 ![Top of the Character Sheet](https://github.com/user-attachments/assets/047b7ec7-4988-427d-ae03-24809011d7d0)<br/><br/>
 _The Features Section, Which Updates Automatically_<br/>
