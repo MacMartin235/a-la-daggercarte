@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<title>A-la-Daggercarte</title>
-		<link rel="icon" type="image/x-icon" href="Other/daggerheartIconColored.svg">
+		<link rel="icon" type="image/x-icon" href="Other/daggercarteIcon.svg">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<link rel="apple-touch-icon" href="Other/daggerheartColoredAppleIcon114x114.png">
+		<link rel="apple-touch-icon" href="Other/daggercarteIcon_114x114.png">
 		<link rel="stylesheet" href="medium-editor-master/dist/css/medium-editor.css">
 		<link rel="stylesheet" href="medium-editor-master/dist/css/themes/default.css">
 		
@@ -1697,7 +1697,7 @@
 					display: revert;
 				}
 			}
-			#imageArea{
+			#testArea{
 				background-color: #efefef;
 			}
 			#optionsArea{
@@ -2573,7 +2573,7 @@
 						background-color: transparent;
 						margin-right: 1.6%;
 					}
-					#level{
+					#main_level{
 						width: 100%;
 						height: 100%;
 						background-color: transparent;
@@ -2602,7 +2602,7 @@
 						//margin-top: 1rem;
 						background-color: transparent;
 					}
-					#armor, #evasion{
+					#main_armor, #main_evasion{
 						//width: 78px;
 						//height: 90px;
 						//width: 2.4375em;
@@ -2612,10 +2612,10 @@
 						background-size: 100% 100%;
 						background-repeat: no-repeat;
 					}
-					#armor{
+					#main_armor{
 						background-image: var(--armorShape);
 					}
-					#evasion{
+					#main_evasion{
 						background-image: var(--evasionShape);
 					}
 					#evasionLabelArea, #armorLabelArea{
@@ -4590,19 +4590,19 @@
 	</head>
 	<body>
 		<div id="header" class="header tabArea">
-			<div class="tab active" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
+			<div class="tab" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
 			<div class="tab" data-target="sheetArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Character Sheet</div>
 			<div class="tab" data-target="notesArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Notes</div>
 			<div class="tab" data-target="encounterArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Encounter Builder</div>
-			<div class="tab" data-target="imageArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Images</div>
+			<div class="tab active" data-target="testArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Images</div>
 			<div class="tab" data-target="optionsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Options</div>
 			<div class="spacer"></div>
-			<div style="display:none;" class="logo">Dagger-a-la-carte</div>
+			<img src="Other/daggercarteIcon.svg"></img>
 			<div class="spacer"></div>
 			<img src="Other/DH_CGL_logos_final_full_color.svg"></img>
 		</div>
 		
-		<div id="searchableItemsArea" class="tabBody active">
+		<div id="searchableItemsArea" class="tabBody">
 			<div class="sidebar">
 				<input type="text" id="myInput" onkeyup="debouncedSearch()" title="Search Cards">
 				<button onclick="clearSearch()">Clear Choices</button>
@@ -22518,67 +22518,36 @@
 				<div class="topRow flow-row">
 					<div class="corner">
 						<div class="custom-select">
-							<select id="classDropdown" class="dropdown safeModeOff lockable" data-lock="select" data-fillfrom=".class .title" onchange="changeClass(this);">
-								<!--<option value="Bard">Bard</option>
-								<option value="Druid">Druid</option>
-								<option value="Guardian">Guardian</option>
-								<option value="Ranger">Ranger</option>
-								<option value="Rogue">Rogue</option>
-								<option value="Seraph">Seraph</option>
-								<option value="Sorcerer">Sorcerer</option>
-								<option value="Warrior">Warrior</option>
-								<option value="Wizard">Wizard</option>-->
-							</select>
+							<select id="main_classDropdown" class="dropdown safeModeOff lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".class .title" onchange="changeClass(this);"></select>
 						</div>
 						<span class="domainSymbol symbol1" id="symbol1"></span> <span class="domainSymbol symbol2" id="symbol2"></span>
 						<div class="domains">
 							<span class="domain1" id="domain1">Grace</span> & <span class="domain2" id="domain2">Codex</span>
 						</div>
 						<div class="custom-select">
-							<select style="display:none;" id="multiclassDropdown" class="dropdown safeMode lockable" data-lock="select" data-fillfrom=".class .title" onchange="changeClass(this);">
-								<!--<option value="Bard">Bard</option>
-								<option value="Druid">Druid</option>
-								<option value="Guardian">Guardian</option>
-								<option value="Ranger">Ranger</option>
-								<option value="Rogue">Rogue</option>
-								<option value="Seraph">Seraph</option>
-								<option value="Sorcerer">Sorcerer</option>
-								<option value="Warrior">Warrior</option>
-								<option value="Wizard">Wizard</option>-->
-							</select>
+							<select id="main_multiclassDropdown" style="display:none;" class="dropdown safeMode lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".class .title" onchange="changeClass(this);"></select>
 						</div>
 						<span style="display:none;" class="domainSymbol symbol3" id="symbol3"></span>
 						<br>
 						<div class="custom-select">
-							<select id="multiclassDomainDropdown" class="dropdown safeMode lockable" data-lock="select" data-fillfrom=".class .domain1, .class .domain2" onchange="changeClass(this);">
-								<!--<option value="Arcana">Arcana</option>
-								<option value="Blade">Blade</option>
-								<option value="Bone">Bone</option>
-								<option value="Codex">Codex</option>
-								<option value="Grace">Grace</option>
-								<option value="Midnight">Midnight</option>
-								<option value="Sage">Sage</option>
-								<option value="Splendor">Splendor</option>
-								<option value="Valor">Valor</option>-->
-							</select>
+							<select id="main_multiclassDomainDropdown" class="dropdown safeMode lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".class .domain1, .class .domain2" onchange="changeClass(this);"></select>
 						</div>
-						
 					</div>
 					<div id="infoArea" class="infoArea">
 						<div class="trapezoid"></div>
 						<div class="background"></div>
 						<div class="info" id="nameInfo">
 							<div class="innerLabel">NAME</div>
-							<div id="name" class="topRowInfo lockable" data-lock="content" contenteditable="true" tabindex="0" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+							<div id="main_name" class="topRowInfo lockable saveValue" data-lock="content" data-valuetype="innerText" contenteditable="true" tabindex="0" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 						</div>
 						<div class="info" id="pronounInfo">
 							<div class="innerLabel">PRONOUNS</div>
-							<div id="pronouns" class="topRowInfo lockable" data-lock="content" contenteditable="true" tabindex="0" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+							<div id="main_pronouns" class="topRowInfo lockable" data-lock="content" contenteditable="true" tabindex="0" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 						</div>
 						<div class="info" id="communityInfo">
 							<div class="innerLabel">COMMUNITY</div>
 							<div class="custom-select">
-								<select id="communityDropdown" class="topRowInfo dropdown safeModeOff lockable" data-lock="select" data-fillfrom=".community .title" name="communityInfo" onchange="fillObjectFromSheet(); updateSheet();">
+								<select id="main_communityDropdown" class="topRowInfo dropdown safeModeOff lockable" data-lock="select" data-fillfrom=".community .title" name="communityInfo" onchange="fillObjectFromSheet(); updateSheet();">
 									<option value="-">-</option>
 									<!--<option value="Highborne">Highborne</option>
 									<option value="Ridgeborne">Ridgeborne</option>
@@ -22595,7 +22564,7 @@
 						<div class="info" id="ancestryInfo0">
 							<div class="innerLabel" id="ancestryLabel0">ANCESTRY<span style="display:none"> (Main)</span></div>
 							<div class="custom-select">
-								<select id="ancestryDropdown0" class="topRowInfo dropdown safeMode lockable" data-lock="select" data-fillfrom=".ancestry .title" onchange="fillObjectFromSheet(); updateSheet();">
+								<select id="main_ancestryDropdown0" class="topRowInfo dropdown safeMode lockable" data-lock="select" data-fillfrom=".ancestry .title" onchange="fillObjectFromSheet(); updateSheet();">
 									<option value="-">-</option>
 									<!--<option value="Clank">Clank</option>
 									<option value="Ribbet">Ribbet</option>
@@ -22622,7 +22591,7 @@
 						<div class="info" id="ancestryInfo1" style="display:none">
 							<div class="innerLabel" id="ancestryLabel1">ANCESTRY (Secondary)</div>
 							<div class="custom-select">
-								<select id="ancestryDropdown1" class="topRowInfo dropdown safeMode lockable" data-lock="select" data-fillfrom=".ancestry .title" onchange="fillObjectFromSheet(); updateSheet();">
+								<select id="main_ancestryDropdown1" class="topRowInfo dropdown safeMode lockable" data-lock="select" data-fillfrom=".ancestry .title" onchange="fillObjectFromSheet(); updateSheet();">
 									<option value="-">-</option>
 									<!--<option value="Clank">Clank</option>
 									<option value="Ribbet">Ribbet</option>
@@ -22648,7 +22617,7 @@
 						<div class="info" id="subclassInfo">
 							<div id="subclassLabel" class="innerLabel">SUBCLASS</div>
 							<div class="custom-select">
-								<select id="subclassDropdown" class="topRowInfo dropdown safeModeOff lockable" data-lock="select" data-fillfrom=".subclass .title" onchange="jiggleSubclass(); fillObjectFromSheet(); updateSheet();">
+								<select id="main_subclassDropdown" class="topRowInfo dropdown safeModeOff lockable" data-lock="select" data-fillfrom=".subclass .title" onchange="jiggleSubclass(); fillObjectFromSheet(); updateSheet();">
 									<option value="-">-</option>
 								</select>
 							</div>
@@ -22657,7 +22626,7 @@
 						</div>
 					</div>
 					<div class="numArea" id="levelArea">
-						<input type="number" class="num lockable" data-lock="input" id="level" inputmode="numeric" min="1" max="10" onchange="fillObjectFromSheet()" onfocus="this.select();">
+						<input type="number" id="main_level" class="num lockable" data-lock="input" inputmode="numeric" min="1" max="10" onchange="fillObjectFromSheet()" onfocus="this.select();">
 						<div class="labelArea" id="levelLabelArea">
 							<div class="label" id="levelLabel">LEVEL</div>
 						</div>
@@ -22665,7 +22634,7 @@
 				</div>
 				<div class="abilityRow flow-row">
 					<div class="numArea" id="evasionArea">
-						<input type="number" class="num lockable" data-lock="input" id="evasion" inputmode="numeric" onchange="fillObjectFromSheet()" onfocus="this.select();">
+						<input type="number" id="main_evasion" class="num lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()" onfocus="this.select();">
 						<div class="labelArea" id="evasionLabelArea">
 							<div class="label" id="evasionLabel">EVASION</div>
 						</div>
@@ -22673,57 +22642,57 @@
 					</div>
 					<div class="verticalDivider short"></div>
 					<div class="numArea" id="armorArea">
-						<input type="number" class="num lockable" data-lock="input" id="armor" inputmode="numeric" onchange="fillObjectFromSheet()" onfocus="this.select();">
+						<input type="number" id="main_armor" class="num lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()" onfocus="this.select();">
 						<div class="labelArea" id="armorLabelArea">
 							<div class="label" id="armorLabel">ARMOR</div>
 						</div>
 					</div>
 					<div id="armorCheckboxArea">
-						<label class="checkboxContainer" id="armor00" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor00" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor01" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor01" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor02" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor02" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor03" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor03" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor04" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor04" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor05" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor05" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor06" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor06" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor07" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor07" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor08" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor08" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor09" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor09" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor10" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor10" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
-						<label class="checkboxContainer" id="armor11" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+						<label class="checkboxContainer" id="main_armor11" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 							.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 							<span class="mark"></span>
 						</label>
@@ -22732,72 +22701,72 @@
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">AGILITY</div>
-							<label id="agilityCheckbox" class="checkboxContainer">
+							<label id="main_agilityCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="agility" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_agility" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Sprint<br>Leap<br>Maneuver</p>
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">STRENGTH</div>
-							<label id="strengthCheckbox" class="checkboxContainer">
+							<label id="main_strengthCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="strength" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_strength" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Lift<br>Smash<br>Grapple</p>
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">FINESSE</div>
-							<label id="finesseCheckbox" class="checkboxContainer">
+							<label id="main_finesseCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="finesse" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_finesse" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Control<br>Hide<br>Tinker</p>
 					</div>
 					<div id="middleDivider" class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">INSTINCT</div>
-							<label id="instinctCheckbox" class="checkboxContainer">
+							<label id="main_instinctCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="instinct" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_instinct" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Perceive<br>Sense<br>Navigate</p>
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">PRESENCE</div>
-							<label id="presenceCheckbox" class="checkboxContainer">
+							<label id="main_presenceCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="presence" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_presence" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Charm<br>Perform<br>Deceive</p>
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
 						<div class="flow-row labelArea abilityLabelArea">
 							<div class="label abilityLabel">KNOWLEDGE</div>
-							<label id="knowledgeCheckbox" class="checkboxContainer">
+							<label id="main_knowledgeCheckbox" class="checkboxContainer">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 								<span class="mark"></span>
 							</label>
 						</div>
-						<input type="number" class="num ability lockable" data-lock="input" id="knowledge" inputmode="numeric" onchange="fillObjectFromSheet()">
+						<input type="number" id="main_knowledge" class="num ability lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 						<p class="caption">Recall<br>Analyze<br>Comprehend</p>
 					</div>
 				</div>
@@ -22811,12 +22780,12 @@
 									<div class="damageType">MINOR<br>DAMAGE</div>
 									<p class="caption">MARK 1 HP</p>
 								</div>
-								<input type="number" class="num damageThreshold lockable" data-lock="input" id="majorThreshold" inputmode="numeric" onchange="fillObjectFromSheet()">
+								<input type="number" id="main_majorThreshold" class="num damageThreshold lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 								<div class="damageTypeArea">
 									<div class="damageType">MAJOR<br>DAMAGE</div>
 									<p class="caption">MARK 2 HP</p>
 								</div>
-								<input type="number" class="num damageThreshold lockable" data-lock="input" id="severeThreshold" inputmode="numeric" onchange="fillObjectFromSheet()">
+								<input type="number" id="main_severeThreshold" class="num damageThreshold lockable" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet()">
 								<div class="damageTypeArea">
 									<div class="damageType">SEVERE<br>DAMAGE</div>
 									<p class="caption">MARK 3 HP</p>
@@ -22824,102 +22793,102 @@
 							</div>
 							<div id="hpArea" class="flow-row">
 								<span id="hpLabel">HP</span>
-								<label id="hpCheckbox00" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox00" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox01" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox01" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox02" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox02" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox03" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox03" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox04" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox04" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox05" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox05" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox06" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox06" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox07" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox07" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox08" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox08" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox09" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox09" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox10" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox10" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="hpCheckbox11" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hpCheckbox11" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 							</div>
 							<div id="stressArea" class="flow-row">
 								<span id="stressLabel">STRESS</span>
-								<label id="stressCheckbox00" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox00" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox01" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox01" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox02" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox02" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox03" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox03" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox04" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox04" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox05" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox05" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox06" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox06" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox07" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox07" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox08" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox08" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox09" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox09" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox10" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox10" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label id="stressCheckbox11" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_stressCheckbox11" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -22929,32 +22898,32 @@
 							<div class="areaTitle">HOPE</div>
 							<p class="caption">Spend a Hope to use an experience or help an ally.</p>
 							<div id="hopeCheckboxArea" class="flow-row">
-								<label id="hopeCheckbox0" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox0" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<div class="hopeDivider"></div>
-								<label id="hopeCheckbox1" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox1" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<div class="hopeDivider"></div>
-								<label id="hopeCheckbox2" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox2" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<div class="hopeDivider"></div>
-								<label id="hopeCheckbox3" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox3" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<div class="hopeDivider"></div>
-								<label id="hopeCheckbox4" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox4" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<div class="hopeDivider"></div>
-								<label id="hopeCheckbox5" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
+								<label id="main_hopeCheckbox5" class="checkboxContainer" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; fillObjectFromSheet();}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -22964,24 +22933,24 @@
 						<div class="colArea" id="experienceArea">
 							<div class="areaTitle">EXPERIENCE</div>
 							<div class="experience flow-row">
-								<div class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-								<div class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceText0" class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceMod0" class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 							</div>
 							<div class="experience flow-row">
-								<div class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-								<div class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceText1" class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceMod1" class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 							</div>
 							<div class="experience flow-row">
-								<div class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-								<div class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceText2" class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceMod2" class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 							</div>
 							<div class="experience flow-row">
-								<div class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-								<div class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceText3" class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceMod3" class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 							</div>
 							<div class="experience flow-row">
-								<div class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);"></div>
-								<div class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);"></div>
+								<div id="main_experienceText4" class="experienceText lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);"></div>
+								<div id="main_experienceMod4" class="experienceMod lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);"></div>
 							</div>
 						</div>
 						<div class="colArea" id="goldArea">
@@ -22989,39 +22958,39 @@
 							<div class="goldArea flow-row">
 								<div id="handfulsArea">
 									<div id="handfuls" class="flow-row">
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls0" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls1" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls2" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls3" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls4" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls5" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls6" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls7" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox handful">
+										<label id="main_gold_handfuls8" class="checkboxContainer goldCheckbox handful">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
@@ -23031,39 +23000,39 @@
 								<div class="verticalDivider dotted shorter"></div>
 								<div id="bagsArea">
 									<div id="bags" class="flow-row">
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags0" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags1" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags2" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags3" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags4" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags5" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags6" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags7" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer goldCheckbox bag">
+										<label id="main_gold_bags8" class="checkboxContainer goldCheckbox bag">
 											.<input type="checkbox" onchange="fillObjectFromSheet()">
 											<span class="mark"></span>
 										</label>
@@ -23072,7 +23041,7 @@
 								</div>
 								<div class="verticalDivider dotted shorter"></div>
 								<div id="chestArea">
-									<label class="checkboxContainer goldCheckbox chest">
+									<label id="main_gold_chest" class="checkboxContainer goldCheckbox chest">
 										.<input type="checkbox" onchange="fillObjectFromSheet()">
 										<span class="mark"></span>
 									</label>
@@ -23092,27 +23061,27 @@
 								<div id="proficiencyShape"></div>
 								<span class="label">PROFICIENCY </span>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency0" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency1" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency2" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency3" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency4" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label class="checkboxContainer">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
+									.<input type="checkbox" id="main_proficiency5" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 							</div>
@@ -23121,33 +23090,33 @@
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">NAME</span>
-										<div id="primaryWeaponName" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">TRAIT</span>
-										<div id="primaryWeaponTrait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">RANGE</span>
-										<div id="primaryWeaponRange" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">DAMAGE DICE</span>
-										<div class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_dice" class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">HANDS</span>
-										<div class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_hands" class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">FEATURE</span>
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_primaryWeapon_feature" class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 							</div>
@@ -23156,33 +23125,33 @@
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">NAME</span>
-										<div id="secondaryWeaponName" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">TRAIT</span>
-										<div id="secondaryWeaponTrait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">RANGE</span>
-										<div id="secondaryWeaponRange" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">DAMAGE DICE</span>
-										<div class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_dice" class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">HANDS</span>
-										<div class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_hands" class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">FEATURE</span>
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_secondaryWeapon_feature" class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 							</div>
@@ -23193,23 +23162,23 @@
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">NAME</span>
-										<div id="wornArmorName" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_wornArmor_name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">BASE THRESHOLDS</span>
-										<div class="text thresholds lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_wornArmor_thresholds" class="text thresholds lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">BASE SCORE</span>
-										<div class="text score lockable" data-lock="content" contenteditable="true" inputmode="numeric" onfocus="selectContents(this);" onfocusout="document.getElementById('armor').value = parseInt(this.innerText); fillObjectFromSheet();"></div>
+										<div id="main_wornArmor_score" class="text score lockable" data-lock="content" contenteditable="true" inputmode="numeric" onfocus="selectContents(this);" onfocusout="document.getElementById('armor').value = parseInt(this.innerText); fillObjectFromSheet();"></div>
 									</div>
 								</div>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">FEATURE</span>
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_wornArmor_feature" class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 							</div>
@@ -23218,7 +23187,7 @@
 							<div id="inventoryAreaTitle" class="areaTitle inner">INVENTORY</div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="inventory lockable" data-lock="content" contenteditable="true" onfocusout="fillObjectFromSheet();"></div>
+									<div id="main_inventory" class="inventory lockable" data-lock="content" contenteditable="true" onfocusout="fillObjectFromSheet();"></div>
 								</div>
 							</div>
 							<div id="inventoryWeapon0" class="equipmentArea inventoryWeapon">
@@ -23226,14 +23195,14 @@
 									<h2>INVENTORY WEAPON</h2>
 									<div class="flow-row weaponTypeCheckboxes">
 										<div class="flow-row weaponTypeBoxAndLabel">
-											<label class="checkboxContainer primaryCheckbox">
+											<label id="main_inventoryWeapon0_primaryCheck" class="checkboxContainer primaryCheckbox">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 												<span class="mark"></span>
 												PRIMARY
 											</label>
 										</div>
 										<div class="flow-row weaponTypeBoxAndLabel">
-											<label class="checkboxContainer secondaryCheckbox">
+											<label id="main_inventoryWeapon0_secondaryCheck" class="checkboxContainer secondaryCheckbox">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 												<span class="mark"></span>
 												SECONDARY
@@ -23244,33 +23213,33 @@
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">NAME</span>
-										<div id="inventoryWeapon0Name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">TRAIT</span>
-										<div id="inventoryWeapon0Trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">RANGE</span>
-										<div id="inventoryWeapon0Range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">DAMAGE DICE</span>
-										<div class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_dice" class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">HANDS</span>
-										<div class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_hands" class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">FEATURE</span>
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon0_feature" class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 							</div>
@@ -23279,14 +23248,14 @@
 									<h2>INVENTORY WEAPON</h2>
 									<div class="flow-row weaponTypeCheckboxes">
 										<div class="flow-row weaponTypeBoxAndLabel">
-											<label class="checkboxContainer primaryCheckbox">
+											<label id="main_inventoryWeapon1_primaryCheck" class="checkboxContainer primaryCheckbox">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 												<span class="mark"></span>
 												PRIMARY
 											</label>
 										</div>
 										<div class="flow-row weaponTypeBoxAndLabel">
-											<label class="checkboxContainer secondaryCheckbox">
+											<label id="main_inventoryWeapon1_secondaryCheck" class="checkboxContainer secondaryCheckbox">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 												<span class="mark"></span>
 												SECONDARY
@@ -23297,33 +23266,33 @@
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">NAME</span>
-										<div id="inventoryWeapon1Name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_name" class="text name lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">TRAIT</span>
-										<div id="inventoryWeapon1Trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_trait" class="text trait lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">RANGE</span>
-										<div id="inventoryWeapon1Range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_range" class="text range lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">DAMAGE DICE</span>
-										<div class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_dice" class="text dice lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 									<div class="verticalDivider dotted shortest"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">HANDS</span>
-										<div class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_hands" class="text hands lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">FEATURE</span>
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="main_inventoryWeapon1_feature" class="text weaponFeature lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
 									</div>
 								</div>
 							</div>
@@ -23333,16 +23302,6 @@
 							<h2>LOADOUT <span id="loadoutNum"></span></h2>
 							<div id="loadout">
 								<!--
-								<div class="domainRow">
-									<div class="flow-row titleRow">
-										<div class="domainCardTitle" contenteditable="true"></div>
-										<div class="moveDomainCard" onclick="moveDomainCard(this.parentElement.parentElement)">↓</div>
-										<div class="removeDomainCard" onclick="removeDomainCard(this.parentElement.parentElement)">-</div>
-									</div>
-									<div class="descriptionRow">
-										<p class="description"></p>
-									</div>
-								</div>
 								<div class="domainRow">
 									<div class="flow-row titleRow">
 										<div class="domainCardTitle" contenteditable="true"></div>
@@ -23369,137 +23328,17 @@
 							<p>At Level 2, gain an additional Experience at +2 and gain a +1 bonus to your Proficiency.</p>
 						</div>
 						<p>Choose two options from the list below and mark them.</p>
-						<!--
-						<table>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Increase two unmarked Character Traits by +1 and mark them.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Permanently add one Hit Point Slot.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Permanently add one Stress Slot.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Increase two Experiences by +1.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Permanently add one Armor Slot.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Add +1 to your Evasion.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Choose an additional domain card at your level or lower (up to Level 4).</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Increase your Major Damage Threshold by +1.</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-									<label class="checkboxContainer">
-										.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
-										<span class="mark"></span>
-									</label>
-								</td>
-								<td>
-									<p>Increase your Severe Damage Threshold by +1.</p>
-								</td>
-							</tr>
-						</table>
-						-->
-						
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_01" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_02" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_03" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23508,11 +23347,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_04" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_05" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23521,11 +23360,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_06" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_07" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23534,7 +23373,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_08" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23543,7 +23382,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_09" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23552,7 +23391,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier2_10" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23570,15 +23409,15 @@
 						<p>Choose two options from the list below or any from the previous tier and mark them.</p>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_01" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_02" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_03" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23587,11 +23426,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_04" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_05" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23600,11 +23439,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_06" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_07" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23613,7 +23452,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_08" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23622,7 +23461,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_09" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23631,7 +23470,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_10" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23640,7 +23479,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_11" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23649,11 +23488,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn bolded flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_12" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_13" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23662,11 +23501,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn bolded flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_14" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="toggleMulticlass();">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier3_15" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23684,15 +23523,15 @@
 						<p>Choose two options from the list below or any from the previous tier and mark them.</p>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_01" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_02" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_03" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23701,11 +23540,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_04" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_05" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23714,11 +23553,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_06" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_07" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23727,7 +23566,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_08" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23736,7 +23575,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_09" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23745,7 +23584,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_10" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23754,7 +23593,7 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_11" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23763,11 +23602,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn bolded flow-row">
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_12" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_13" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -23776,11 +23615,11 @@
 						</div>
 						<div class="flow-row listItem">
 							<div class="checkboxColumn bolded flow-row">
-								<label class="checkboxContainer" onclick="toggleMulticlass();">
+								<label id="main_levelCheck_tier4_14" class="checkboxContainer" onclick="toggleMulticlass();">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer">
+								<label id="main_levelCheck_tier4_15" class="checkboxContainer">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
@@ -25387,7 +25226,16 @@
 			<h2 style="color:red;font-size:36px;">Work in Progress</h2>
 		</div>
 		
-		<div id="imageArea" class="tabBody">
+		<div id="testArea" class="tabBody active">
+			<div id="testDeposit">
+				
+			</div>
+			<div class="testField">Hi</div>
+			<div class="testField">Trying Something</div>
+			<input type="number" class="testField" placeholder="5"></input>
+			
+			<br/>
+			
 			<svg class="test">
 				<use href="#testFlagTop"></use>
 			</svg>
@@ -25539,6 +25387,7 @@
 			<svg    width="330"    height="465"    viewBox="0 0 330 465"    version="1.1"    id="communityFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        xlink:href="#linearGradient5"        id="linearGradient10"        x1="-0.25"        y1="201.45508"        x2="330.25"        y2="201.45508"        gradientUnits="userSpaceOnUse" /></defs><g      id="layer3"      style="display:inline"><path        style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.4;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="M 0,238.63477 H 320.47266 L 330,229.20898 V 465 H 0 Z"        id="path99" /><path        id="path10"        style="display:inline;fill:url(#linearGradient10);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 330.25,164.27539 -15.23849,14.21367 -0.21073,40.50313 H 190.00391 l -2.11524,13.50781 5.71289,-2.4043 1.48047,-6.87304 20.3125,-0.21094 3.38477,4.01953 h 71.72851 l 5.05312,-5.34863 19.19102,-0.0615 -0.21093,11.62696 -282.851567,-0.0664 -2.583984,-3.97266 H 58.947266 L 56.404297,226.81445 0,226.96484 v 2.24414 h 17.720703 l 2.644531,3.96875 L -0.25,233.17383 0,238.63477 H 320.47266 L 330,229.20898 v -7.33203 l -12.36914,11.3711 -0.0332,-11.57813 L 330,221.87695 v -3.18398 l -12.41016,0.29923 0.33947,-38.10898 12.32069,-12.5668 z m -116.125,34.82617 -3.38477,2.75196 v 10.36718 l 3.17383,2.11524 h 91.19336 l 3.17383,-2.75 -0.21289,-10.36719 -2.96094,-2.11719 z M 21.544922,229.20898 h 3.800781 l 2.332031,3.97071 h -3.662109 z" /></g></svg>
 			<svg    width="330"    height="460"    viewBox="0 0 330 460"    version="1.1"    id="domainFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="linearGradient15"><stop          style="stop-color:#292929;stop-opacity:0.82878411;"          offset="0"          id="stop14" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop15" /></linearGradient><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        xlink:href="#linearGradient15"        id="linearGradient12"        x1="165.24805"        y1="203.00653"        x2="165.09863"        y2="226.60455"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(1020.6457,-29.012553)" /><filter        style="color-interpolation-filters:sRGB"        id="filter14"        x="-0.014411521"        y="-0.13042264"        width="1.028823"        height="1.2608453"><feGaussianBlur          stdDeviation="0.74464206"          id="feGaussianBlur14" /></filter><linearGradient        xlink:href="#linearGradient5"        id="linearGradient11"        x1="1019.3268"        y1="210.8378"        x2="1349.8268"        y2="210.8378"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(0.07148373,-24.780833)" /></defs><g      id="layer7"      style="display:inline"      transform="translate(-1019.5768,-5.078064)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:0.976471"        d="m 1125.755,186.43071 15.5587,11.96909 85.73,-3e-5 15.9034,-11.96906 106.7012,-0.37386 -0.072,279.02121 h -330 l 0.071,-279.02121 z"        id="path15" /><path        id="path75-6"        style="display:inline;fill:url(#linearGradient12);fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter14)"        d="m 1143.3757,175.95439 c -3.1931,3.68042 -9.4692,8.935 -20.8028,9.51429 l 5.1856,4.1884 c 8.0739,-0.92844 14.4617,-4.59566 17.2016,-7.75373 l 80.6832,0.074 c 2.6482,2.8965 7.7901,5.99149 15.929,7.52257 l 5.0084,-4.00078 c -10.2698,-1.63335 -15.7638,-6.36195 -18.6738,-9.54475 z" /><path        id="path16"        style="display:inline;fill:url(#linearGradient11);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 1141.9817,173.71389 c -8.2321,8.30374 -10.9463,8.30374 -24.2255,8.30374 h -98.1079 v 12.71517 l 45.9252,0.0992 6.6894,-8.40132 h 45.258 l 13.3221,8.40132 h 5.8343 l 4.6364,3.5678 85.73,-3e-5 4.4038,-3.56777 h 6.0624 l 12.6435,-8.40129 h 44.3629 l 7.7776,8.40132 47.3544,-0.16726 v -12.50078 l -99.4022,-0.14636 c -11.091,0 -13.5998,0 -21.7699,-8.30374 z m 1.6464,4.18946 h 83.1132 c 2.91,3.18279 5.936,6.89402 16.2058,8.52736 l -6.332,4.45387 h -6.6524 l -5.0867,3.94745 h -81.5528 l -5.2306,-3.94745 h -5.9079 l -6.4297,-4.45387 c 11.1856,-1.54132 14.0881,-4.41308 17.8731,-8.52736 z" /></g></svg>
 			<svg    width="330"    height="465"    viewBox="0 0 330 465"    version="1.1"    id="subclassFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        id="linearGradient169"><stop          style="stop-color:#000000;stop-opacity:1;"          offset="0"          id="stop169" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop170" /></linearGradient><linearGradient        xlink:href="#linearGradient169"        id="linearGradient170"        x1="165.36426"        y1="203.52235"        x2="165.84375"        y2="223.79492"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-19.686646)" /><filter        style="color-interpolation-filters:sRGB"        id="filter170"        x="-0.018830226"        y="-0.25930813"        width="1.0376605"        height="1.5186163"><feGaussianBlur          stdDeviation="0.92266261"          id="feGaussianBlur170" /></filter><linearGradient        xlink:href="#linearGradient5"        id="linearGradient99"        x1="-0.25"        y1="215.79102"        x2="330"        y2="215.79102"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-19.686646)" /></defs><g      id="layer6"      style="display:inline"      transform="translate(0.82476)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="m -0.2998,208.32499 46.753906,0.15039 7.107422,-7.78125 50.358012,-0.41938 c 6.56447,0.60665 13.23484,0.82963 18.01504,7.89985 l 86.85156,0.15039 c 5.42283,-7.5359 12.61844,-7.79371 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 -0.125,250.32827 h -330 z"        id="path106" /><path        id="path118-8"        style="display:inline;fill:url(#linearGradient170);fill-opacity:0.358277;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter170)"        d="m 119.94825,193.02225 c -0.61925,0.64745 -1.56532,0.26752 -2.35821,0.36914 -1.6664,1e-5 -3.33281,0 -4.99922,0 -0.60742,0.47071 -2.97027,2.42591 -3.57769,2.89661 l -3.09027,-0.25989 5.98437,-4.63672 h 6.88281 l 4.63868,-3.29101 h 83.18554 l 10.17383,3.14062 6.73242,4.78711 -3.0687,0.61188 -4.82826,-3.30087 c -1.71728,0.13592 -3.43458,0.27173 -5.15187,0.40774 -1.5211,-1.21434 -3.04026,-2.43111 -4.56054,-3.64648 h -81.84375 c -1.37305,0.97396 -2.7461,1.94792 -4.11914,2.92187 z" /><path        id="path100"        style="display:inline;fill:url(#linearGradient99);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 122.68848,183.73319 -4.56836,3.27149 -5.83789,-0.11914 -14.435546,9.66406 -42.939453,-0.0527 -3.015625,-3.67773 29.722656,0.16992 -4.71289,-2.24414 H 38.174809 l -3.365234,-4.11328 35.359375,0.0742 -5.537109,-2.76758 H -0.2998 l -0.25,2.61719 32.566406,0.0703 3.515625,4.11914 H -0.5498 v 2.46875 l 43.039062,-0.44922 2.69336,3.72071 -45.482422,-0.0547 v 11.89453 l 46.753906,0.15039 7.107422,-7.78125 46.753902,-0.29883 c 8.43794,-0.51953 16.29841,0.38819 21.61915,7.7793 l 86.85156,0.15039 c 7.39512,-8.39678 13.10521,-7.861 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 v -11.89258 l -45.64844,0.0137 2.60938,-3.60547 43.03906,0.44924 v -2.46875 h -36.08203 l 3.51562,-4.11914 32.56641,-0.0703 -0.25,-2.61719 h -64.93164 l -5.53711,2.76758 35.35937,-0.0742 -3.36523,4.11328 h -38.72656 l -4.71289,2.24414 29.72265,-0.16992 -2.91406,3.55273 -42.74219,0.0137 -13.8789,-9.3711 -6.06446,-0.01 -4.21875,-3.06641 z m 0.74024,4.36719 h 83.18554 l 4.48828,3.58984 5.68555,-0.44922 6.73242,4.78711 c -10.26982,1.63335 -12.80097,4.89729 -15.71093,8.08008 h -84.53126 c -3.19308,-3.68041 -6.02183,-7.50079 -17.35546,-8.08008 l 5.98437,-4.63672 h 6.88281 z m -77.500004,4.68359 3.15039,0.0176 2.763672,3.69141 -3.070312,-0.004 z m 237.292964,0 -2.7539,3.58789 h -3.06836 l 2.67187,-3.57031 z" /></g></svg>
+			<svg    width="330"    height="465"    viewBox="0 0 330 464.99999"    version="1.1"    id="classFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="swatch139"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop139" /></linearGradient><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        id="linearGradient169"><stop          style="stop-color:#000000;stop-opacity:1;"          offset="0"          id="stop169" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop170" /></linearGradient><filter        style="color-interpolation-filters:sRGB"        id="filter170-3"        x="-0.018830226"        y="-0.25930813"        width="1.0376605"        height="1.5186163"><feGaussianBlur          stdDeviation="0.92266261"          id="feGaussianBlur170-7" /></filter><linearGradient        xlink:href="#linearGradient169"        id="linearGradient237"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-78.48659)"        x1="165.36426"        y1="203.52235"        x2="165.84375"        y2="223.79492" /><linearGradient        xlink:href="#linearGradient5"        id="linearGradient238"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-78.48659)"        x1="-0.25"        y1="215.79102"        x2="330"        y2="215.79102" /><linearGradient        xlink:href="#swatch139"        id="linearGradient239"        gradientUnits="userSpaceOnUse"        x1="-0.82476193"        y1="196.10437"        x2="329.97516"        y2="196.10437"        gradientTransform="translate(0,-58.799947)" /></defs><g      id="layer6-4"      style="display:inline"      transform="translate(0.3622711,6.4229552)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="m -0.2998,149.52503 46.753906,0.15039 7.107422,-7.78125 51.252632,-0.41097 c 6.56447,0.60665 12.34022,0.82122 17.12042,7.89144 l 86.85156,0.15039 c 5.42283,-7.5359 8.43739,-7.85567 15.71739,-7.76704 l 51.45839,0.28462 6.6582,7.4082 47.08008,-0.002 -0.0625,309.12823 H -0.36230424 Z"        id="path106-6" /><path        id="path118-8-2"        style="display:inline;fill:url(#linearGradient237);fill-opacity:0.358277;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter170-3)"        d="m 119.94825,134.22229 c -0.61925,0.64745 -1.56532,0.26752 -2.35821,0.36914 -1.6664,1e-5 -3.33281,0 -4.99922,0 -0.60742,0.47071 -2.97027,2.42591 -3.57769,2.89661 l -3.09027,-0.25989 5.98437,-4.63672 h 6.88281 l 4.63868,-3.29101 h 83.18554 l 10.17383,3.14062 6.73242,4.78711 -3.0687,0.61188 -4.82826,-3.30087 c -1.71728,0.13592 -3.43458,0.27173 -5.15187,0.40774 -1.5211,-1.21434 -3.04026,-2.43111 -4.56054,-3.64648 h -81.84375 c -1.37305,0.97396 -2.7461,1.94792 -4.11914,2.92187 z" /><path        id="path100-0"        style="display:inline;fill:url(#linearGradient238);stroke:url(#linearGradient239);stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 122.68848,124.93323 -4.56836,3.27149 -5.83789,-0.11914 -11.96692,9.21885 -51.334787,0.17627 -9.726095,-12.56679 -39.554228,0.22442 -0.25,2.61719 38.566406,0.0703 3.515625,4.11914 H -0.5498 v 2.46875 l 43.039062,-0.44922 2.69336,3.72071 -45.482422,-0.0547 v 11.89453 l 46.753906,0.15039 7.107422,-7.78125 46.753902,-0.29883 c 8.43794,-0.51953 16.29841,0.38819 21.61915,7.7793 l 86.85156,0.15039 c 7.39512,-8.39678 13.10521,-7.861 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 v -11.89258 l -45.64844,0.0137 2.60938,-3.60547 43.03906,0.44924 v -2.46875 h -42.08203 l 3.19824,-4.27783 38.88379,0.0884 -0.0625,-2.692 -40.64253,0.0222 -9.0434,12.2217 -48.34922,0.27818 -13.8789,-9.3711 -6.06446,-0.01 -4.21875,-3.06641 z m 0.74024,4.36719 h 83.18554 l 4.48828,3.58984 5.68555,-0.44922 6.73242,4.78711 c -10.26982,1.63335 -12.80097,4.89729 -15.71093,8.08008 h -84.53126 c -3.19308,-3.68041 -6.02183,-7.50079 -17.35546,-8.08008 l 5.98437,-4.63672 h 6.88281 z" /></g></svg>
 			
 			<br/>
 			
@@ -26187,11 +26036,11 @@
 		
 		
 		//turn on autocomplete for inputs which should have it enabled
-		autocomplete(document.getElementById('primaryWeaponName'), primaryWeaponTitles);
-		autocomplete(document.getElementById('secondaryWeaponName'), secondaryWeaponTitles);
-		autocomplete(document.getElementById('wornArmorName'), armorTitles);
-		autocomplete(document.getElementById('inventoryWeapon0Name'),weaponTitles);
-		autocomplete(document.getElementById('inventoryWeapon1Name'),weaponTitles);
+		autocomplete(document.getElementById('main_primaryWeapon_name'), primaryWeaponTitles);
+		autocomplete(document.getElementById('main_secondaryWeapon_name'), secondaryWeaponTitles);
+		autocomplete(document.getElementById('main_wornArmor_name'), armorTitles);
+		autocomplete(document.getElementById('main_inventoryWeapon0_name'),weaponTitles);
+		autocomplete(document.getElementById('main_inventoryWeapon1_name'),weaponTitles);
 		
 		//populate selection dropdowns
 		fillDropdowns();
@@ -26249,6 +26098,25 @@
 		//document.getElementById('searchOption').querySelector('.selected').innerHTML = 'Character Sheet';
 		//turnOnSidebar(document.getElementById('cardArea'),document.getElementById('cardSidebarButton'));
 		search();
+		
+		//WIP TEST
+		const saveSet = new Set();
+		for(var elem of document.querySelectorAll('.saveValue')){
+			saveSet.add(elem.id);
+			//console.log(elem.id);
+		}
+		let deposit = document.getElementById('testDeposit');
+		for(var elemID of saveSet){
+			let elem = document.getElementById(elemID);
+			switch( elem.dataset.valuetype ){
+				case 'select':
+					deposit.innerHTML += elem.value;
+					break;
+				case 'innerText':
+					deposit.innerHTML += elem.innerText;
+			}
+			deposit.innerHTML += '<br/>';
+		}
 		
 		function debounce(func, timeout = 300){
 			let timer;
@@ -26518,18 +26386,18 @@
 			updateSheet();
 		}
 		function fillObjectFromSheet(){ //get values from html and put them in js object
-			characterSheet.classChoice = document.getElementById('classDropdown').value;
-			characterSheet.multiclassChoice = document.getElementById('multiclassDropdown').value;
-			characterSheet.multiclassDomain = document.getElementById('multiclassDomainDropdown').value;
-			characterSheet.name = document.getElementById('name').innerHTML;
-			characterSheet.pronouns = document.getElementById('pronouns').innerHTML;
-			characterSheet.community = document.getElementById('communityDropdown').value;
-			characterSheet.ancestry0 = document.getElementById('ancestryDropdown0').value;
-			characterSheet.ancestry1 = document.getElementById('ancestryDropdown1').value;
-			characterSheet.subclass = document.getElementById('subclassDropdown').value;
-			characterSheet.level = document.getElementById('level').value;
-			characterSheet.evasion = document.getElementById('evasion').value;
-			characterSheet.armor = document.getElementById('armor').value;
+			characterSheet.classChoice = document.getElementById('main_classDropdown').value;
+			characterSheet.multiclassChoice = document.getElementById('main_multiclassDropdown').value;
+			characterSheet.multiclassDomain = document.getElementById('main_multiclassDomainDropdown').value;
+			characterSheet.name = document.getElementById('main_name').innerHTML;
+			characterSheet.pronouns = document.getElementById('main_pronouns').innerHTML;
+			characterSheet.community = document.getElementById('main_communityDropdown').value;
+			characterSheet.ancestry0 = document.getElementById('main_ancestryDropdown0').value;
+			characterSheet.ancestry1 = document.getElementById('main_ancestryDropdown1').value;
+			characterSheet.subclass = document.getElementById('main_subclassDropdown').value;
+			characterSheet.level = document.getElementById('main_level').value;
+			characterSheet.evasion = document.getElementById('main_evasion').value;
+			characterSheet.armor = document.getElementById('main_armor').value;
 			var armorCheckboxes = document.querySelectorAll('#armorCheckboxArea input');
 			for(let i = 0; i < armorCheckboxes.length; i++){
 				characterSheet.armorSlots[i] = 0b00;
@@ -26540,20 +26408,20 @@
 					characterSheet.armorSlots[i] = characterSheet.armorSlots[i] | 0b01;
 				}
 			}
-			characterSheet.agility = document.getElementById('agility').value;
-			characterSheet.strength = document.getElementById('strength').value;
-			characterSheet.finesse = document.getElementById('finesse').value;
-			characterSheet.instinct = document.getElementById('instinct').value;
-			characterSheet.presence = document.getElementById('presence').value;
-			characterSheet.knowledge = document.getElementById('knowledge').value;
-			characterSheet.agilityCheckbox = document.querySelector('#agilityCheckbox input').checked;
-			characterSheet.strengthCheckbox = document.querySelector('#strengthCheckbox input').checked;
-			characterSheet.finesseCheckbox = document.querySelector('#finesseCheckbox input').checked;
-			characterSheet.instinctCheckbox = document.querySelector('#instinctCheckbox input').checked;
-			characterSheet.presenceCheckbox = document.querySelector('#presenceCheckbox input').checked;
-			characterSheet.knowledgeCheckbox = document.querySelector('#knowledgeCheckbox input').checked;
-			characterSheet.majorThreshold = document.getElementById('majorThreshold').value;
-			characterSheet.severeThreshold = document.getElementById('severeThreshold').value;
+			characterSheet.agility = document.getElementById('main_agility').value;
+			characterSheet.strength = document.getElementById('main_strength').value;
+			characterSheet.finesse = document.getElementById('main_finesse').value;
+			characterSheet.instinct = document.getElementById('main_instinct').value;
+			characterSheet.presence = document.getElementById('main_presence').value;
+			characterSheet.knowledge = document.getElementById('main_knowledge').value;
+			characterSheet.agilityCheckbox = document.querySelector('#main_agilityCheckbox input').checked;
+			characterSheet.strengthCheckbox = document.querySelector('#main_strengthCheckbox input').checked;
+			characterSheet.finesseCheckbox = document.querySelector('#main_finesseCheckbox input').checked;
+			characterSheet.instinctCheckbox = document.querySelector('#main_instinctCheckbox input').checked;
+			characterSheet.presenceCheckbox = document.querySelector('#main_presenceCheckbox input').checked;
+			characterSheet.knowledgeCheckbox = document.querySelector('#main_knowledgeCheckbox input').checked;
+			characterSheet.majorThreshold = document.getElementById('main_majorThreshold').value;
+			characterSheet.severeThreshold = document.getElementById('main_severeThreshold').value;
 			var hpCheckboxes = document.querySelectorAll('#hpArea input');
 			for(let i = 0; i < hpCheckboxes.length; i++){
 				characterSheet.hpSlots[i] = 0b00;
@@ -26717,29 +26585,29 @@
 		function fillSheetFromObject(){ //get values from js object and put them in html
 			var classChoice = characterSheet.classChoice.toLowerCase();
 			
-			document.getElementById('classDropdown').value = characterSheet.classChoice;
-			document.getElementById('classDropdown').nextElementSibling.innerHTML = characterSheet.classChoice;
+			document.getElementById('main_classDropdown').value = characterSheet.classChoice;
+			document.getElementById('main_classDropdown').nextElementSibling.innerHTML = characterSheet.classChoice;
 			document.getElementById('symbol1').style.backgroundImage = 'var(--' + document.querySelector('.' + classChoice + ' .domain1').innerHTML.toLowerCase() + 'Icon)';
 			document.getElementById('symbol2').style.backgroundImage = 'var(--' + document.querySelector('.' + classChoice + ' .domain2').innerHTML.toLowerCase() + 'Icon)';
 			document.getElementById('domain1').innerHTML = document.querySelector('.' + classChoice + ' .domain1').innerHTML;
 			document.getElementById('domain2').innerHTML = document.querySelector('.' + classChoice + ' .domain2').innerHTML;
-			document.getElementById('multiclassDropdown').value = characterSheet.multiclassChoice;
-			document.getElementById('multiclassDropdown').nextElementSibling.innerHTML = characterSheet.multiclassChoice;
+			document.getElementById('main_multiclassDropdown').value = characterSheet.multiclassChoice;
+			document.getElementById('main_multiclassDropdown').nextElementSibling.innerHTML = characterSheet.multiclassChoice;
 			document.getElementById('symbol3').style.backgroundImage = 'var(--' + characterSheet.multiclassDomain.toLowerCase() + 'Icon)';
-			document.getElementById('multiclassDomainDropdown').value = characterSheet.multiclassDomain;
-			document.getElementById('multiclassDomainDropdown').nextElementSibling.innerHTML = characterSheet.multiclassDomain;
-			document.getElementById('name').innerHTML = characterSheet.name;
-			document.getElementById('pronouns').innerHTML = characterSheet.pronouns;
-			document.getElementById('communityDropdown').value = characterSheet.community;
-			document.getElementById('communityDropdown').nextElementSibling.innerHTML = characterSheet.community;
-			document.getElementById('ancestryDropdown0').value = characterSheet.ancestry0;
-			document.getElementById('ancestryDropdown0').nextElementSibling.innerHTML = characterSheet.ancestry0;
-			document.getElementById('ancestryDropdown1').value = characterSheet.ancestry1;
-			document.getElementById('ancestryDropdown1').nextElementSibling.innerHTML = characterSheet.ancestry1;
+			document.getElementById('main_multiclassDomainDropdown').value = characterSheet.multiclassDomain;
+			document.getElementById('main_multiclassDomainDropdown').nextElementSibling.innerHTML = characterSheet.multiclassDomain;
+			document.getElementById('main_name').innerHTML = characterSheet.name;
+			document.getElementById('main_pronouns').innerHTML = characterSheet.pronouns;
+			document.getElementById('main_communityDropdown').value = characterSheet.community;
+			document.getElementById('main_communityDropdown').nextElementSibling.innerHTML = characterSheet.community;
+			document.getElementById('main_ancestryDropdown0').value = characterSheet.ancestry0;
+			document.getElementById('main_ancestryDropdown0').nextElementSibling.innerHTML = characterSheet.ancestry0;
+			document.getElementById('main_ancestryDropdown1').value = characterSheet.ancestry1;
+			document.getElementById('main_ancestryDropdown1').nextElementSibling.innerHTML = characterSheet.ancestry1;
 			if( characterSheet.ancestry1 != '-' )
 				document.getElementById('ancestryToggleChoice').click();
-			document.getElementById('subclassDropdown').value = characterSheet.subclass;
-			document.getElementById('subclassDropdown').nextElementSibling.innerHTML = characterSheet.subclass;
+			document.getElementById('main_subclassDropdown').value = characterSheet.subclass;
+			document.getElementById('main_subclassDropdown').nextElementSibling.innerHTML = characterSheet.subclass;
 			if( characterSheet.subclass.toLowerCase().includes('foundation') || characterSheet.subclass.toLowerCase().includes('specialization') ){
 				document.getElementById('subclassUpgrade').style.display = 'initial';
 			}
@@ -26749,10 +26617,10 @@
 			if( document.getElementById('subclassDowngrade').style.display != 'none' && document.getElementById('subclassUpgrade').style.display === 'none' ){
 				document.getElementById('subclassDowngrade').classList.add('only');
 			}
-			document.getElementById('level').value = characterSheet.level;
-			document.getElementById('evasion').value = characterSheet.evasion;
+			document.getElementById('main_level').value = characterSheet.level;
+			document.getElementById('main_evasion').value = characterSheet.evasion;
 			document.getElementById('evasionStart').innerHTML = document.querySelector('.' + characterSheet.classChoice.toLowerCase() + ' .evasion').innerHTML;
-			document.getElementById('armor').value = characterSheet.armor;
+			document.getElementById('main_armor').value = characterSheet.armor;
 			var armorCheckboxes = document.getElementById('armorCheckboxArea').querySelectorAll('input');
 			for(let i = 0; i < armorCheckboxes.length; i++){
 				if( (characterSheet.armorSlots[i] & 0b10) > 0 )
@@ -26764,20 +26632,20 @@
 				else
 					armorCheckboxes[i].checked = false;
 			}
-			document.getElementById('agility').value = characterSheet.agility;
-			document.getElementById('strength').value = characterSheet.strength;
-			document.getElementById('finesse').value = characterSheet.finesse;
-			document.getElementById('instinct').value = characterSheet.instinct;
-			document.getElementById('presence').value = characterSheet.presence;
-			document.getElementById('knowledge').value = characterSheet.knowledge;
-			document.getElementById('agilityCheckbox').querySelector('input').checked = characterSheet.agilityCheckbox;
-			document.getElementById('strengthCheckbox').querySelector('input').checked = characterSheet.strengthCheckbox;
-			document.getElementById('finesseCheckbox').querySelector('input').checked = characterSheet.finesseCheckbox;
-			document.getElementById('instinctCheckbox').querySelector('input').checked = characterSheet.instinctCheckbox;
-			document.getElementById('presenceCheckbox').querySelector('input').checked = characterSheet.presenceCheckbox;
-			document.getElementById('knowledgeCheckbox').querySelector('input').checked = characterSheet.knowledgeCheckbox;
-			document.getElementById('majorThreshold').value = characterSheet.majorThreshold;
-			document.getElementById('severeThreshold').value = characterSheet.severeThreshold;
+			document.getElementById('main_agility').value = characterSheet.agility;
+			document.getElementById('main_strength').value = characterSheet.strength;
+			document.getElementById('main_finesse').value = characterSheet.finesse;
+			document.getElementById('main_instinct').value = characterSheet.instinct;
+			document.getElementById('main_presence').value = characterSheet.presence;
+			document.getElementById('main_knowledge').value = characterSheet.knowledge;
+			document.getElementById('main_agilityCheckbox').querySelector('input').checked = characterSheet.agilityCheckbox;
+			document.getElementById('main_strengthCheckbox').querySelector('input').checked = characterSheet.strengthCheckbox;
+			document.getElementById('main_finesseCheckbox').querySelector('input').checked = characterSheet.finesseCheckbox;
+			document.getElementById('main_instinctCheckbox').querySelector('input').checked = characterSheet.instinctCheckbox;
+			document.getElementById('main_presenceCheckbox').querySelector('input').checked = characterSheet.presenceCheckbox;
+			document.getElementById('main_knowledgeCheckbox').querySelector('input').checked = characterSheet.knowledgeCheckbox;
+			document.getElementById('main_majorThreshold').value = characterSheet.majorThreshold;
+			document.getElementById('main_severeThreshold').value = characterSheet.severeThreshold;
 			var hpCheckboxes = document.getElementById('hpArea').querySelectorAll('input');
 			for(let i = 0; i < hpCheckboxes.length; i++){
 				if( (characterSheet.hpSlots[i] & 0b10) > 0 )
@@ -26944,7 +26812,7 @@
 			updateSheet();
 		}
 		function autofillSheet(overwrite){ //fill html sheet with default values
-			changeClass(document.getElementById('classDropdown'));
+			changeClass(document.getElementById('main_classDropdown'));
 			var classOption;
 			var level;
 			var evasion, armor;
@@ -26953,48 +26821,25 @@
 			var experience;
 			var primaryWeapon, secondaryWeapon, wornArmor;
 			
-			classOption = prune(document.getElementById('classDropdown').value);
-			level = document.getElementById('level');
-			evasion = document.getElementById('evasion');
-			armor = document.getElementById('armor');
-			agility = document.getElementById('agility');
-			strength = document.getElementById('strength');
-			finesse = document.getElementById('finesse');
-			instinct = document.getElementById('instinct');
-			presence = document.getElementById('presence');
-			knowledge = document.getElementById('knowledge');
-			major = document.getElementById('majorThreshold');
-			severe = document.getElementById('severeThreshold');
+			classOption = prune(document.getElementById('main_classDropdown').value);
+			level = document.getElementById('main_level');
+			evasion = document.getElementById('main_evasion');
+			armor = document.getElementById('main_armor');
+			agility = document.getElementById('main_agility');
+			strength = document.getElementById('main_strength');
+			finesse = document.getElementById('main_finesse');
+			instinct = document.getElementById('main_instinct');
+			presence = document.getElementById('main_presence');
+			knowledge = document.getElementById('main_knowledge');
+			major = document.getElementById('main_majorThreshold');
+			severe = document.getElementById('main_severeThreshold');
 			experience = document.getElementById('experienceArea');
-			primaryWeapon = document.getElementById('primaryWeaponName');
-			secondaryWeapon = document.getElementById('secondaryWeaponName');
-			wornArmor = document.getElementById('wornArmorName');
+			primaryWeapon = document.getElementById('main_primaryWeapon_name');
+			secondaryWeapon = document.getElementById('main_secondaryWeapon_name');
+			wornArmor = document.getElementById('main_wornArmor_name');
 			
 			//overwrite checkboxes for stress and hope
 			if( overwrite ){
-				//armor
-				/* armor checkboxes differ by wornArmor in Full Version
-				var checks = document.querySelectorAll('#armorCheckboxArea input');
-				for(let i = 0; i < checks.length; i++){
-					checks[i].checked = false;
-					if( i < checks.length / 2 )
-						checks[i].readOnly = true;
-					else
-						checks[i].readOnly = false;
-				}*/
-				//hp
-				/* HP differs by class in Full Version
-				checks = document.querySelectorAll('#hpArea input');
-				for(let i = 0; i < checks.length; i++){
-					checks[i].checked = false;
-					if( i < checks.length / 2 ){
-						checks[i].readOnly = false;
-					}
-					else{
-						checks[i].readOnly = true;
-					}
-				}*/
-				//stress
 				checks = document.querySelectorAll('#stressArea input');
 				for(let i = 0; i < checks.length; i++){
 					checks[i].checked = false;
@@ -27025,7 +26870,7 @@
 			const numberFields = [evasion, agility, strength, finesse, instinct, presence, knowledge];
 			for(let field of numberFields){
 				if( overwrite || field.value === '' ){
-					field.value = parseInt(prune(document.querySelector('.' + classOption + ' .' + field.id).innerHTML));
+					field.value = parseInt(prune(document.querySelector('.' + classOption + ' .' + field.id.replace('main_','')).innerHTML));
 				}
 			}
 			
@@ -27307,7 +27152,7 @@
 		function updateDomainCards(){
 			var title, description;
 			var chosenCards = document.querySelectorAll('.domainRow');
-			var domainCards = document.querySelectorAll('.domain');
+			var domainCards = document.querySelectorAll('.domain:not(.template)');
 			
 			//update the text below the title of a domain card
 			for(var chosen of chosenCards){
@@ -27377,7 +27222,7 @@
 			updateSheet();
 		}
 		function jiggleSubclass(){
-			let dropdown = document.getElementById('subclassDropdown');
+			let dropdown = document.getElementById('main_subclassDropdown');
 			let choice = dropdown.value;
 			let upgrade = document.getElementById('subclassUpgrade');
 			let downgrade = document.getElementById('subclassDowngrade');
@@ -27397,7 +27242,7 @@
 			}
 		}
 		function upgradeSubclass(){
-			let dropdown = document.getElementById('subclassDropdown');
+			let dropdown = document.getElementById('main_subclassDropdown');
 			let choice = dropdown.value;
 			
 			if( choice.includes('Foundation') ){
@@ -27420,7 +27265,7 @@
 			updateSheet();
 		}
 		function downgradeSubclass(){
-			let dropdown = document.getElementById('subclassDropdown');
+			let dropdown = document.getElementById('main_subclassDropdown');
 			let choice = dropdown.value;
 			
 			if( choice.includes('Mastery') ){
@@ -27562,17 +27407,17 @@
 			characterSheet.multiclass = 'true';
 			document.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightTall)';
 			document.querySelector('.symbol3').style.display = '';
-			document.getElementById('multiclassDropdown').parentElement.style.display = '';
-			document.getElementById('multiclassDomainDropdown').parentElement.style.display = '';
+			document.getElementById('main_multiclassDropdown').parentElement.style.display = '';
+			document.getElementById('main_multiclassDomainDropdown').parentElement.style.display = '';
 		}
 		function turnOffMulticlass(){
 			characterSheet.multiclass = 'false';
 			characterSheet.multiclassChoice = '-';
 			characterSheet.multiclassDomain = '-';
 			document.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightShort)';
-			document.getElementById('multiclassDropdown').parentElement.style.display = 'none';
+			document.getElementById('main_multiclassDropdown').parentElement.style.display = 'none';
 			document.querySelector('.symbol3').style.display = 'none';
-			document.getElementById('multiclassDomainDropdown').parentElement.style.display = 'none';
+			document.getElementById('main_multiclassDomainDropdown').parentElement.style.display = 'none';
 		}
 		function turnOnTutorial(){
 			let leftSide = document.getElementById('tutorialSidebarLeft');
@@ -27628,11 +27473,11 @@
 			var subclassChoice, subclassName, subclassType, subclassOptions;
 			var option, optionName, optionType;
 			
-			classChoice = document.getElementById('classDropdown').value.toLowerCase();
-			multiclassChoice = document.getElementById('multiclassDropdown').value.toLowerCase();
-			multiclassDomainOptions = document.getElementById('multiclassDomainDropdown').closest('.custom-select').querySelector('.select-items').children;
-			subclassChoice = document.getElementById('subclassDropdown').value.toLowerCase();
-			subclassOptions = document.getElementById('subclassDropdown').closest('.custom-select').querySelector('.select-items').children;
+			classChoice = document.getElementById('main_classDropdown').value.toLowerCase();
+			multiclassChoice = document.getElementById('main_multiclassDropdown').value.toLowerCase();
+			multiclassDomainOptions = document.getElementById('main_multiclassDomainDropdown').closest('.custom-select').querySelector('.select-items').children;
+			subclassChoice = document.getElementById('main_subclassDropdown').value.toLowerCase();
+			subclassOptions = document.getElementById('main_subclassDropdown').closest('.custom-select').querySelector('.select-items').children;
 			subclassName = subclassChoice.slice(0,subclassChoice.indexOf(' (')-1);
 			subclassType = subclassChoice.slice(subclassChoice.indexOf('(')+1,subclassChoice.indexOf(')'));
 			
@@ -27745,14 +27590,14 @@
 			const parser = new DOMParser();
 			
 			features = document.getElementById('featuresText');
-			classChoice = prune(document.getElementById('classDropdown').value);
-			multiclassChoice = prune(document.getElementById('multiclassDropdown').value);
-			subclassChoice = prune(document.getElementById('subclassDropdown').value);
+			classChoice = prune(document.getElementById('main_classDropdown').value);
+			multiclassChoice = prune(document.getElementById('main_multiclassDropdown').value);
+			subclassChoice = prune(document.getElementById('main_subclassDropdown').value);
 			subclassName = subclassChoice.slice(0, subclassChoice.indexOf('(')-1);
 			subclassType = subclassChoice.slice(subclassChoice.indexOf('(')+1,subclassChoice.indexOf(')'));
-			ancestry0 = prune(document.getElementById('ancestryDropdown0').value);
-			ancestry1 = prune(document.getElementById('ancestryDropdown1').value);
-			community = prune(document.getElementById('communityDropdown').value);
+			ancestry0 = prune(document.getElementById('main_ancestryDropdown0').value);
+			ancestry1 = prune(document.getElementById('main_ancestryDropdown1').value);
+			community = prune(document.getElementById('main_communityDropdown').value);
 			
 			//show/hide needed sidesheets
 			hide(document.getElementById('companionSheet'));
@@ -27772,7 +27617,7 @@
 			}
 			
 			//ancestry features
-			var ancestries = document.querySelectorAll('.ancestry');
+			var ancestries = document.querySelectorAll('.ancestry:not(.template)');
 			for(var card of ancestries){
 				if( ancestry0.indexOf('-') < 0 && ancestry1 === '-' && prune(card.querySelector('.title').innerHTML).indexOf(ancestry0) > -1 ){
 					features.innerHTML += '<div class="feature"><span class="boldItalic featureTitle">' + card.querySelector('.title').innerHTML.toUpperCase() + ':</span><br>'
@@ -27789,12 +27634,12 @@
 				}
 			}		
 			
-			document.getElementById('agility').classList.remove('spellcast');
-			document.getElementById('strength').classList.remove('spellcast');
-			document.getElementById('finesse').classList.remove('spellcast');
-			document.getElementById('instinct').classList.remove('spellcast');
-			document.getElementById('presence').classList.remove('spellcast');
-			document.getElementById('knowledge').classList.remove('spellcast');
+			document.getElementById('main_agility').classList.remove('spellcast');
+			document.getElementById('main_strength').classList.remove('spellcast');
+			document.getElementById('main_finesse').classList.remove('spellcast');
+			document.getElementById('main_instinct').classList.remove('spellcast');
+			document.getElementById('main_presence').classList.remove('spellcast');
+			document.getElementById('main_knowledge').classList.remove('spellcast');
 			
 			//class details in featuresArea
 			let desc = document.querySelector('.class.' + classChoice + ' .description');
@@ -27850,10 +27695,10 @@
 			var tier3Major1, tier3Severe1, tier3Major2, tier3Severe2;
 			var tier4Major1, tier4Severe1, tier4Major2, tier4Severe2;
 			
-			classChoice = document.getElementById('classDropdown').value.toLowerCase();
-			multiclassChoice = document.getElementById('multiclassDropdown').value.toLowerCase();
-			domain3 = document.getElementById('multiclassDomainDropdown');
-			if( elem.id === 'multiclassDropdown' ){
+			classChoice = document.getElementById('main_classDropdown').value.toLowerCase();
+			multiclassChoice = document.getElementById('main_multiclassDropdown').value.toLowerCase();
+			domain3 = document.getElementById('main_multiclassDomainDropdown');
+			if( elem.id === 'main_multiclassDropdown' ){
 				domain3.value = document.querySelector('.card.class.' + multiclassChoice).querySelector('.domain1').innerHTML;
 				domain3.nextElementSibling.innerHTML = domain3.value;
 			}
@@ -27903,7 +27748,6 @@
 				e.innerHTML = e.innerHTML.replace(regItalic,'<i>$1</i>');
 			}
 		}
-		
 		function swapTabs(tabArea, tar){
 			let target = document.getElementById(tar);
 			let current = document.querySelector('#' + tabArea + ' ~ .tabBody.active');
