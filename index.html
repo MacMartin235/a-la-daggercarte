@@ -2483,20 +2483,20 @@
 								background-color: rgba(255, 255, 255, 0.24);
 							}
 						}
-						#classDropdown ~ .select-items div{
+						#main_classDropdown ~ .select-items div{
 							font-size: 1.5rem;
 						}
-						#multiclassDropdown ~ .select-selected{
+						#main_multiclassDropdown ~ .select-selected{
 							font-size: 1.5rem;
 						}
-						#multiclassDropdown ~ .select-items div{
+						#main_multiclassDropdown ~ .select-items div{
 							font-size: 1.25rem;
 						}
-						#multiclassDomainDropdown ~ .select-selected{
-							font-size: 0.875rem;
+						#main_multiclassDomainDropdown ~ .select-selected{
+							font-size: 16px;
 							font-weight: 400;
 						}
-						#multiclassDomainDropdown ~ .select-items div{
+						#main_multiclassDomainDropdown ~ .select-items div{
 							font-size: 14px;
 							font-weight: 400;
 						}
@@ -3591,6 +3591,7 @@
 						padding: 24px;
 						padding-left: 12px;
 						padding-right: 20px;
+						padding-top: 12px;
 						
 						.areaTitle{
 							width: 84%;
@@ -3606,7 +3607,7 @@
 						//padding: 0.375em;
 						padding: 6px;
 						text-align: center;
-						top: -1rem;
+						top: -6px;
 						font-style: italic;
 						
 						*{
@@ -3620,7 +3621,7 @@
 					.backgroundShape{
 						width: 100%;
 						height: 100%;
-						background-color: grey;
+						background-color: dimgrey;
 						position: absolute;
 						left: 0;
 						//border-radius: 0 0 0.375em 0.375em;
@@ -3630,6 +3631,7 @@
 						font-size: 0.85em;
 						text-align: center;
 						margin: 0;
+						margin: 6px 0;
 					}
 					.listItem{
 						font-style: italic;
@@ -3638,6 +3640,7 @@
 						
 						p{
 							text-align: left;
+							margin: 0;
 						}
 					}
 					.checkboxColumn{
@@ -23664,7 +23667,7 @@
 						<div class="flow-row listItem">
 							<div class="checkboxColumn bolded flow-row">
 								<label id="main_levelCheck_tier3_14" class="checkboxContainer saveValue" data-valuetype="checkOnly">
-									.<input type="checkbox" class="lockable" data-lock="disable" onchange="toggleMulticlass();">
+									.<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet()">
 									<span class="mark"></span>
 								</label>
 								<label id="main_levelCheck_tier3_15" class="checkboxContainer saveValue" data-valuetype="checkOnly">
@@ -25652,6 +25655,12 @@
 					<span class="sliderLabel">Martial Form Sheet (Brawler - Martial Artist)</span>
 				</label>
 				<br/>
+				<label class="switch">
+					<input type="checkbox" name="toggleMulticlass" id="toggleMulticlass" class="saveOption" onchange="saveOptions(); toggleMulticlass();">
+					<span class="slider"></span>
+					<span class="sliderLabel">Multiclass</span>
+				</label>
+				<br/>
 				<hr>
 				Select whether sheets are inline or block
 				<br/>
@@ -26595,7 +26604,7 @@
 			}
 			fillSheetFromObject();
 			//toggle saved menu options
-			//try{
+			try{
 				let optionsString = localStorage.getItem('options');
 				for(const [key, value] of Object.entries(JSON.parse(optionsString))){
 					let elem = document.getElementById(key);
@@ -26605,7 +26614,7 @@
 						console.log(key);
 					}
 				}
-			//}catch(err){console.log('no options item; fixing...');saveOptions();}
+			}catch(err){console.log('no options item; fixing...');saveOptions();}
 			for(let currentSelect of document.querySelectorAll('.custom-select .select-items')){
 				for(let currentOption of currentSelect.querySelectorAll('div')){
 					currentOption.removeAttribute('class');
@@ -26619,10 +26628,10 @@
 			toggleLock(document.querySelector('#lockIcon input'));
 			safeMode = localStorage.getItem('safeMode') != 'true';
 			toggleSafeMode();
-			if( characterSheet.multiclass != 'true' )
+			/*if( characterSheet.multiclass != 'true' )
 				turnOffMulticlass();
 			else
-				turnOnMulticlass();
+				turnOnMulticlass();*/
 			updateSheet();
 		}
 		function fillObjectFromSheet(){ //get values from html and put them in js object
@@ -27646,9 +27655,9 @@
 		function turnOnMulticlass(){
 			characterSheet.multiclass = 'true';
 			document.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightTall)';
-			document.querySelector('.symbol3').style.display = '';
-			document.getElementById('main_multiclassDropdown').parentElement.style.display = '';
-			document.getElementById('main_multiclassDomainDropdown').parentElement.style.display = '';
+			document.querySelector('.symbol3').style.display = 'inline-block';
+			document.getElementById('main_multiclassDropdown').parentElement.style.display = 'inline-block';
+			document.getElementById('main_multiclassDomainDropdown').parentElement.style.display = 'inline-block';
 		}
 		function turnOffMulticlass(){
 			characterSheet.multiclass = 'false';
