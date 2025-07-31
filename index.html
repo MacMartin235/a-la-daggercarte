@@ -807,13 +807,13 @@
 				background-position: center;
 				
 				&.ancestry{
-					background-image: var(--ancestryFiligree), linear-gradient(0, white 45%, grey 45%, white 70%, var(--sageSecondColor) 100%);
+					background-image: var(--ancestryFiligree), linear-gradient(4deg, white 40%, lightgray 40%, lightgray 50%, var(--sageSecondColor) 100%);
 				}
 				&.class{
 					background-image: var(--classFiligree), linear-gradient(0, white 0%, white 20%, transparent 20%) , linear-gradient(to right, var(--classFirstColor) 25%, var(--classSecondColor) 75%);
 				}
 				&.community{
-					background-image: var(--communityFiligree), linear-gradient(0, white 45%, grey 45%, white 70%, var(--codexSecondColor) 100%);
+					background-image: var(--communityFiligree), linear-gradient(0, white 45%, white 50%, var(--codexSecondColor) 100%);
 				}
 				&.domain{
 					background-image: var(--domainFiligree), var(--domainFiligreeInset), linear-gradient(0, white var(--domainCardHorizon), var(--domainThirdColor) var(--domainCardHorizon), var(--domainMainColor) 100%);
@@ -2302,6 +2302,14 @@
 					position: relative;
 					display: flex;
 					flex-direction: row;
+				}
+				.experienceText{
+					width: 90%;
+					display: flex;
+					position: relative;
+					align-items: end;
+					padding-left: 6px;
+					z-index: 1;
 					
 					&:after,
 					&:before{
@@ -2325,25 +2333,28 @@
 						border-width: 0 0 thin 0;
 					}
 				}
-				.experienceText{
-					width: 90%;
-					display: flex;
-					align-items: end;
-					padding-left: 6px;
-					z-index: 1;
-				}
 				.experienceMod{
 					height: 1.5rem;
-					width: 10%;
+					width: 12%;
 					display: flex;
+					position: relative;
 					align-items: center;
 					justify-content: center;
 					border: none;
 					//border-bottom: 0.1875em solid grey;
-					border-bottom: 3px solid grey;
+					//border-bottom: 3px solid grey;
 					font-size: 1rem;
 					align-self: flex-end;
 					z-index: 1;
+					
+					&::before{
+						content: '';
+						position: absolute;
+						background-color: grey;
+						clip-path: polygon(0 100%, 100% 100%, 100% 70%, 90% 70%, 80% 90%, 35% 90%, 25% 70%, 10% 70%);
+						width: 100%;
+						height: 100%;
+					}
 				}
 				.areaTitle{
 					//border: thin solid black;
@@ -4659,8 +4670,12 @@
 					font-size: 12.5px; !important;
 				}
 				.card, .table, 
+				#header,
 				.moveDomainCard, .removeDomainCard {
 					display: none !important;
+				}
+				#sheetArea{
+					margin-top: 0;
 				}
 				.sheet{
 					//width: 100% !important;
@@ -4683,7 +4698,10 @@
 						margin-top: 1.5em !important;
 					}
 				}
-				#companionSheet{
+				#beastformSheet,
+				#companionSheet,
+				#motherboardModule,
+				#martialForm{
 					break-before: always;
 					position: relative !important;
 					right: 0 !important;
@@ -23239,7 +23257,7 @@
 							<div class="areaTitle">EXPERIENCE</div>
 							<div class="experience flow-row">
 								<div id="main_experienceText0" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-								<div id="main_experienceMod0" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="main_experienceMod0" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"><div></div></div>
 							</div>
 							<div class="experience flow-row">
 								<div id="main_experienceText1" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
@@ -28230,7 +28248,7 @@
 			//unused
 			//scrollTo(0,0);
 			
-			
+			//TABLE FILTER
 			//if any filters for items other than tables are chosen, don't show tables
 			let dontFilter = false;
 			if( document.querySelector('.sidebar input[name="cardType"]:checked') != null 
@@ -28285,6 +28303,7 @@
 					sortTable(table, -1, 'hidden');
 				}
 			}
+			//CARD FILTER
 			//if no filters for non-cards are selected, then loop through cards
 			if( 	document.querySelector('.sidebar input[name="ability"]:checked') !== null 
 				||	document.querySelector('.sidebar input[name="tableType"]:checked') !== null
@@ -28294,6 +28313,15 @@
 				hide(document.getElementById('cardArea'));
 			else{
 				show(document.getElementById('cardArea'));
+				classVal = sheet.querySelector('#main_classDropdown').value;
+				communityVal = sheet.querySelector('#main_communityDropdown').value;
+				ancestryVal0 = sheet.querySelector('#main_ancestryDropdown0').value;
+				ancestryVal1 = sheet.querySelector('#main_ancestryDropdown1').value;
+				subclassVal = sheet.querySelector('#main_subclassDropdown').value;
+				domainTitleNodes = sheet.querySelectorAll('.domainRow .domainCardTitle');
+				domainVals = [];
+				domainTitleNodes.forEach((element) => domainVals.push(prune(element.innerHTML)));
+				
 				for(var card of cards){
 					//by default hide all cards
 					hide(card);
@@ -28344,7 +28372,17 @@
 					//match cards used on character sheet
 					option = document.querySelector('.sidebar input[name="sheet"]');
 					if( option.checked ){
-						//WIP check if a card is used on the character sheet
+						if( card.classList.contains('transformation') )
+							continue;
+						//class, subclass(es), ancestry, community
+						if( (card.classList.contains('class') && prune(card.querySelector('.title').innerHTML) != prune(classVal))
+							|| (card.classList.contains('community') && prune(card.querySelector('.title').innerHTML) != prune(communityVal))
+							|| (card.classList.contains('ancestry') && (prune(card.querySelector('.title').innerHTML) != prune(ancestryVal0) && prune(card.querySelector('.title').innerHTML) != prune(ancestryVal1)) )
+							|| (card.classList.contains('subclass') && prune(card.querySelector('.title').innerHTML) != prune(subclassVal.split(' ')[0])) )
+							continue;
+						//domain cards
+						if( card.classList.contains('domain') && !domainVals.includes(prune(card.querySelector('.title').innerHTML)) )
+							continue;
 					}
 					//match card type
 					option = document.querySelector('.sidebar input[name="cardType"]:checked');
@@ -28424,6 +28462,7 @@
 					show(card);
 				}
 			}
+			//ADVERSARY FILTER
 			//if no filters for non-adversaries are selected, then loop through adversaries
 			if( 	document.querySelector('.sidebar input[name="sheet"]:checked') !== null 
 				||	document.querySelector('.sidebar input[name="cardType"]:checked') !== null
@@ -28495,6 +28534,7 @@
 					show(adversary);
 				}
 			}
+			//ENVIRONMENT FILTER
 			//if no filters for non-environments are selected, then loop through environments
 			if( 	document.querySelector('.sidebar input[name="sheet"]:checked') !== null 
 				||	document.querySelector('.sidebar input[name="cardType"]:checked') !== null
