@@ -18,6 +18,12 @@
 					 local('Trebuchet MS'),
 					 local('Helvetica');
 			}
+			@font-face{
+				font-family: "Caveat";
+				src: url('Caveat-VariableFont_wght.ttf'),
+					 url('Overpass-VariableFont_wght.ttf'),
+					 local('Helvetica');
+			}
 			:root{
 				font-size: 16px;
 				
@@ -1356,6 +1362,36 @@
 				.statBlock{
 					border-color: #dad1bd transparent;
 				}
+				
+				&.colossus{
+					background-color: #e5ecf0;
+					
+					.statBlock{
+						border-color: #c6b896 transparent;
+					}
+				}
+				&.segment{
+					background-color: #f2efe6;
+					
+					.statBlock{
+						border-color: #c3b490 transparent;
+					}
+				}
+				&[data-source="umbra"][data-version="original"]{
+					background-color: #4e4e4e;
+					color: #d0d0d0;
+					
+					.title{
+						color: rgb(150,20,40);
+					}
+					.statBlock{
+						background-color: #4a4a4a;
+						border-color: black transparent;
+					}
+					mark.highlight{
+						background-color: rgba(13,74,103,0.75);
+					}
+				}
 			}
 			.environment{
 				background-color: #e9ebec;
@@ -1413,6 +1449,16 @@
 						font-weight: bold;
 					}
 				}
+				.adjacent{
+					font-size: 0.5em;
+					margin: 0;
+					margin-top: 6px;
+					
+					&:before{
+						content: "Adjacent Segments: ";
+						font-weight: bold;
+					}
+				}
 				.impulses{
 					font-size: 0.5em;
 					margin: 0;
@@ -1438,7 +1484,9 @@
 					.stress,
 					.atk,
 					.experience,
-					.adversaries{
+					.adversaries,
+					.size,
+					.segments{
 						&:before{
 							font-weight: bold;
 						}
@@ -1471,6 +1519,12 @@
 					.adversaries:before{
 						content: 'Potential Adversaries: ';
 					}
+					.size:before{
+						content: 'Size: ';
+					}
+					.segments:before{
+						content: 'Segments: ';
+					}
 					.difficulty,
 					.thresholds,
 					.hp,
@@ -1480,12 +1534,18 @@
 							content: ' | ';
 						}
 					}
-					.stress:after{
+					.stress:after,
+					.size:after,
+					.segments:after{
 						content: '\a';
 						white-space: pre;
 					}
 				}
 				&.environment .difficulty:after{
+					content: '\a';
+					white-space: pre;
+				}
+				&.colossus .hp:after{
 					content: '\a';
 					white-space: pre;
 				}
@@ -1537,6 +1597,11 @@
 						margin-left: 12px;
 						text-indent: 0;
 					}
+				}
+				.version{
+					font-size: 10px;
+					font-weight: light;
+					text-align: right;
 				}
 			}
 			
@@ -1939,7 +2004,7 @@
 					}
 					.select-selected{
 						background-color: white;
-						min-width: 6rem;
+						min-width: 7rem;
 						width: fit-content;
 						height: 2rem;
 						border: thin solid black;
@@ -2152,6 +2217,7 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
+						font-family: Caveat;
 						font-size: 2rem;
 						text-align: center;
 						background-color: white;
@@ -2310,6 +2376,7 @@
 					align-items: end;
 					padding-left: 6px;
 					z-index: 1;
+					font-family: Caveat;
 					
 					&:after,
 					&:before{
@@ -2343,7 +2410,8 @@
 					border: none;
 					//border-bottom: 0.1875em solid grey;
 					//border-bottom: 3px solid grey;
-					font-size: 1rem;
+					font-family: Caveat;
+					font-size: 22px;
 					align-self: flex-end;
 					z-index: 1;
 					
@@ -2887,6 +2955,7 @@
 							justify-content: center;
 						}
 						.damageThreshold{
+							font-family: Caveat;
 							font-size: 1em;
 							//width: 40px;
 							//height: 28px;
@@ -3399,6 +3468,7 @@
 							flex-direction: column;
 							align-items; flex-start;
 							word-break: break-word;
+							font-family: Caveat;
 						}
 						.invWeaponHeader{
 							align-items: center;
@@ -3546,6 +3616,9 @@
 								font-size: 0.825em;
 								height: 100%;
 								padding: 6px;
+							}
+							p.caption{
+								margin-top: 0;
 							}
 							table{
 								width: auto;
@@ -4773,8 +4846,8 @@
 	</head>
 	<body>
 		<div id="header" class="header tabArea">
-			<div class="tab" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
-			<div class="tab active" data-target="sheetArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Character Sheet</div>
+			<div class="tab active" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
+			<div class="tab" data-target="sheetArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Character Sheet</div>
 			<div class="tab" data-target="notesArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Notes</div>
 			<div class="tab" data-target="encounterArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Encounter Builder</div>
 			<div class="tab" data-target="testArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Images</div>
@@ -4785,7 +4858,7 @@
 			<img src="Other/DH_CGL_logos_final_full_color.svg"></img>
 		</div>
 		
-		<div id="searchableItemsArea" class="tabBody">
+		<div id="searchableItemsArea" class="tabBody active">
 			<div class="sidebar">
 				<input type="text" id="myInput" onkeyup="debouncedSearch()" title="Search Cards">
 				<button onclick="clearSearch()">Clear Choices</button>
@@ -4966,6 +5039,10 @@
 							<label>
 								<input type="radio" name="adversaryType" value="support" onchange="search()">
 								Supports
+							</label>
+							<label>
+								<input type="radio" name="adversaryType" value="colossus" onchange="search()">
+								Colossus
 							</label>
 						</fieldset>
 					</div>
@@ -18853,6 +18930,2456 @@
 						</div>
 					</div>
 				</div>
+				<div class="adversary tier1 colossus">
+					<h2 class="title">Ikeri, Injuries Untold</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Colossus</span>
+					</h3>
+					<p class="subtitle">
+						This apelike creature has the face of a bird. They are made of stone and carry an enormous mesa upon their back.
+					</p>
+					<p class="motives">
+						Entangle, intimidate, peck stomp
+					</p>
+					<div class="statBlock">
+						<span class="size">95 ft. tall, 60 ft. wide</span>
+						<span class="segments">2 Legs, 2 Arms, 1 Torso, and 1 Head</span>
+						<span class="thresholds">11/22</span>
+						<span class="stress">6</span>
+						<hr>
+						<span class="experience">Eagle Eyes +3, Huge +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Colossal Power</span>
+							<span class="featureType">Reaction</span>
+							When Ikeri fails an attack, you gain a Fear.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Swatting Pests</span>
+							<span class="featureType">Reaction</span>
+							When Ikeri is attacked by a flying target within Far range, you can make a Peck (Head) or Punch (Arm) standard attack against the attacker. On a success, add a d20 to the damage roll and the target is knocked to the ground at the feet of the colossus.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier1 colossus segment">
+					<h2 class="title">Ikeri Head</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">16</span>
+						<span class="hp">5</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Peck</span>
+						<span class="range">Melee</span>
+						<span class="damage">1d10+1</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Fatal</span>
+							<span class="featureType">Passive</span>
+							When the Head is <i>Destroyed</i>, Ikeri is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Strike (Melee)</span>
+							<span class="featureType">Passive</span>
+							The Head is immune to damage from attacks not made within Melee range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Follow-Up</span>
+							<span class="featureType">Reaction</span>
+							When the Head succeeds on an attack against a target, it can immediately make an attack against another target it hasn't attacked during this GM turn.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier1 colossus segment">
+					<h2 class="title">Ikeri Torso</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Head, Arms, Legs
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="hp">8</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Fatal</span>
+							<span class="featureType">Passive</span>
+							When the Torso is <i>Destroyed</i>, Ikeri is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Shake Off</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to throw off foes. All creatures on Ikeri must make a Strength Reaction Roll. Targets who fail fall to the ground and must mark a HP. Targets who succeed must mark a Stress.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier1 colossus segment">
+					<h2 class="title">Ikeri Arm (2)</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="hp">3 (each)</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Punch</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d8+6</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Chain (A)</span>
+							<span class="featureType">Passive</span>
+							When all segments in Chain A are <i>Destroyed</i>, Ikeri is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Crush</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target on another segment of Ikeri. On a success, Ikeri grabs and crushes the target, dealing 1d20+4 physical damage and Restraining them until this Arm takes Major or greater damage. When this Arm takes the spotlight while the target is still in Ikeri's hand, the target takes 1d20 physical damage.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier1 colossus segment">
+					<h2 class="title">Ikeri Leg (2)</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso, Leg
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="hp">3 (each)</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Stomp</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d6+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Chain (A)</span>
+							<span class="featureType">Passive</span>
+							When all segments in Chain A are <i>Destroyed</i>, Ikeri is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Massive Stomp</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make a standard attack with advantage against a group.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier2 colossus">
+					<h2 class="title">Daktadae, The Cleaver</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Colossus</span>
+					</h3>
+					<p class="subtitle">
+						A massive steel rhinoceros formed from a steam train, a cleaver emergining from his head instead of a horn.
+					</p>
+					<p class="motives">
+						Clear forests, cleave, hew, stomp
+					</p>
+					<div class="statBlock">
+						<span class="size">130 ft. tall, 220 ft. long</span>
+						<span class="segments">2 Forelegs, 2 Hindlegs, 1 Torso, and 1 Head</span>
+						<span class="thresholds">16/25</span>
+						<span class="stress">6</span>
+						<hr>
+						<span class="experience">Huge +2, Trampling +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Steam-Powered</span>
+							<span class="featureType">Action</span>
+							Scalding fountains of steam erupt from Daktadae's form. Spotlight any segment to make an attack with a +1 attack modifier against a target on that segment. On a success, deal 2d6+3 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Roll</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to have Daktadae drop to the ground and roll. All PCs on Daktadae or within Close range must succeed on an Instinct Reaction Roll (14) or take 2c20+5 physical damage; succeed or fail, the PCs are thrown off Daktadae onto the ground within Melee range of the colossus.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Slow Recovery</span>
+							<span class="featureType">Action</span>
+							Clear a token from one <i>Broken</i> or <i>Collapsed</i> segment.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Colossal Power</span>
+							<span class="featureType">Reaction</span>
+							When Ikeri fails an attack, you gain a Fear.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier2 colossus segment">
+					<h2 class="title">Daktadae Head</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="hp">5</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Cleaver</span>
+						<span class="range">Melee</span>
+						<span class="damage">2d20+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Invulnerable</span>
+							<span class="featureType">Passive</span>
+							The Head can only take damage while it's <i>Broken</i>.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Godcleaver</span>
+							<span class="featureType">Action</span>
+							Make a standard attack against a target. On a success, mark a Stress to deal 3d20+12 physical damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Head Toss</span>
+							<span class="featureType">Action</span>
+							Mark a Stress and make a standard attack against all targets within range who are not on this segment or the Torso. On a success, place 2 tokens on this segment. It is <i>Broken</i> until all tokens are cleared.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cleaver Recovery</span>
+							<span class="featureType">Reaction</span>
+							After making a standard attack, place a token on this segment. It is <i>Broken</i> until all tokens are cleared.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier2 colossus segment">
+					<h2 class="title">Daktadae Torso</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Head, Forelegs, Hindlegs
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="hp">6</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Fatal</span>
+							<span class="featureType">Passive</span>
+							When this segment is <i>Destroyed</i>, Daktadae is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Climbing (+3)</span>
+							<span class="featureType">Passive</span>
+							The Torso's Difficulty gains a +3 bonus against action roll made to climb it unless the Head is <i>Broken</i>.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Protected</span>
+							<span class="featureType">Passive</span>
+							The Torso is covered with external rib plates of unbreakable minerals. This segment can't be damaged unless the Head is currently <i>Broken</i> or <i>Destroyed</i>.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Weak Point</span>
+							<span class="featureType">Passive</span>
+							The underbelly of the Torso has a weak point. When this segment marks HP from an attack within Melee range while the Head is <i>Broken</i> or <i>Destroyed</i>, it must mark an additional HP.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier2 colossus segment">
+					<h2 class="title">Daktadae Forelegs (2)</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso, Forelegs
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="hp">3 (each)</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Stomp</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Massive Hoof</span>
+							<span class="featureType">Passive</span>
+							This segment's standard attack is made with advantage and can target a group.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Shake The Earth</span>
+							<span class="featureType">Action</span>
+							Daktadae rears up on their hind legs and slams down, creating a shockwave that knocks back all PCs within Very Close range that aren't on Daktadae back to Close range and <i>Rattles</i> them until their next roll with Hope. While <i>Rattled</i>, the PC has disadvantage on reaction rolls.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Collapse</span>
+							<span class="featureType">Reaction</span>
+							If one Foreleg is <i>Destroyed</i>, place a token on this segment. Until it is cleared, Daktadae is <i>Collapsed</i>, allowing PCs to climb directly onto the Torso and Head. If both Forelegs are <i>Destroyed</i>, Daktadae is <i>Collapsed</i> permanently.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier2 colossus segment">
+					<h2 class="title">Daktadae Hindlegs (2)</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Torso, Hindlegs
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="hp">3 (each)</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Stomp</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Massive Hoof</span>
+							<span class="featureType">Passive</span>
+							This segment's standard attack is made with advantage and can target a group.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Backward Kick</span>
+							<span class="featureType">Action</span>
+							All targets within Very Close range behind Daktadae must succeed on an Agility Reaction Roll or take 2d8+10 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Collapse</span>
+							<span class="featureType">Reaction</span>
+							If one Hindleg is <i>Destroyed</i>, place a token on this segment. Until it is cleared, Daktadae is <i>Collapsed</i>, allowing PCs to climb directly onto the Torso and Head. If both Hidnlegs are <i>Destroyed</i>, Daktadae is <i>Collapsed</i> permanently.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus">
+					<h2 class="title">Poy, Sky Skimmer of the Dust Sea</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Colossus</span>
+					</h3>
+					<p class="subtitle">
+						This massive shoebill stork is formed from the dust of the Drylands and traps enemies in their cavernous beak.
+					</p>
+					<p class="motives">
+						Corral, intimidate, maintain distance
+					</p>
+					<div class="statBlock">
+						<span class="size">220 ft. long, 160 ft. wingspan</span>
+						<span class="segments">1 Head, 1 Neck, 2 Wings, 1 Body, 2 Talons, 1 Tail</span>
+						<span class="thresholds">25/48</span>
+						<span class="stress">6</span>
+						<hr>
+						<span class="experience">Attack From Above +3, Huge +3, Maneuver +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Flying</span>
+							<span class="featureType">Passive</span>
+							Poy can fly unless one of their Wings is <i>Destroyed</i>. While Poy is flying, each segment's Difficulty gains a +2 bonus against action rolls made by PCs who aren't on Poy.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Strong Winds</span>
+							<span class="featureType">Passive</span>
+							While Poy is flying, no other flying creature can come within Close range of Poy without being blown backward by their powerful wings.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Fall Off</span>
+							<span class="featureType">Reaction</span>
+							When a PC falls off Poy while the colossus is flying, they take 3d20+6 physical damage if they hit the ground.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Colossal Power</span>
+							<span class="featureType">Reaction</span>
+							When Poy fails an attack, you gain a Fear.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Head</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Neck
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">16</span>
+						<span class="hp">5</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Screech</span>
+						<span class="range">Very Far</span>
+						<span class="damage">3d8+2</span>
+						<span class="damageType">mag</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Bill Trap</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target on Poy. On a success, the target takes 3d6+6 physical damage and is <i>Trapped</i> inside Poy's bill until the Head takes Major or greater damage. Poy's damage thresholds are doubled against damage dealt by <i>Trapped</i> targets.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cascade</span>
+							<span class="featureType">Reaction</span>
+							When this segment is <i>Destroyed</i>, the Neck must mark 3 HP.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Neck</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Head, Body
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="hp">6</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Fatal</span>
+							<span class="featureType">Passive</span>
+							When this segment is <i>Destroyed</i>, Poy is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Protected</span>
+							<span class="featureType">Passive</span>
+							Poy's Neck is protected by swirling magic. The Neck only marks HP from the "Cascade" feature.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Body</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Wings, Neck, Tail, Talons
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="hp">None</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Invulnerable</span>
+							<span class="featureType">Passive</span>
+							This segment is immune to all damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Dive-Bomb</span>
+							<span class="featureType">Reaction</span>
+							When this segment is successfully attacked, Poy dive-bombs the attacker and all targets within Very Close range of them. The targets must make an Instinct Reaction Roll. Targets who fail take 2d6+9 physical damage. Targets who succeed can mark a Stress to climb onto one of Poy's Talons.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Wings (2)</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Body
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">16</span>
+						<span class="hp">5 (each)</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Swipe</span>
+						<span class="range">Melee</span>
+						<span class="damage">3d12+9</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Dust Storm</span>
+							<span class="featureType">Action</span>
+							Poy bats their wings, filling the air and making it much harder to see. Any attacks made by PCs beyond Melee range have disadvantage until the next GM turn.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Flap</span>
+							<span class="featureType">Action</span>
+							Poy violently flaps a Wing. Mark a Stress to make an attack against all targets on the Wing. Targets Poy succeeds against take 3d8+4 physical damage and are kocked back onto the Tail. If the Tail is <i>Destroyed</i>, they instead fall of Poy.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Talons (2)</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Body, Tail
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="hp">5 (each)</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Talon Strike</span>
+						<span class="range">Melee</span>
+						<span class="damage">3d10+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Pick Up</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Melee range. If there's an additional target within Very Close range of them, you can spotlight both Talons at once and make an attack against both targets instead. On a success, Poy picks up their targets, flies straight upwards, and drops them. If a target hits the ground, they take 5d20+4 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cascade</span>
+							<span class="featureType">Reaction</span>
+							When this segment is <i>Destroyed</i>, the Neck must mark a HP.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier3 colossus segment">
+					<h2 class="title">Poy Tail</h2>
+					<h3>
+						<span class="tier">3</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Body, Talons
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="hp">3</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Whip</span>
+						<span class="range">Very Close</span>
+						<span class="damage">3d12+12</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Sweep</span>
+							<span class="featureType">Action</span>
+							Poy's tail curls up and sweeps across another segment. Spend a Fear to choose another segment and make an attack against all targets on that segment. Targets Poy succeeds against take 3d8+5 physical damage and are knocked back to an adjacent segment of your choice.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cascade</span>
+							<span class="featureType">Reaction</span>
+							When this segment is <i>Destroyed</i>, the Neck must mark 2 HP.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus">
+					<h2 class="title">Kelir, the Virulent Hate & Her Hundred, Hundred Children</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Colossus</span>
+					</h3>
+					<p class="subtitle">
+						A crablike, mountainous beast whose children scurry in and around her, bringing food as tribute.
+					</p>
+					<p class="motives">
+						Consume, ravage, swarm
+					</p>
+					<div class="statBlock">
+						<span class="size">275 ft. tall, 150 ft. wide</span>
+						<span class="segments">1 Head, 1 Shell, 1 Body Cavity, 2 Claws, and 4 Legs</span>
+						<span class="thresholds">30/65</span>
+						<span class="stress">6</span>
+						<hr>
+						<span class="experience">Contempt +2, Huge +4, Sense Movement +4</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Brood Attack</span>
+							<span class="featureType">Action</span>
+							Spotlight any segment to make an attack with a +6 attack modifier against a PC on that segment as Kelir's hundred, hundred children swarm the target with their pincers. On a success, deal 4d8 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Swatting Pests</span>
+							<span class="featureType">Reaction</span>
+							When Kelir is attacked by a flying target within Far range, you can make a Pincer (Claws) standard attack against the attacker. On a success, add a d20 to the damage roll and the target is knocked to the ground within Far range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Colossal Power</span>
+							<span class="featureType">Reaction</span>
+							When Kelir fails an attack, you gain a Fear.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus segment">
+					<h2 class="title">Kelir Body Cavity</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Shell
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">17</span>
+						<span class="hp">6</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Fatal</span>
+							<span class="featureType">Passive</span>
+							If this segment is <i>Destroyed</i>, Kelir is defeated.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hateful Heart</span>
+							<span class="featureType">Passive</span>
+							Kelir's heart is suspended within the body cavity, connected by thick veins and areteries. The Body Cavity is immune to damage unless her heart is the target of a successful attack. The heart can only be attacked from Far or greater range, or a PC must succeed on an Agility Roll while inside the Body Cavity to reach the heart to make an attack against it within Melee range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Grab and Rend</span>
+							<span class="featureType">Action</span>
+							Make an attack using Kelir's "Brood Attack" action against a target in the Body Cavity. On a success, spend a Fear to deal double damage and Restrain the target until they're freed with a successful Strength Roll.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Protective Swarm</span>
+							<span class="featureType">Reaction</span>
+							Kelir's Body Cavity is filled with her children, who protect her heart. A PC who makes an action roll in the Body Cavity must mark a Stress as they fight off Kelir's children and their shearing pincers.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus segment">
+					<h2 class="title">Kelir Head</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Body
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">18</span>
+						<span class="hp">4</span>
+						<span class="atk">+4</span>
+						<span class="weapon">Eye Beams</span>
+						<span class="range">Close</span>
+						<span class="damage">4d6+6</span>
+						<span class="damageType">mag</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Strike (Very Close)</span>
+							<span class="featureType">Passive</span>
+							The Head is immune to damage from attacks not made within Very Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hateful Gaze</span>
+							<span class="featureType">Action</span>
+							All targets within Far range that Kelir can see must succeed on a Presence Reaction Roll or mark 1d6 Stress as Kelir's hate tries to consume their mind.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus segment">
+					<h2 class="title">Kelir Claws (2)</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Shell
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="hp">5 (each)</span>
+						<span class="atk">+5</span>
+						<span class="weapon">Pincer</span>
+						<span class="range">Very Close</span>
+						<span class="damage">3d20+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Strike (Very Close)</span>
+							<span class="featureType">Passive</span>
+							The Claws are immune to damage from attacks not made within Very Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sever Hope</span>
+							<span class="featureType">Action</span>
+							Make a standard attack against a PC. On a success, mark a Stress to cause the target to lose 1d4 Hope. Gain as many Fear as the Hope lost.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Grab & Hurl</span>
+							<span class="featureType">Action</span>
+							Make a standard attack against a target. On a success, instead of dealing damage, hurl the target within Far range in any direction. They must succeed on an Agility Reaction Roll or suffer 3d20 physical damage from the fall.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus segment">
+					<h2 class="title">Kelir Shell</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Head, Legs, Claws, Body Cavity
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">16</span>
+						<span class="hp">6</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Armored</span>
+							<span class="featureType">Passive</span>
+							When the Shell marks HP from an attack, it marks 1 fewer HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Contagious Fury</span>
+							<span class="featureType">Action</span>
+							All PCs in front of the Head within Far range replace their Hope Die with a d8 the next time they make an action roll as they struggle to keep Kelir's hatred from consuming them.
+						</div>
+					</div>
+				</div>
+				<div class="adversary tier4 colossus segment">
+					<h2 class="title">Kelir Legs (4)</h2>
+					<h3>
+						<span class="tier">4</span> 
+						<span class="type">Segment</span>
+					</h3>
+					<p class="adjacent">
+						Shell
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="hp">3 (each)</span>
+						<span class="atk">+4</span>
+						<span class="weapon">Stomp</span>
+						<span class="range">Very Close</span>
+						<span class="damage">4d10+6</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Climbing (-2)</span>
+							<span class="featureType">Passive</span>
+							An action roll made to climb on the leg gains a -2 penalty to its Difficulty.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Destructive Scuttle</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to move up to Far range in any direction. All creatures in that path must make an Agility Reaction Roll. Targets who fail take 4d10+6 physical damage and must mark a Stress. Targets who succeed mark a Stress. Kelir can't use this action if she is <i>Collapsed</i>.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Full Collapse</span>
+							<span class="featureType">Reaction</span>
+							Once three legs are <i>Destroyed</i>, Kelir <i>Collapses</i> and PCs can climb on the Shell and Head from the ground.
+						</div>
+					</div>
+				</div>
+				
+				<div class="adversary tier1 leader" data-source="umbra" data-version="original">
+					<h2 class="title">The Gate Guardian</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Leader</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						An ancient warrior, buried with the gate to protect entry; their skeletal mass is armored and their curved blade is deadly.
+					</p>
+					<p class="motives">
+						Push into groups, swing at multiple targets, raise allies to help
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">6/13</span>
+						<span class="hp">7</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Curved Blade</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d10+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Holy Buckler</span>
+							<span class="featureType">Passive</span>
+							The Guardian has resistance to physical damage. When the Guardian takes physical damage from a PC within Melee range, the PC is pushed anywhere up to Very Close range of where it stood.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sweeping Strike</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against every PC within Very Close range in front of the Guardian.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hallowed Cry</span>
+							<span class="featureType">Reaction</span>
+							When the Guardian takes physical damage from an attack, you can spend a Fear to call a <i>Skeleton Dredge</i> from a nearby corpse.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Velk the Forsaken</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Velk Dravenmoor, wounded and corrupted by dark powers, swells into a feral terror, frenzied and murderous.
+					</p>
+					<p class="motives">
+						Focus fire, leap to vulnerable targets, throw off ledges
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">7/14</span>
+						<span class="hp">10</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Gravesword</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d12+3</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Push +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							Velk can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight him.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Leaping Strike</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to allow Velk to leap anywhere within Far range and make an attack. On a success, he deals an additional 1d12 damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Spinning Blade</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make a standard attack against all targets within Very Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Throw</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d8+3 physical damage and the target must make a Strength Reaction Roll (13) or be moved anywhere within Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When Velk makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 leader" data-source="umbra" data-version="original">
+					<h2 class="title">Eryn (Limb Wreath)</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Leader</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Eryn has become something of nightmares, a host for numerous tentacle limbs that grasp and spear, tearing apart all she once loved.
+					</p>
+					<p class="motives">
+						Multiply tentacles, devour
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">6/13</span>
+						<span class="hp">8</span>
+						<span class="stress">5</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Limb Slam</span>
+						<span class="range">Close</span>
+						<span class="damage">2d6+2</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Slimy +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrifying</span>
+							<span class="featureType">Passive</span>
+							Targets who mark HP from the Limb Wreath's attacks must also mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Barrage of Tendrils</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack roll against up to 3 targets within Close range. Any you succeed against take 1d8+2 physical damage and must succeed on a Strength Reaction Roll (13) or be pulled in Melee range of the Limb Wreath.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Taste for Blood</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Melee range. On a success, the target takes 2d8 physical damage, and the Limb Wreath clears 2 HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Living Tentacles</span>
+							<span class="featureType">Reaction</span>
+							When the Limb Wreath marks 2 or more HP from an attack, you can mark a Stress to create a Living Tentacle within Very Close range. The Tentacle is immediately spotlighted.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 minion" data-source="umbra" data-version="original">
+					<h2 class="title">Living Tentacle</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Minion</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						A part of the Limb Wreath is severed, twitching and moving on its own.
+					</p>
+					<p class="motives">
+						Rush, surround
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">None</span>
+						<span class="hp">0</span>
+						<span class="stress">0</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Whip</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrifying</span>
+							<span class="featureType">Passive</span>
+							Targets who mark HP from the Tentacle's attacks must also mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Minion (5)</span>
+							<span class="featureType">Passive</span>
+							The Tentacle is defeated when they take any damage. For every 5 damage a PC deals to a Tentacle, defeat an additional Minion within range the attack would succeed against.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Group Attack</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to choose a target and spotlight all Tentacles within Close range of them. Those Minions move into Melee range of the target and make one shared attack roll. On a success, they deal 2 physical damage each. Combine this damage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 bruiser" data-source="umbra" data-version="original">
+					<h2 class="title">Pain Beast</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Bruiser</span>
+					</h3>
+					<p class="subtitle">
+						Mutated, feral predators covered in patchy fur and scales, their claws deadly and their barbed tails venomous.
+					</p>
+					<p class="motives">
+						Pounce, gang up, bite and drag off
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">7/14</span>
+						<span class="hp">7</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Claws</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d12+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Paired Numbers</span>
+							<span class="featureType">Passive</span>
+							When a Pain Beast attacks a target within Very Close range of another Pain Beast, the attack has advantage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Pounce</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to move anywhere within Far range and make an attack against a target within Very Close range. On a success, the target takes 2d8+4 physical damage and marks a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Venomous Tail</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack roll against a target within Close range. On a success, the target takes 2d8 physical damage and, if they mark any number of HP, becomes <i>Infected</i> until they heal any number of HP. While <i>Infected</i>, they have disadvantage on action rolls.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hide Spines</span>
+							<span class="featureType">Reaction</span>
+							If an attacker is within Very Close range when the Pain Beast marks 2 or more HP, spend a Fear to deal 1d8+3 physical damage to the attacker.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 bruiser" data-source="umbra" data-version="original">
+					<h2 class="title">Rotlord</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Bruiser</span>
+					</h3>
+					<p class="subtitle">
+						A massive nexus of forest will and dark magic, this tower of rotting flesh and fungal might seeks to increase its mass.
+					</p>
+					<p class="motives">
+						Charge, swallow, spore the battlefield
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">11</span>
+						<span class="thresholds">9/18</span>
+						<span class="hp">11</span>
+						<span class="stress">2</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Limb Slam</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d20+3</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Slimy +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrid Smell</span>
+							<span class="featureType">Passive</span>
+							Targets who fail an action roll or roll with Fear within Close range of the Rotlord must mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Envelop</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Melee range. On a success, the Rotlord <i>Envelops</i> them and the target must mark a Stress. While <i>Enveloped</i>, the target must mark an additional Stress every time they make an action roll. When the Rotlord takes Severe damage, all <i>Enveloped</i> targets are freed and the condition is cleared.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Funky Backup</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to conjure 2 Caustic Fungus anywhere within Close range. These Fungus are immediately spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Fear Spores</span>
+							<span class="featureType">Reaction</span>
+							When a creature within Close range cannot mark a Stress and instead must mark HP, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 Minion" data-source="umbra" data-version="original">
+					<h2 class="title">Caustic Fungus</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Minion</span>
+					</h3>
+					<p class="subtitle">
+						The underbrush of the Screaming Forest has a hive mind of its own.
+					</p>
+					<p class="motives">
+						Swarm, destroy armor
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">12</span>
+						<span class="thresholds">None</span>
+						<span class="hp">0</span>
+						<span class="stress">0</span>
+						<span class="atk">+0</span>
+						<span class="weapon">Slam</span>
+						<span class="range">Melee</span>
+						<span class="damage">2</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Minion (4)</span>
+							<span class="featureType">Passive</span>
+							Caustic Fungus is defeated when they take any damage. For every 4 damage a PC deals to a Caustic Fungus, defeat an additional Minion within range the attack would succeed against.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Corrosive</span>
+							<span class="featureType">Passive</span>
+							Targets who are successfully hit by the Fungus' attacks must also mark an Armor Slot without receiving its benefits.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Group Attack</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to choose a target and spotlgith all Caustic Fungus within Close range of them. Those Minions move into Melee range of the target and maek one shared attack roll. On a success, they deal 2 physical damage each. Combine this damage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier1 standard" data-source="umbra" data-version="original">
+					<h2 class="title">Hive Collector</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						Seekers for Mother, they collect what might please her.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">7/16</span>
+						<span class="hp">9</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Face Stinger</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d8+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Sleeping Sting</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Very Close range. On a success, they take 1d8+3 physical damage and must make an Instinct Reaction Roll (13). On a failure, they become <i>Asleep</i> until they take damage, or until 1d4 hours have passed. While <i>Asleep</i>, a PC cannot be spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Tangle Net</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make a target within Close range roll an Agility Reaction Roll (13). On a failure, they are Restrained and Vulnerable until they succeed on a Strength or Agility Action Roll (15).
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Mother</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span>
+					</h3>
+					<p class="subtitle">
+						The Mother of the Hive, she seeks materials and subjects to conduct her strange biological experiments on.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">14/28</span>
+						<span class="hp">11</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Surgical Glaive</span>
+						<span class="range">Close</span>
+						<span class="damage">2d12+10</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Surgical Accuracy</span>
+							<span class="featureType">Passive</span>
+							Before Mother makes an attack, roll a d6. On a result of 4 or higher, the target's Evasion is halved against the attack.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">To Me, My Children!</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to spotlight 1d4+1 allies. Attacks they make while spotlighted in this way deal half damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sweeping Incision</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against all targets within Close range. On a success, Mother deals 2d6+15 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Acidic Mist</span>
+							<span class="featureType">Reaction</span>
+							When Mother marks 2 or more HP from an attack within Very Close range, a cloud of caustic mist emits from her abdomen and all PCs within Very Close range mark an Armor Slot.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When Mother makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Glomtower Thrall</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span>
+					</h3>
+					<p class="subtitle">
+						A towering being of sorrow and service, forever doomed to wander at Terrorgut's behest.
+					</p>
+					<p class="motives">
+						Ram, capture, batter against allies
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">13/26</span>
+						<span class="hp">10</span>
+						<span class="stress">3</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Chain Swing</span>
+						<span class="range">Close</span>
+						<span class="damage">2d20+15</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Overwhelming +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Slow</span>
+							<span class="featureType">Passive</span>
+							When you spotlight the Thrall and they don't have a token on their stat block, they can't act yet. Place a token on their stat block and describe what they're preparing to do. When you spotlight the Thrall and they have a token on their stat block, clear the token and they can act.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Dense But Clumsy</span>
+							<span class="featureType">Passive</span>
+							An attack that would move the Thrall moves them two fewer range steps, and the Thrall must succeed on a Reaction Roll (10). On a failure, it falls over and becomes temporarily Restrained and Vulnerable. When it is no longer Restrained, it also is no longer Vulnerable.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cage The Judged</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Very Close range. On a success, the target takes 2d12+8 physical damage, is Restrained, and has disadvantage on attack rolls until they succeed on a Strength or Agility Action Roll (16).
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cage Slam</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Very Close range. On a success, the target and any PCs in the cage take 2d12+15 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When the Thrall makes a successful attack against a PC, you gain a Fear.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Kick</span>
+							<span class="featureType">Reaction</span>
+							Mark a Stress when the Thrall marks 2 or more HP from a PC attack within Very Close range. Then, immediately make an attack against the attacker. On a success, they take 2d6+8 physical damage and are pushed to Far range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 standard" data-source="umbra" data-version="original">
+					<h2 class="title">Elite Hive Collector</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						Seekers for Mother, they collect what might please her.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">8/19</span>
+						<span class="hp">9</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Face Stinger</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d6+9</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Sleeping Sting</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Very Close range. On a success, they take 2d6+10 physical damage and must make an Instinct Reaction Roll (15). On a failure, they become <i>Asleep</i> until they take damage, or until 1d4 hours have passed. While <i>Asleep</i>, a PC cannot be spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Tangle Net</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make a target within Close range roll an Agility Reaction Roll (13). On a failure, they are Restrained and Vulnerable until they succeed on a Strength or Agility Action Roll (15).
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Terrorgut</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						A ravenous demon unleashed through dark magic, it claims its domain to enslave and devour the souls of those who fail to bend to its will.
+					</p>
+					<p class="motives">
+						Consume, whip and pull, release zombies
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">14/28</span>
+						<span class="hp">11</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Bone Whip</span>
+						<span class="range">Close</span>
+						<span class="damage">2d12+10</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Infernal Strength +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Terrifying</span>
+							<span class="featureType">Passive</span>
+							When Terrorgut makes a successful attack, all PCs within Far range lose a Hope and you gain a Fear.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Demon Armor</span>
+							<span class="featureType">Passive</span>
+							When Terrorgut takes physical damage, reduce it by 3.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Release Shambling Zombie</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to create a Shambling Zombie within Very Close range. The Shambling Zombie is immediately spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Devour</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a PC within Very Close range. On a success, they take 2d8+10 physical damage and must succeed on a Strength Reaction Roll (16). On a failure, they are eaten and become Restrained until they succeed on a Strength or Agility Action Roll (16). Along with having the Restrained condition, every time they attempt an action roll, or an ally attempts an action roll to help them escape, they take 2d8+10 magical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Get Over Here</span>
+							<span class="featureType">Reaction</span>
+							When you mark 2 or more HP from a PC attack within Close range, you can mark a Stress and roll an attack against the attacker. On a success, they take 2d10+10 physical damage, mark a Stress, and are pulled into Melee range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 skulk" data-source="umbra" data-version="original">
+					<h2 class="title">Demask Ambusher</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Skulk</span>
+					</h3>
+					<p class="subtitle">
+						A hardened cutthroat and thief who hunts for the Queens.
+					</p>
+					<p class="motives">
+						Evade, hide, ambush, pilfer
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">8/17</span>
+						<span class="hp">5</span>
+						<span class="stress">4</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Long Knife</span>
+						<span class="range">Melee</span>
+						<span class="damage">2d6+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Backstab</span>
+							<span class="featureType">Passive</span>
+							When the Ambusher succeeds on a standard attack that has advantage, they deal 2d10+10 physical damage instead of their standard damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cloaked</span>
+							<span class="featureType">Action</span>
+							Become <i>Hidden</i> until after the Ambusher's next attack. Attacks made while <i>Hidden</i> from this feature have advantage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 horde" data-source="umbra" data-version="original">
+					<h2 class="title">Damask Marauder Band</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Horde (2/HP)</span>
+					</h3>
+					<p class="subtitle">
+						A crew of cackling killers relishing in chaos and plunder.
+					</p>
+					<p class="motives">
+						Surround, gang up, divide and conquer
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">10/21</span>
+						<span class="hp">6</span>
+						<span class="stress">4</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Long Blade</span>
+						<span class="range">Melee</span>
+						<span class="damage">2d8+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horde (2d4+2)</span>
+							<span class="featureType">Passive</span>
+							When the Band has marked half or more of their HP, their standard attack deals 2d4+2 physical damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sadistic Laughter</span>
+							<span class="featureType">Reaction</span>
+							When a target of the Band's attack marks 2 or more HP, you can mark a Stress to make all targets within Very Close range lose a Hope. If a target is not able to lsoe a Hope, they must instead mark 2 Stress.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 horde" data-source="umbra" data-version="original">
+					<h2 class="title">Damask Archer Squad</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Horde (2/HP)</span>
+					</h3>
+					<p class="subtitle">
+						Ranged raiders of the Damask Queens.
+					</p>
+					<p class="motives">
+						Stick together, survive, volley fire
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">8/16</span>
+						<span class="hp">4</span>
+						<span class="stress">3</span>
+						<span class="atk">+0</span>
+						<span class="weapon">Bow</span>
+						<span class="range">Far</span>
+						<span class="damage">2d6+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horde (1d6+3)</span>
+							<span class="featureType">Passive</span>
+							When the Squad has marked half or more of their HP, their standard attack deals 1d6+3 physical damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Focused Volley</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to target a point within Far range. Make an attack with advantage against all targets within Close range of that point. Any you succeed against take 1d10+4 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Suppressing Fire</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to target a point within Far range. Until the next roll with Fear, a creature who moves within Close range of that point must make an Agility Reaction Roll (14). On a failure, they take 2d6+3 physical damage. On a success, they take half.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Corrupted Fane Warden</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						The once beloved protector of the weald now stews in corruption, half-mad and seeking blood for their blade as penance for the land's decay.
+					</p>
+					<p class="motives">
+						Hunt, punish
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">13/25</span>
+						<span class="hp">9</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Blade of the Fane</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							The Fane Guardian can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight them.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Glimmer Within</span>
+							<span class="featureType">Passive</span>
+							A flame of ancient magic still burns within the Fane Warden. Whenever a PC would cause the Fane Warden to heal HP or Stress, start a <i>Progress Countdown (4)</i>, reducing it by 1 each additional time it would be healed one HP or Stress. When this countdown would count below 1, the Warden is restored.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Overwhelming Arc</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against every target within Very Close range. On a success, they take 2d10+10 physical damage and must make a Strength Reaction Roll (15). On a failure, they are pushed away to Far range of their location.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Vine Spear</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to have a target within Far range make a Strength Reaction Roll (15). On a failure, they are pulled to anywhere within Very Close range of the Fane Wwarden and the Fane Warden immediately makes an attack against them.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Take Root</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to <i>Root</i> the Fane Warden in place. Fane Warden is Restrained while <i>Rooted</i>, and can end this effect instead of moving while they are spotlighted. While <i>Rooted</i>, Fane Warden has resistance to physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Righteous Vengeance</span>
+							<span class="featureType">Reaction</span>
+							When the Fane Warden marks 2 or more HP from an attack within Very Close range, mark a Stress to make a standard attack against the attacker. On a success, the Fane Warden deals 2d10+10 physical damage and the target is pushed to Far range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="original">
+					<h2 class="title">Blashpemous Angel Evelyar</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Her holy mission slandered and her compassion punished for audacity, a darker power became seeded within her buried and bound soul. The Grand Ordinants created their own dark prophesy.
+					</p>
+					<p class="motives">
+						Punish many, dishearted, void stare.
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">12/24</span>
+						<span class="hp">12</span>
+						<span class="stress">8</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Malediction Axe</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+4</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Unholy Strength +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							Evelyar can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight her.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Unholy Aura</span>
+							<span class="featureType">Passive</span>
+							When Evelyar takes damage, reduce it by the number of Profane Disciples wihtin Close range. When a PC marks their last HP within Close range of Enelyar, she heals a HP and clears a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Arc of Judgement</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against all targets within Very Close range. On a success, they take 2d8+5 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">The Flock's Call</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to spotlight 1d4+1 allies. Attacks they make during this spotlight deal half damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Look Into The Void</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to have a PC within Very Close range make an Insight or Presence Reaction Roll. On a failure, they mark a Stress, they become Vulnerable until they roll a success with Hope, and Evelyar heals 2 HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Blashphemous Choir</span>
+							<span class="featureType">Reaction</span>
+							<i>Countdown (Loop 1d8)</i>. When Evelyar is in the spotlight for the first time, activate the countdown. When it triggers, a choir of discordant voices covers an area within Far range of Evelyar. When a target marks HP from an attack by Evelyar within the dark song, all PCs within Far range of the target lost a Hope. This song can be ended by dealing Severe damage to Evelyar, after which the countdown restarts.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When the Fane Warden makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				<div class="adversary tier2 standard" data-source="umbra" data-version="original">
+					<h2 class="title">Profane Disciple</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						One of the disciples of Evelyar, betrayed by the clergy and forgotten with their heretical Saint. Their vengeful furvor is fueled by Evelyar's madness.
+					</p>
+					<p class="motives">
+						Protect Evelyar, condemn, pass judgement
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">10/20</span>
+						<span class="hp">7</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Sorrowscythe</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d6+4</span>
+						<span class="damageType">mag</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Dance of Condemnation</span>
+							<span class="featureType">Passive</span>
+							When the Disciple is within Melee range of a creature and at least one other Disciple is within Close range, all attacks against that creature have advantage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Retaliation</span>
+							<span class="featureType">Reaction</span>
+							When Evelyar takes damage from an attack within Very Close range of the Disciple, mark a Stress to make a standard attack against the attacker.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Original Difficulty)</div>
+				</div>
+				
+				<div class="adversary tier1 leader" data-source="umbra" data-version="balanced">
+					<h2 class="title">The Gate Guardian</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Leader</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						An ancient warrior, buried with the gate to protect entry; their skeletal mass is armored and their curved blade is deadly.
+					</p>
+					<p class="motives">
+						Push into groups, swing at multiple targets, raise allies to help
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">6/13</span>
+						<span class="hp">6</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Curved Blade</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d10+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Holy Buckler</span>
+							<span class="featureType">Passive</span>
+							The Guardian has resistance to physical damage. When the Guardian takes physical damage from a PC within Melee range, the PC is pushed anywhere up to Very Close range of where it stood.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sweeping Strike</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against every PC within Very Close range in front of the Guardian.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hallowed Cry</span>
+							<span class="featureType">Reaction</span>
+							When the Guardian takes physical damage from an attack, you can spend a Fear to call a <i>Skeleton Dredge</i> from a nearby corpse.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Velk the Forsaken</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Velk Dravenmoor, wounded and corrupted by dark powers, swells into a feral terror, frenzied and murderous.
+					</p>
+					<p class="motives">
+						Focus fire, leap to vulnerable targets, throw off ledges
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">7/14</span>
+						<span class="hp">9</span>
+						<span class="stress">3</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Gravesword</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d12+3</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Push +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							Velk can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight him.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Leaping Strike</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to allow Velk to leap anywhere within Far range and make an attack. On a success, he deals an additional 1d12 damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Spinning Blade</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make a standard attack against all targets within Very Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Throw</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make an attack against a target within Melee range. On a success, deal 1d8+3 physical damage and the target must make a Strength Reaction Roll (13) or be moved anywhere within Close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When Velk makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 leader" data-source="umbra" data-version="balanced">
+					<h2 class="title">Eryn (Limb Wreath)</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Leader</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Eryn has become something of nightmares, a host for numerous tentacle limbs that grasp and spear, tearing apart all she once loved.
+					</p>
+					<p class="motives">
+						Multiply tentacles, devour
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">6/13</span>
+						<span class="hp">7</span>
+						<span class="stress">5</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Limb Slam</span>
+						<span class="range">Close</span>
+						<span class="damage">2d6+2</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Slimy +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrifying</span>
+							<span class="featureType">Passive</span>
+							Targets who mark HP from the Limb Wreath's attacks must also mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Barrage of Tendrils</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack roll against up to 3 targets within Close range. Any you succeed against take 1d8+2 physical damage and must succeed on a Strength Reaction Roll (13) or be pulled in Melee range of the Limb Wreath.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Taste for Blood</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Melee range. On a success, the target takes 2d8 physical damage, and the Limb Wreath clears 2 HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Living Tentacles</span>
+							<span class="featureType">Reaction</span>
+							When the Limb Wreath marks 2 or more HP from an attack, you can mark a Stress to create a Living Tentacle within Very Close range. The Tentacle is immediately spotlighted.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 minion" data-source="umbra" data-version="balanced">
+					<h2 class="title">Living Tentacle</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Minion</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						A part of the Limb Wreath is severed, twitching and moving on its own.
+					</p>
+					<p class="motives">
+						Rush, surround
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">None</span>
+						<span class="hp">0</span>
+						<span class="stress">0</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Whip</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrifying</span>
+							<span class="featureType">Passive</span>
+							Targets who mark HP from the Tentacle's attacks must also mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Minion (5)</span>
+							<span class="featureType">Passive</span>
+							The Tentacle is defeated when they take any damage. For every 5 damage a PC deals to a Tentacle, defeat an additional Minion within range the attack would succeed against.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Group Attack</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to choose a target and spotlight all Tentacles within Close range of them. Those Minions move into Melee range of the target and make one shared attack roll. On a success, they deal 2 physical damage each. Combine this damage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 bruiser" data-source="umbra" data-version="balanced">
+					<h2 class="title">Pain Beast</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Bruiser</span>
+					</h3>
+					<p class="subtitle">
+						Mutated, feral predators covered in patchy fur and scales, their claws deadly and their barbed tails venomous.
+					</p>
+					<p class="motives">
+						Pounce, gang up, bite and drag off
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">7/14</span>
+						<span class="hp">6</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Claws</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d12+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Paired Numbers</span>
+							<span class="featureType">Passive</span>
+							When a Pain Beast attacks a target within Very Close range of another Pain Beast, the attack has advantage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Pounce</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to move anywhere within Far range and make an attack against a target within Very Close range. On a success, the target takes 2d8+4 physical damage and marks a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Venomous Tail</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack roll against a target within Close range. On a success, the target takes 2d8 physical damage and, if they mark any number of HP, becomes <i>Infected</i> until they heal any number of HP. While <i>Infected</i>, they have disadvantage on action rolls.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Hide Spines</span>
+							<span class="featureType">Reaction</span>
+							If an attacker is within Very Close range when the Pain Beast marks 2 or more HP, spend a Fear to deal 1d8+3 physical damage to the attacker.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 bruiser" data-source="umbra" data-version="balanced">
+					<h2 class="title">Rotlord</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Bruiser</span>
+					</h3>
+					<p class="subtitle">
+						A massive nexus of forest will and dark magic, this tower of rotting flesh and fungal might seeks to increase its mass.
+					</p>
+					<p class="motives">
+						Charge, swallow, spore the battlefield
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">11</span>
+						<span class="thresholds">9/18</span>
+						<span class="hp">9</span>
+						<span class="stress">2</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Limb Slam</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d20+3</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Slimy +2</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horrid Smell</span>
+							<span class="featureType">Passive</span>
+							Targets who fail an action roll or roll with Fear within Close range of the Rotlord must mark a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Envelop</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Melee range. On a success, the Rotlord <i>Envelops</i> them and the target must mark a Stress. While <i>Enveloped</i>, the target must mark an additional Stress every time they make an action roll. When the Rotlord takes Severe damage, all <i>Enveloped</i> targets are freed and the condition is cleared.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Funky Backup</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to conjure 2 Caustic Fungus anywhere within Close range. These Fungus are immediately spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Fear Spores</span>
+							<span class="featureType">Reaction</span>
+							When a creature within Close range cannot mark a Stress and instead must mark HP, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 Minion" data-source="umbra" data-version="balanced">
+					<h2 class="title">Caustic Fungus</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Minion</span>
+					</h3>
+					<p class="subtitle">
+						The underbrush of the Screaming Forest has a hive mind of its own.
+					</p>
+					<p class="motives">
+						Swarm, destroy armor
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">12</span>
+						<span class="thresholds">None</span>
+						<span class="hp">0</span>
+						<span class="stress">0</span>
+						<span class="atk">+0</span>
+						<span class="weapon">Slam</span>
+						<span class="range">Melee</span>
+						<span class="damage">2</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Minion (4)</span>
+							<span class="featureType">Passive</span>
+							Caustic Fungus is defeated when they take any damage. For every 4 damage a PC deals to a Caustic Fungus, defeat an additional Minion within range the attack would succeed against.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Corrosive</span>
+							<span class="featureType">Passive</span>
+							Targets who are successfully hit by the Fungus' attacks must also mark an Armor Slot without receiving its benefits.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Group Attack</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to choose a target and spotlgith all Caustic Fungus within Close range of them. Those Minions move into Melee range of the target and maek one shared attack roll. On a success, they deal 2 physical damage each. Combine this damage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier1 standard" data-source="umbra" data-version="balanced">
+					<h2 class="title">Hive Collector</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						Seekers for Mother, they collect what might please her.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">7/16</span>
+						<span class="hp">8</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Face Stinger</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d8+3</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Sleeping Sting</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Very Close range. On a success, they take 1d8+3 physical damage and must make an Instinct Reaction Roll (13). On a failure, they become <i>Asleep</i> until they take damage, or until 1d4 hours have passed. While <i>Asleep</i>, a PC cannot be spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Tangle Net</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make a target within Close range roll an Agility Reaction Roll (13). On a failure, they are Restrained and Vulnerable until they succeed on a Strength or Agility Action Roll (15).
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Mother</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span>
+					</h3>
+					<p class="subtitle">
+						The Mother of the Hive, she seeks materials and subjects to conduct her strange biological experiments on.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">14/28</span>
+						<span class="hp">9</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Surgical Glaive</span>
+						<span class="range">Close</span>
+						<span class="damage">2d12+8</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Surgical Accuracy</span>
+							<span class="featureType">Passive</span>
+							Before Mother makes an attack, roll a d6. On a result of 4 or higher, the target's Evasion is halved against the attack.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">To Me, My Children!</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to spotlight 1d4+1 allies. Attacks they make while spotlighted in this way deal half damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sweeping Incision</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against all targets within Close range. On a success, Mother deals 2d6+10 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Acidic Mist</span>
+							<span class="featureType">Reaction</span>
+							When Mother marks 2 or more HP from an attack within Very Close range, a cloud of caustic mist emits from her abdomen and all PCs within Very Close range mark an Armor Slot.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When Mother makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Glomtower Thrall</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span>
+					</h3>
+					<p class="subtitle">
+						A towering being of sorrow and service, forever doomed to wander at Terrorgut's behest.
+					</p>
+					<p class="motives">
+						Ram, capture, batter against allies
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">13/26</span>
+						<span class="hp">9</span>
+						<span class="stress">3</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Chain Swing</span>
+						<span class="range">Close</span>
+						<span class="damage">2d20+10</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Overwhelming +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Slow</span>
+							<span class="featureType">Passive</span>
+							When you spotlight the Thrall and they don't have a token on their stat block, they can't act yet. Place a token on their stat block and describe what they're preparing to do. When you spotlight the Thrall and they have a token on their stat block, clear the token and they can act.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Dense But Clumsy</span>
+							<span class="featureType">Passive</span>
+							An attack that would move the Thrall moves them two fewer range steps, and the Thrall must succeed on a Reaction Roll (10). On a failure, it falls over and becomes temporarily Restrained and Vulnerable. When it is no longer Restrained, it also is no longer Vulnerable.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cage The Judged</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Very Close range. On a success, the target takes 2d12+7 physical damage, is Restrained, and has disadvantage on attack rolls until they succeed on a Strength or Agility Action Roll (16).
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cage Slam</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a target within Very Close range. On a success, the target and any PCs in the cage take 2d12+15 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When the Thrall makes a successful attack against a PC, you gain a Fear.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Kick</span>
+							<span class="featureType">Reaction</span>
+							Mark a Stress when the Thrall marks 2 or more HP from a PC attack within Very Close range. Then, immediately make an attack against the attacker. On a success, they take 2d6+8 physical damage and are pushed to Far range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 standard" data-source="umbra" data-version="balanced">
+					<h2 class="title">Elite Hive Collector</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						Seekers for Mother, they collect what might please her.
+					</p>
+					<p class="motives">
+						Envenom, ensnare, capture
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">8/19</span>
+						<span class="hp">8</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Face Stinger</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d6+7</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Sleeping Sting</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Very Close range. On a success, they take 2d6+8 physical damage and must make an Instinct Reaction Roll (15). On a failure, they become <i>Asleep</i> until they take damage, or until 1d4 hours have passed. While <i>Asleep</i>, a PC cannot be spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Tangle Net</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make a target within Close range roll an Agility Reaction Roll (13). On a failure, they are Restrained and Vulnerable until they succeed on a Strength or Agility Action Roll (15).
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Terrorgut</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						A ravenous demon unleashed through dark magic, it claims its domain to enslave and devour the souls of those who fail to bend to its will.
+					</p>
+					<p class="motives">
+						Consume, whip and pull, release zombies
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">14/28</span>
+						<span class="hp">10</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Bone Whip</span>
+						<span class="range">Close</span>
+						<span class="damage">2d12+8</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Infernal Strength +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Terrifying</span>
+							<span class="featureType">Passive</span>
+							When Terrorgut makes a successful attack, all PCs within Far range lose a Hope and you gain a Fear.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Demon Armor</span>
+							<span class="featureType">Passive</span>
+							When Terrorgut takes physical damage, reduce it by 3.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Release Shambling Zombie</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to create a Shambling Zombie within Very Close range. The Shambling Zombie is immediately spotlighted.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Devour</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against a PC within Very Close range. On a success, they take 2d8+10 physical damage and must succeed on a Strength Reaction Roll (16). On a failure, they are eaten and become Restrained until they succeed on a Strength or Agility Action Roll (16). Along with having the Restrained condition, every time they attempt an action roll, or an ally attempts an action roll to help them escape, they take 2d8+10 magical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Get Over Here</span>
+							<span class="featureType">Reaction</span>
+							When you mark 2 or more HP from a PC attack within Close range, you can mark a Stress and roll an attack against the attacker. On a success, they take 2d10+10 physical damage, mark a Stress, and are pulled into Melee range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 skulk" data-source="umbra" data-version="balanced">
+					<h2 class="title">Demask Ambusher</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Skulk</span>
+					</h3>
+					<p class="subtitle">
+						A hardened cutthroat and thief who hunts for the Queens.
+					</p>
+					<p class="motives">
+						Evade, hide, ambush, pilfer
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">8/17</span>
+						<span class="hp">5</span>
+						<span class="stress">4</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Long Knife</span>
+						<span class="range">Melee</span>
+						<span class="damage">2d6+6</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Backstab</span>
+							<span class="featureType">Passive</span>
+							When the Ambusher succeeds on a standard attack that has advantage, they deal 2d10+8 physical damage instead of their standard damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Cloaked</span>
+							<span class="featureType">Action</span>
+							Become <i>Hidden</i> until after the Ambusher's next attack. Attacks made while <i>Hidden</i> from this feature have advantage.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 horde" data-source="umbra" data-version="balanced">
+					<h2 class="title">Damask Marauder Band</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Horde (2/HP)</span>
+					</h3>
+					<p class="subtitle">
+						A crew of cackling killers relishing in chaos and plunder.
+					</p>
+					<p class="motives">
+						Surround, gang up, divide and conquer
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">10/21</span>
+						<span class="hp">6</span>
+						<span class="stress">4</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Long Blade</span>
+						<span class="range">Melee</span>
+						<span class="damage">2d8+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horde (2d4+2)</span>
+							<span class="featureType">Passive</span>
+							When the Band has marked half or more of their HP, their standard attack deals 2d4+2 physical damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Sadistic Laughter</span>
+							<span class="featureType">Reaction</span>
+							When a target of the Band's attack marks 2 or more HP, you can mark a Stress to make all targets within Very Close range lose a Hope. If a target is not able to lsoe a Hope, they must instead mark 2 Stress.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 horde" data-source="umbra" data-version="balanced">
+					<h2 class="title">Damask Archer Squad</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Horde (2/HP)</span>
+					</h3>
+					<p class="subtitle">
+						Ranged raiders of the Damask Queens.
+					</p>
+					<p class="motives">
+						Stick together, survive, volley fire
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">8/16</span>
+						<span class="hp">4</span>
+						<span class="stress">3</span>
+						<span class="atk">+0</span>
+						<span class="weapon">Bow</span>
+						<span class="range">Far</span>
+						<span class="damage">2d6+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Horde (1d6+3)</span>
+							<span class="featureType">Passive</span>
+							When the Squad has marked half or more of their HP, their standard attack deals 1d6+3 physical damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Focused Volley</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to target a point within Far range. Make an attack with advantage against all targets within Close range of that point. Any you succeed against take 1d10+4 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Suppressing Fire</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to target a point within Far range. Until the next roll with Fear, a creature who moves within Close range of that point must make an Agility Reaction Roll (14). On a failure, they take 2d6+3 physical damage. On a success, they take half.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Corrupted Fane Warden</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						The once beloved protector of the weald now stews in corruption, half-mad and seeking blood for their blade as penance for the land's decay.
+					</p>
+					<p class="motives">
+						Hunt, punish
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">15</span>
+						<span class="thresholds">13/25</span>
+						<span class="hp">8</span>
+						<span class="stress">4</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Blade of the Fane</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+5</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							The Fane Guardian can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight them.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Glimmer Within</span>
+							<span class="featureType">Passive</span>
+							A flame of ancient magic still burns within the Fane Warden. Whenever a PC would cause the Fane Warden to heal HP or Stress, start a <i>Progress Countdown (4)</i>, reducing it by 1 each additional time it would be healed one HP or Stress. When this countdown would count below 1, the Warden is restored.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Overwhelming Arc</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against every target within Very Close range. On a success, they take 2d10+8 physical damage and must make a Strength Reaction Roll (15). On a failure, they are pushed away to Far range of their location.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Vine Spear</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to have a target within Far range make a Strength Reaction Roll (15). On a failure, they are pulled to anywhere within Very Close range of the Fane Wwarden and the Fane Warden immediately makes an attack against them.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Take Root</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to <i>Root</i> the Fane Warden in place. Fane Warden is Restrained while <i>Rooted</i>, and can end this effect instead of moving while they are spotlighted. While <i>Rooted</i>, Fane Warden has resistance to physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Righteous Vengeance</span>
+							<span class="featureType">Reaction</span>
+							When the Fane Warden marks 2 or more HP from an attack within Very Close range, mark a Stress to make a standard attack against the attacker. On a success, the Fane Warden deals 2d10+8 physical damage and the target is pushed to Far range.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 solo" data-source="umbra" data-version="balanced">
+					<h2 class="title">Blashpemous Angel Evelyar</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Solo</span> (Umbra-Touched)
+					</h3>
+					<p class="subtitle">
+						Her holy mission slandered and her compassion punished for audacity, a darker power became seeded within her buried and bound soul. The Grand Ordinants created their own dark prophesy.
+					</p>
+					<p class="motives">
+						Punish many, dishearted, void stare.
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">12/24</span>
+						<span class="hp">10</span>
+						<span class="stress">6</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Malediction Axe</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d10+4</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Unholy Strength +3</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Relentless (2)</span>
+							<span class="featureType">Passive</span>
+							Evelyar can be spotlighted up to two times per GM turn. Spend Fear as usual to spotlight her.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Unholy Aura</span>
+							<span class="featureType">Passive</span>
+							When Evelyar takes damage, reduce it by the number of Profane Disciples wihtin Close range. When a PC marks their last HP within Close range of Enelyar, she heals a HP and clears a Stress.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Arc of Judgement</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to make an attack against all targets within Very Close range. On a success, they take 2d8+5 physical damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">The Flock's Call</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to spotlight 1d4+1 allies. Attacks they make during this spotlight deal half damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Look Into The Void</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to have a PC within Very Close range make an Insight or Presence Reaction Roll. On a failure, they mark a Stress, they become Vulnerable until they roll a success with Hope, and Evelyar heals 2 HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Blashphemous Choir</span>
+							<span class="featureType">Reaction</span>
+							<i>Countdown (Loop 1d8)</i>. When Evelyar is in the spotlight for the first time, activate the countdown. When it triggers, a choir of discordant voices covers an area within Far range of Evelyar. When a target marks HP from an attack by Evelyar within the dark song, all PCs within Far range of the target lost a Hope. This song can be ended by dealing Severe damage to Evelyar, after which the countdown restarts.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Momentum</span>
+							<span class="featureType">Reaction</span>
+							When the Fane Warden makes a successful attack against a PC, you gain a Fear.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				<div class="adversary tier2 standard" data-source="umbra" data-version="balanced">
+					<h2 class="title">Profane Disciple</h2>
+					<h3>
+						<span class="tier">2</span> 
+						<span class="type">Standard</span>
+					</h3>
+					<p class="subtitle">
+						One of the disciples of Evelyar, betrayed by the clergy and forgotten with their heretical Saint. Their vengeful furvor is fueled by Evelyar's madness.
+					</p>
+					<p class="motives">
+						Protect Evelyar, condemn, pass judgement
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">10/20</span>
+						<span class="hp">6</span>
+						<span class="stress">3</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Sorrowscythe</span>
+						<span class="range">Very Close</span>
+						<span class="damage">2d6+4</span>
+						<span class="damageType">mag</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Dance of Condemnation</span>
+							<span class="featureType">Passive</span>
+							When the Disciple is within Melee range of a creature and at least one other Disciple is within Close range, all attacks against that creature have advantage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Retaliation</span>
+							<span class="featureType">Reaction</span>
+							When Evelyar takes damage from an attack within Very Close range of the Disciple, mark a Stress to make a standard attack against the attacker.
+						</div>
+					</div>
+					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
+				</div>
+				
 			</div>
 			
 			<!--ENVIRONMENTS-->
@@ -22821,7 +25348,7 @@
 			</div><!--END TABLE AREA-->
 		</div>
 		
-		<div id="sheetArea" class="tabBody active">
+		<div id="sheetArea" class="tabBody">
 			<div id="mainSheet" class="sheet">
 				<label id="lockIcon" class="checkboxContainer" onclick="toggleLock(this.querySelector('input'))" onkeyup="if(event.key==='enter'){event.preventDefault();console.log('did a thing');this.click();}">
 					.<input type="checkbox">
@@ -22912,7 +25439,7 @@
 							<div id="ancestryToggleChoice" class="addChoiceButton lockable" data-lock="hide" onclick="toggleChoice('ancestry')">+</div>
 						</div>
 						<div class="info" id="ancestryInfo1" style="display:none">
-							<div class="innerLabel" id="ancestryLabel1">ANCESTRY (Secondary)</div>
+							<div class="innerLabel" id="ancestryLabel1">ANCESTRY<span> (Secondary)</span></div>
 							<div class="custom-select">
 								<select id="main_ancestryDropdown1" class="topRowInfo dropdown safeMode lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".ancestry .title" onchange="fillObjectFromSheet(); updateSheet();">
 									<option value="-">-</option>
@@ -25722,6 +28249,7 @@
 			<svg    width="330"    height="460"    viewBox="0 0 330 460"    version="1.1"    id="domainFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="linearGradient15"><stop          style="stop-color:#292929;stop-opacity:0.82878411;"          offset="0"          id="stop14" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop15" /></linearGradient><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        xlink:href="#linearGradient15"        id="linearGradient12"        x1="165.24805"        y1="203.00653"        x2="165.09863"        y2="226.60455"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(1020.6457,-29.012553)" /><filter        style="color-interpolation-filters:sRGB"        id="filter14"        x="-0.014411521"        y="-0.13042264"        width="1.028823"        height="1.2608453"><feGaussianBlur          stdDeviation="0.74464206"          id="feGaussianBlur14" /></filter><linearGradient        xlink:href="#linearGradient5"        id="linearGradient11"        x1="1019.3268"        y1="210.8378"        x2="1349.8268"        y2="210.8378"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(0.07148373,-24.780833)" /></defs><g      id="layer7"      style="display:inline"      transform="translate(-1019.5768,-5.078064)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:0.976471"        d="m 1125.755,186.43071 15.5587,11.96909 85.73,-3e-5 15.9034,-11.96906 106.7012,-0.37386 -0.072,279.02121 h -330 l 0.071,-279.02121 z"        id="path15" /><path        id="path75-6"        style="display:inline;fill:url(#linearGradient12);fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter14)"        d="m 1143.3757,175.95439 c -3.1931,3.68042 -9.4692,8.935 -20.8028,9.51429 l 5.1856,4.1884 c 8.0739,-0.92844 14.4617,-4.59566 17.2016,-7.75373 l 80.6832,0.074 c 2.6482,2.8965 7.7901,5.99149 15.929,7.52257 l 5.0084,-4.00078 c -10.2698,-1.63335 -15.7638,-6.36195 -18.6738,-9.54475 z" /><path        id="path16"        style="display:inline;fill:url(#linearGradient11);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 1141.9817,173.71389 c -8.2321,8.30374 -10.9463,8.30374 -24.2255,8.30374 h -98.1079 v 12.71517 l 45.9252,0.0992 6.6894,-8.40132 h 45.258 l 13.3221,8.40132 h 5.8343 l 4.6364,3.5678 85.73,-3e-5 4.4038,-3.56777 h 6.0624 l 12.6435,-8.40129 h 44.3629 l 7.7776,8.40132 47.3544,-0.16726 v -12.50078 l -99.4022,-0.14636 c -11.091,0 -13.5998,0 -21.7699,-8.30374 z m 1.6464,4.18946 h 83.1132 c 2.91,3.18279 5.936,6.89402 16.2058,8.52736 l -6.332,4.45387 h -6.6524 l -5.0867,3.94745 h -81.5528 l -5.2306,-3.94745 h -5.9079 l -6.4297,-4.45387 c 11.1856,-1.54132 14.0881,-4.41308 17.8731,-8.52736 z" /></g></svg>
 			<svg    width="330"    height="465"    viewBox="0 0 330 465"    version="1.1"    id="subclassFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        id="linearGradient169"><stop          style="stop-color:#000000;stop-opacity:1;"          offset="0"          id="stop169" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop170" /></linearGradient><linearGradient        xlink:href="#linearGradient169"        id="linearGradient170"        x1="165.36426"        y1="203.52235"        x2="165.84375"        y2="223.79492"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-19.686646)" /><filter        style="color-interpolation-filters:sRGB"        id="filter170"        x="-0.018830226"        y="-0.25930813"        width="1.0376605"        height="1.5186163"><feGaussianBlur          stdDeviation="0.92266261"          id="feGaussianBlur170" /></filter><linearGradient        xlink:href="#linearGradient5"        id="linearGradient99"        x1="-0.25"        y1="215.79102"        x2="330"        y2="215.79102"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-19.686646)" /></defs><g      id="layer6"      style="display:inline"      transform="translate(0.82476)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="m -0.2998,208.32499 46.753906,0.15039 7.107422,-7.78125 50.358012,-0.41938 c 6.56447,0.60665 13.23484,0.82963 18.01504,7.89985 l 86.85156,0.15039 c 5.42283,-7.5359 12.61844,-7.79371 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 -0.125,250.32827 h -330 z"        id="path106" /><path        id="path118-8"        style="display:inline;fill:url(#linearGradient170);fill-opacity:0.358277;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter170)"        d="m 119.94825,193.02225 c -0.61925,0.64745 -1.56532,0.26752 -2.35821,0.36914 -1.6664,1e-5 -3.33281,0 -4.99922,0 -0.60742,0.47071 -2.97027,2.42591 -3.57769,2.89661 l -3.09027,-0.25989 5.98437,-4.63672 h 6.88281 l 4.63868,-3.29101 h 83.18554 l 10.17383,3.14062 6.73242,4.78711 -3.0687,0.61188 -4.82826,-3.30087 c -1.71728,0.13592 -3.43458,0.27173 -5.15187,0.40774 -1.5211,-1.21434 -3.04026,-2.43111 -4.56054,-3.64648 h -81.84375 c -1.37305,0.97396 -2.7461,1.94792 -4.11914,2.92187 z" /><path        id="path100"        style="display:inline;fill:url(#linearGradient99);stroke:#ffcb74;stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 122.68848,183.73319 -4.56836,3.27149 -5.83789,-0.11914 -14.435546,9.66406 -42.939453,-0.0527 -3.015625,-3.67773 29.722656,0.16992 -4.71289,-2.24414 H 38.174809 l -3.365234,-4.11328 35.359375,0.0742 -5.537109,-2.76758 H -0.2998 l -0.25,2.61719 32.566406,0.0703 3.515625,4.11914 H -0.5498 v 2.46875 l 43.039062,-0.44922 2.69336,3.72071 -45.482422,-0.0547 v 11.89453 l 46.753906,0.15039 7.107422,-7.78125 46.753902,-0.29883 c 8.43794,-0.51953 16.29841,0.38819 21.61915,7.7793 l 86.85156,0.15039 c 7.39512,-8.39678 13.10521,-7.861 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 v -11.89258 l -45.64844,0.0137 2.60938,-3.60547 43.03906,0.44924 v -2.46875 h -36.08203 l 3.51562,-4.11914 32.56641,-0.0703 -0.25,-2.61719 h -64.93164 l -5.53711,2.76758 35.35937,-0.0742 -3.36523,4.11328 h -38.72656 l -4.71289,2.24414 29.72265,-0.16992 -2.91406,3.55273 -42.74219,0.0137 -13.8789,-9.3711 -6.06446,-0.01 -4.21875,-3.06641 z m 0.74024,4.36719 h 83.18554 l 4.48828,3.58984 5.68555,-0.44922 6.73242,4.78711 c -10.26982,1.63335 -12.80097,4.89729 -15.71093,8.08008 h -84.53126 c -3.19308,-3.68041 -6.02183,-7.50079 -17.35546,-8.08008 l 5.98437,-4.63672 h 6.88281 z m -77.500004,4.68359 3.15039,0.0176 2.763672,3.69141 -3.070312,-0.004 z m 237.292964,0 -2.7539,3.58789 h -3.06836 l 2.67187,-3.57031 z" /></g></svg>
 			<svg    width="330"    height="465"    viewBox="0 0 330 464.99999"    version="1.1"    id="classFiligree"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="swatch139"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop139" /></linearGradient><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        id="linearGradient169"><stop          style="stop-color:#000000;stop-opacity:1;"          offset="0"          id="stop169" /><stop          style="stop-color:#000000;stop-opacity:0;"          offset="0.81"          id="stop170" /></linearGradient><filter        style="color-interpolation-filters:sRGB"        id="filter170-3"        x="-0.018830226"        y="-0.25930813"        width="1.0376605"        height="1.5186163"><feGaussianBlur          stdDeviation="0.92266261"          id="feGaussianBlur170-7" /></filter><linearGradient        xlink:href="#linearGradient169"        id="linearGradient237"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-78.48659)"        x1="165.36426"        y1="203.52235"        x2="165.84375"        y2="223.79492" /><linearGradient        xlink:href="#linearGradient5"        id="linearGradient238"        gradientUnits="userSpaceOnUse"        gradientTransform="translate(-0.2998,-78.48659)"        x1="-0.25"        y1="215.79102"        x2="330"        y2="215.79102" /><linearGradient        xlink:href="#swatch139"        id="linearGradient239"        gradientUnits="userSpaceOnUse"        x1="-0.82476193"        y1="196.10437"        x2="329.97516"        y2="196.10437"        gradientTransform="translate(0,-58.799947)" /></defs><g      id="layer6-4"      style="display:inline"      transform="translate(0.3622711,6.4229552)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="m -0.2998,149.52503 46.753906,0.15039 7.107422,-7.78125 51.252632,-0.41097 c 6.56447,0.60665 12.34022,0.82122 17.12042,7.89144 l 86.85156,0.15039 c 5.42283,-7.5359 8.43739,-7.85567 15.71739,-7.76704 l 51.45839,0.28462 6.6582,7.4082 47.08008,-0.002 -0.0625,309.12823 H -0.36230424 Z"        id="path106-6" /><path        id="path118-8-2"        style="display:inline;fill:url(#linearGradient237);fill-opacity:0.358277;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1;filter:url(#filter170-3)"        d="m 119.94825,134.22229 c -0.61925,0.64745 -1.56532,0.26752 -2.35821,0.36914 -1.6664,1e-5 -3.33281,0 -4.99922,0 -0.60742,0.47071 -2.97027,2.42591 -3.57769,2.89661 l -3.09027,-0.25989 5.98437,-4.63672 h 6.88281 l 4.63868,-3.29101 h 83.18554 l 10.17383,3.14062 6.73242,4.78711 -3.0687,0.61188 -4.82826,-3.30087 c -1.71728,0.13592 -3.43458,0.27173 -5.15187,0.40774 -1.5211,-1.21434 -3.04026,-2.43111 -4.56054,-3.64648 h -81.84375 c -1.37305,0.97396 -2.7461,1.94792 -4.11914,2.92187 z" /><path        id="path100-0"        style="display:inline;fill:url(#linearGradient238);stroke:url(#linearGradient239);stroke-width:0.5;stroke-linecap:round;stroke-dashoffset:0.3;stroke-opacity:1"        d="m 122.68848,124.93323 -4.56836,3.27149 -5.83789,-0.11914 -11.96692,9.21885 -51.334787,0.17627 -9.726095,-12.56679 -39.554228,0.22442 -0.25,2.61719 38.566406,0.0703 3.515625,4.11914 H -0.5498 v 2.46875 l 43.039062,-0.44922 2.69336,3.72071 -45.482422,-0.0547 v 11.89453 l 46.753906,0.15039 7.107422,-7.78125 46.753902,-0.29883 c 8.43794,-0.51953 16.29841,0.38819 21.61915,7.7793 l 86.85156,0.15039 c 7.39512,-8.39678 13.10521,-7.861 19.89844,-7.70508 l 47.27734,0.22266 6.6582,7.4082 47.08008,-0.002 v -11.89258 l -45.64844,0.0137 2.60938,-3.60547 43.03906,0.44924 v -2.46875 h -42.08203 l 3.19824,-4.27783 38.88379,0.0884 -0.0625,-2.692 -40.64253,0.0222 -9.0434,12.2217 -48.34922,0.27818 -13.8789,-9.3711 -6.06446,-0.01 -4.21875,-3.06641 z m 0.74024,4.36719 h 83.18554 l 4.48828,3.58984 5.68555,-0.44922 6.73242,4.78711 c -10.26982,1.63335 -12.80097,4.89729 -15.71093,8.08008 h -84.53126 c -3.19308,-3.68041 -6.02183,-7.50079 -17.35546,-8.08008 l 5.98437,-4.63672 h 6.88281 z" /></g></svg>
+			<svg    width="330"    height="465"    viewBox="0 0 330.00001 465"    version="1.1"    id="svg1"    xml:space="preserve"    xmlns:xlink="http://www.w3.org/1999/xlink"    xmlns="http://www.w3.org/2000/svg"    xmlns:svg="http://www.w3.org/2000/svg"><defs      id="defs1"><linearGradient        id="swatch139"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop139" /></linearGradient><linearGradient        id="linearGradient5"><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="0"          id="stop5" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.40000001"          id="stop6" /><stop          style="stop-color:#feef92;stop-opacity:1;"          offset="0.60000002"          id="stop8" /><stop          style="stop-color:#ffcb74;stop-opacity:1;"          offset="1"          id="stop7" /></linearGradient><linearGradient        xlink:href="#linearGradient5"        id="linearGradient241"        gradientUnits="userSpaceOnUse"        x1="-0.19065312"        y1="155.63626"        x2="329.80936"        y2="155.63626" /><linearGradient        xlink:href="#swatch139"        id="linearGradient242"        x1="-0.19065312"        y1="155.63626"        x2="329.80936"        y2="155.63626"        gradientUnits="userSpaceOnUse" /></defs><g      id="layer6-4-4"      style="display:inline"      transform="translate(0.1906908,6.4229625)"><path        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:0.3;stroke-opacity:1"        d="M -0.19065312,170.59817 329.80935,152.09426 329.6377,458.57704 H -0.36230424 Z"        id="path106-6-5" /><path        id="path207"        style="display:inline;fill:url(#linearGradient241);stroke:url(#linearGradient242);stroke-width:0.5;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0.3"        d="m 26.055441,135.52102 -4.970703,5.69141 1.40625,19.68945 0.84375,-18.61133 4.642578,-4.78125 H 124.9695 l 5.01758,4.875 0.14063,13.83008 1.78125,-15.33008 -5.15821,-5.36328 z m 2.566406,4.23828 -2.941406,2.34375 0.1875,14.48633 3.152343,1.73633 h 12.316407 l -6.982422,7.60156 -34.54492212,1.95899 v 5.42382 L 306.6238,156.29641 l 6.54102,6.72266 -43.88477,2.58203 -5.31055,-6.90234 -4.52343,0.25195 5.47461,6.9082 -46.41993,2.73242 1.59766,2.62891 81.79297,-4.27539 5.50195,5.22266 -33.23828,1.94531 23.69531,1.63867 31.95899,-1.97851 v -2.91602 l -6.16797,-5.04883 6.16797,-0.32226 v -3.44727 l -1.95703,0.11523 -5.66407,-6.71875 h -0.0391 l 7.66016,-0.42382 v -5.83399 l -227.30664,12.88477 4.13867,-3.73633 h 18.50976 l 2.65235,-3.04883 -0.39844,-12.72851 -2.51953,-2.78907 z m 289.298833,15.91211 5.82421,6.72461 -6.29492,0.36914 -5.99023,-6.73633 z m -272.832036,2.6543 H 93.1863 l -5.015625,4.55078 -49.755859,2.82031 z m 51.472656,0 h 6.60938 l -4.595708,3.96094 -6.460938,0.36523 z m 226.66797,7.50391 -4.19531,0.2207 5.66601,5.10547 -13.10156,0.76562 -5.4043,-5.20117 z" /></g></svg>
 			
 			<br/>
 			
@@ -25784,7 +28312,7 @@
 				</label>
 				<br/>
 				<label class="switch">
-					<input type="checkbox" name="voidCheckbox" checked>
+					<input type="checkbox" name="voidCheckbox" checked id="voidCheckbox" class="saveOption" onchange="saveOptions(); toggleVOID();">
 					<span class="slider"></span>
 					<span class="sliderLabel">VOID content</span>
 				</label>
@@ -27810,6 +30338,12 @@
 				turnOffTutorial();
 			}
 		}
+		function toggleVOID(){
+			//remove all VOID options from card search sidebar,
+			//prevent VOID cards from displaying in search(),
+			//and remove all VOID options from sheet dropdowns
+			
+		}
 		function turnOnMulticlass(){
 			characterSheet.multiclass = 'true';
 			document.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightTall)';
@@ -28251,13 +30785,15 @@
 			//TABLE FILTER
 			//if any filters for items other than tables are chosen, don't show tables
 			let dontFilter = false;
-			if( document.querySelector('.sidebar input[name="cardType"]:checked') != null 
+			if( document.querySelector('.sidebar input[name="sheet"]:checked') !== null 
+				|| document.querySelector('.sidebar input[name="cardType"]:checked') != null 
 				|| document.querySelector('.sidebar input[name="domain"]:checked') != null
 				|| document.querySelector('.sidebar input[name="class"]:checked') != null
 				|| document.querySelector('.sidebar input[name="adversaryType"]:checked') != null
 				|| document.querySelector('.sidebar input[name="environmentType"]:checked') != null
-				)
+				){
 				hide(document.getElementById('tableArea'));
+			}
 			else{
 				show(document.getElementById('tableArea'));
 				for(var table of tables){
@@ -28309,8 +30845,9 @@
 				||	document.querySelector('.sidebar input[name="tableType"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="adversaryType"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="environmentType"]:checked') !== null
-				)
+				){
 				hide(document.getElementById('cardArea'));
+			}
 			else{
 				show(document.getElementById('cardArea'));
 				classVal = sheet.querySelector('#main_classDropdown').value;
@@ -28378,7 +30915,7 @@
 						if( (card.classList.contains('class') && prune(card.querySelector('.title').innerHTML) != prune(classVal))
 							|| (card.classList.contains('community') && prune(card.querySelector('.title').innerHTML) != prune(communityVal))
 							|| (card.classList.contains('ancestry') && (prune(card.querySelector('.title').innerHTML) != prune(ancestryVal0) && prune(card.querySelector('.title').innerHTML) != prune(ancestryVal1)) )
-							|| (card.classList.contains('subclass') && prune(card.querySelector('.title').innerHTML) != prune(subclassVal.split(' ')[0])) )
+							|| (card.classList.contains('subclass') && prune(card.querySelector('.title').innerHTML) != prune(subclassVal.split(' (')[0])) )
 							continue;
 						//domain cards
 						if( card.classList.contains('domain') && !domainVals.includes(prune(card.querySelector('.title').innerHTML)) )
@@ -28471,8 +31008,9 @@
 				||	document.querySelector('.sidebar input[name="tableType"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="ability"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="environmentType"]:checked') !== null
-				)
+				){
 				hide(document.getElementById('adversaryArea'));
+			}
 			else{
 				show(document.getElementById('adversaryArea'));
 				for(var adversary of adversaries){
@@ -28480,7 +31018,7 @@
 					hide(adversary);
 					adversary.querySelector('.title').innerHTML = adversary.querySelector('.title').innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
 					adversary.querySelector('.tier').innerHTML = adversary.querySelector('.tier').innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
-					adversary.querySelector('.difficulty').innerHTML = adversary.querySelector('.difficulty').innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+					//adversary.querySelector('.difficulty').innerHTML = adversary.querySelector('.difficulty').innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
 					adversary.querySelector('.description').innerHTML = adversary.querySelector('.description').innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
 					
 					//reset toMatch
@@ -28490,7 +31028,7 @@
 					toMatch.set('title',adversary.querySelector('.title').innerText.toLowerCase());
 					toMatch.set('tier',adversary.querySelector('.tier').innerText);
 					//toMatch.set('type',adversary.querySelector('.type').innerText.toLowerCase());
-					toMatch.set('difficulty',adversary.querySelector('.difficulty').innerText);
+					//toMatch.set('difficulty',adversary.querySelector('.difficulty').innerText);
 					//toMatch.set('thresholds',adversary.querySelector('.thresholds').innerText);
 					//toMatch.set('hp',adversary.querySelector('.hp').innerText);
 					//toMatch.set('stress',adversary.querySelector('.stress').innerText);
@@ -28528,7 +31066,7 @@
 					if(searchInputs.get('filter').length > 0){
 						adversary.querySelector('.title').innerHTML = adversary.querySelector('.title').innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
 						adversary.querySelector('.tier').innerHTML = adversary.querySelector('.tier').innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
-						adversary.querySelector('.difficulty').innerHTML = adversary.querySelector('.difficulty').innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
+						//adversary.querySelector('.difficulty').innerHTML = adversary.querySelector('.difficulty').innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
 						adversary.querySelector('.description').innerHTML = adversary.querySelector('.description').innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
 					}
 					show(adversary);
@@ -28543,8 +31081,9 @@
 				||	document.querySelector('.sidebar input[name="tableType"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="ability"]:checked') !== null
 				||	document.querySelector('.sidebar input[name="adversaryType"]:checked') !== null
-				)
+				){
 				hide(document.getElementById('environmentArea'));
+			}
 			else{
 				show(document.getElementById('environmentArea'));
 				for(var environment of environments){
