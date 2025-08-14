@@ -33753,6 +33753,15 @@
 			ancestry1Area = document.getElementById('main_features_ancestry1');
 			communityArea = document.getElementById('main_features_community');
 			
+			//clear text areas
+			classArea.innerHTML = '';
+			multiclassArea.innerHTML = '';
+			subclass0Area.innerHTML = '';
+			subclass1Area.innerHTML = '';
+			ancestry0Area.innerHTML = '';
+			ancestry1Area.innerHTML = '';
+			communityArea.innerHTML = '';
+			
 			//community
 			for(let card of allCommunityCards){
 				if( communityChoice !== '-' && prune(card.querySelector('.title').innerHTML) === communityChoice ){
@@ -33887,9 +33896,7 @@
 					}
 				}
 				
-				//let testString = JSON.stringify(SavedCharacter, function replacer(key, value){if(value instanceof Map){return{dataType: 'Map', value: Array.from(value.entries()),};}else{return value;}});
-				let testString = JSON.stringify(Object.fromEntries(SavedCharacter));
-				localStorage.setItem('SavedCharacter',testString);
+				localStorage.setItem('SavedCharacter',JSON.stringify(Object.fromEntries(SavedCharacter)));
 				
 				//if any values were ones that update the featuresArea,
 				//call updateFeaturesText()
@@ -33901,8 +33908,9 @@
 				return returnArr;
 			}
 			
-			//otherwise update all values
-			for(var elem of document.querySelectorAll(':not(.card) .saveValue')){
+			//otherwise clear SavedCharacter and update all values
+			SavedCharacter.clear();
+			for(var elem of document.querySelectorAll('.sheet .saveValue, #optionsArea .saveValue')){
 				switch( elem.dataset.valuetype ){
 					case 'select':
 					case 'number':
@@ -33934,9 +33942,7 @@
 				}
 			}
 			
-			let testString = JSON.stringify(Object.fromEntries(SavedCharacter));
-			localStorage.setItem('SavedCharacter',testString);
-			
+			localStorage.setItem('SavedCharacter',JSON.stringify(Object.fromEntries(SavedCharacter)));
 			
 		}
 		function updateSheetVisuals(){
