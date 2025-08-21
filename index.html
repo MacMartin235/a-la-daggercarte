@@ -1705,6 +1705,7 @@
 				.subOptionTitleRow{
 					line-height: 1.5;
 					padding-left: 2%;
+					display: flex;
 				}
 				.subOptionTitleRow.active{
 					background-color: rgba(0,0,0,0.25);
@@ -1953,43 +1954,8 @@
 						}
 					}
 				}
-				.meatballMenu{
-					position: absolute;
-					width: calc(var(--buttonSize)*1.5);
-					aspect-ratio: 1 / 1;
-					top: 6px;
-					right: 6px;
-					font-size: var(--buttonSize);
-				}
-				#sheetOptionsButton{
-					width: 100%;
-					height: 100%;
-					padding: 0;
-				}
-				#sheetOptions .options{
-					display: none;
-					background-color: lightgrey;
-					color: black;
-					font-size: 1rem;
-					right: 0px;
-					left: initial;
-					padding: 0;
-					
-					div{
-						//padding: 0.375em;
-						padding: 6px;
-					}
-					div:hover{
-						color: black;
-						background-color: grey;
-					}
-				}
 				
 				/* MAIN ELEMENTS */
-				.flow-row{
-					display: flex;
-					flex-direction: row;
-				}
 				.traitTitle{
 					font-weight: 900;
 					font-style: italic;
@@ -2001,17 +1967,19 @@
 				.custom-select{
 					position: relative;
 					font-family: Overpass;
+					display: flex;
+					flex: 1 auto;
+					background-color: white;
+					border: thin solid black;
+					border-radius: 6 px;
+					min-width: 8rem;
 					
 					select{
 						display: none;
 					}
 					.select-selected{
-						background-color: white;
-						min-width: 7rem;
-						width: fit-content;
+						width: stretch;
 						height: 2rem;
-						border: thin solid black;
-						border-radius: 5px;
 						
 						&:after{
 							position: absolute;
@@ -2034,10 +2002,12 @@
 						color: black;
 						padding: 0.75rem 2rem 0 0.25rem;
 						cursor: pointer;
+						width: 100%;
 					}
 					.select-items div{
 						border: thin solid transparent;
 						border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+						scroll-snap-align: start;
 					}
 					.select-items{
 						position: absolute;
@@ -2047,6 +2017,8 @@
 						right: 0;
 						z-index: 10;
 						width: max-content;
+						overflow-y: scroll;
+						scroll-snap-type: y mandatory;
 					}
 					.select-hide{
 						display: none;
@@ -2083,30 +2055,6 @@
 				.autocomplete-active{
 					background-color: green;
 					color: grey;
-				}
-				.options{
-					position: absolute;
-					z-index: 5;
-					display: none;
-					font-size: 1.5em;
-					font-weight: 600;
-					//padding: 6px;
-					padding: 0.25em;
-					top: 100%;
-					left: 0px;
-					background-color: black;
-					word-break: normal;
-					width: max-content;
-					
-					div{
-						display: block;
-						cursor: pointer;
-						whitespace: no-wrap;
-						word-break: keep-all;
-					}
-					div:hover{
-						color: lightgrey;
-					}
 				}
 				.verticalDivider{
 					background: grey;
@@ -2256,6 +2204,8 @@
 						//color: white;
 						//border-radius: 0.375em;
 						border-radius: 6px;
+						display: flex;
+						justify-content: center;
 						align-items: center;
 						overflow: visible;
 					}
@@ -2478,8 +2428,9 @@
 					margin-bottom: 10px;
 					z-index: 3;
 					
+					
 					.trapezoid{
-						position: relative;
+						position: absolute;
 						z-index: 0;
 						left: 0;
 						top: 0;
@@ -2491,10 +2442,8 @@
 						clip-path: polygon(0 0, 100% 0, calc(100% - var(--height)) var(--height), 0% var(--height));
 						shape-outside: polygon(0 0, 100% 0, calc(100% - var(--height)) var(--height), 0% var(--height));
 						background-color: black;
-						float: left;
 						
 					}
-					
 					.corner{
 						text-transform: uppercase;
 						color: white;
@@ -2508,6 +2457,7 @@
 						padding: 16px 0 0 16px;
 						position: absolute;
 						
+						
 						br{
 							margin-bottom: 0;
 						}
@@ -2516,6 +2466,7 @@
 							//width: 1.75rem;
 							display: inline-block;
 							margin: 0;
+							position: relative;
 						}
 						.symbol1{
 							background-image: var(--graceIcon);
@@ -2528,6 +2479,7 @@
 						}
 						.domains{
 							font-size: 1.25rem;
+							position: relative;
 						}
 						.custom-select{
 							font-family: Heavitas;
@@ -2560,6 +2512,7 @@
 							}
 							.select-items{
 								background-color: black;
+								height: calc(31.2px * 6);
 							}
 							.select-items div:hover, .same-as-selected{
 								background-color: rgba(255, 255, 255, 0.24);
@@ -2583,28 +2536,39 @@
 							font-weight: 400;
 						}
 					}
+					.spacer{
+						visibility: hidden;
+						min-width: 36px;
+					}
 					.infoArea{
 						width: 100%;
+						height: fit-content;
 						padding-right: 10%;
+						padding-left: 30%;
 						z-index: -1;
-						display: flow;
-						flex-flow: row wrap;
+						padding-top: 3px;
+						display: flex;
+						flex-wrap: wrap;
+						gap: 3px;
+						place-items: start stretch;
 						
 						.background{
 							position: absolute;
 							background-color: lightGrey;
-							height: 100%;
+							height: calc(var(--trapezoidHeightShort) - 10%);
 							z-index: -3;
 							width: 100%;
 							left: 0px;
+							top: 0px;
 						}
 						.info{
 							position: relative;
 							display: inline-flex;
+							flex: 1 auto;
 							justify-content: center;
 							align-items: center;
 							//margin: 0.1875em;
-							margin: 3px;
+							height: fit-content;
 						}
 						.innerLabel{
 							position: absolute;
@@ -2626,7 +2590,7 @@
 						}
 						.topRowInfo{
 							height: 2rem;
-							min-width: 6rem;
+							min-width: 8rem;
 							//padding: 0.75em 0.375em 0.375em 0.375em;
 							padding: 6px;
 							padding-top: 0.75rem;
@@ -2638,6 +2602,17 @@
 							//font-size: 1rem;
 							//font-weight: 400;
 							position: relative;
+							flex: 1 auto;
+						}
+						.custom-select{
+							.select-selected{
+								position: relative;
+								top: -12px;
+								left: 0;
+							}
+							.select-items{
+								height: calc(34.4px * 6);
+							}
 						}
 						.addChoiceButton{
 							background-color: grey;
@@ -2656,10 +2631,12 @@
 							justify-content: center;
 							cursor: pointer;
 						}
-						#subclassDowngrade{
+						#classSubclassDowngrade,
+						#multiclassSubclassDowngrade{
 							border-radius: 0;
 						}
-						#subclassDowngrade.only{
+						#classSubclassDowngrade.only,
+						#multiclassSubclassDowngrade.only{
 							//border-radius: 0 0.375em 0.375em 0;
 							border-radius: 0 6px 6px 0;
 						}
@@ -2670,6 +2647,7 @@
 						width: 4.375rem;
 						height: 5.4375rem;
 						position: absolute;
+						top: 0;
 						right: 0;
 						margin-top: 0;
 						background-color: transparent;
@@ -2693,6 +2671,7 @@
 				/* ROW CONTAINS EVASION, ARMOR, AND ABILITY SCORES */
 				.abilityRow{
 					//margin-top: 0.625em;
+					display: flex;
 					margin-top: 10px;
 					justify-content: space-between;
 					align-items: center;
@@ -2921,6 +2900,7 @@
 					
 					/* LEFT AREAS */
 					#damageArea{
+						display: flex;
 						align-items: center;
 						justify-content: center;
 						//margin-bottom: 0.375em;
@@ -2998,6 +2978,7 @@
 					#hpArea, #stressArea{
 						margin-top: 2%;
 						width: 100%;
+						display: flex;
 						align-items: center;
 						justify-content: space-between;
 						
@@ -3042,6 +3023,7 @@
 					
 						#hopeCheckboxArea{
 							background-color: lightgrey;
+							display: flex;
 							//margin: 6px;
 							//height: 30px;
 							//width: 350px;
@@ -3115,6 +3097,7 @@
 						
 					}
 					.goldArea{
+						display: flex;
 						justify-content: space-between;
 						align-items: stretch;
 						
@@ -3212,10 +3195,12 @@
 						}
 						.feature{
 							margin-bottom: 24px;
+							
+							font-size: 12px;
 						}
 						.featureTitle{
 							text-decoration: underline;
-							font-size: 0.8rem;
+							font-size: 14px;
 							font-weight: 700;
 							font-style: italic;
 							margin-top: 0.375rem;
@@ -3228,11 +3213,18 @@
 						}
 						.trait{
 							margin-bottom: 12px;
+							
+							.traitTitle{
+								text-decoration: underline;
+							}
+							.traitDescription{
+								
+							}
 						}
 						
 						/* SPECIAL INPUTS */
 						/*VOID*/.brawlerDie{
-							display: inline-block;
+							display: flex;
 							margin-left: 6px;
 							margin-right: 30%;
 							
@@ -3388,6 +3380,7 @@
 							//padding-left: 8px;
 							//padding-right: 8px;
 							padding: 0 24px;
+							display: flex;
 							
 							#proficiencyShape{
 								//border-top: 1.953em solid grey;
@@ -3474,6 +3467,7 @@
 							font-family: Caveat;
 						}
 						.invWeaponHeader{
+							display: flex;
 							align-items: center;
 							justify-content: space-between;
 						}
@@ -3515,6 +3509,7 @@
 							//width: 14.286em;
 							//width: calc(var(--buttonSize)*10);
 							height: calc(var(--buttonSize)*1.5);
+							display: flex;
 							align-items: center;
 							justify-content: space-between;
 							
@@ -3561,6 +3556,7 @@
 							//border-top: thin solid black;
 							border-bottom: thin dotted black;
 							//border-radius: 6px 0 0 0;
+							display: flex;
 							
 							&:before{
 								position: absolute;
@@ -3661,6 +3657,7 @@
 				/* BOTTOM THREE COLUMNS */
 				.levelUpRow{
 					position: relative;
+					display: flex;
 					margin-top: 0.75rem;
 					background-color: white;
 					
@@ -3696,6 +3693,7 @@
 						text-align: center;
 						top: -6px;
 						font-style: italic;
+						display: flex;
 						
 						*{
 							z-index: 1;
@@ -3724,6 +3722,7 @@
 						font-style: italic;
 						//margin: 0.1875em;
 						margin: 3px;
+						display: flex;
 						
 						p{
 							text-align: left;
@@ -3731,11 +3730,12 @@
 						}
 					}
 					.checkboxColumn{
+						display: flex;
 						justify-content: flex-end;
+						align-items: flex-start;
 						//min-width: 3.1em;
 						min-width: calc(var(--buttonSize)*3.1);
 						margin-right: 1.6%;
-						align-items: flex-start;
 						
 						.levelingCheckbox{
 							//margin: 0.0625em;
@@ -3963,7 +3963,7 @@
 						float: right;
 						width: 80px;
 						margin-right: 32px;
-						z-index: 1;
+						z-index: 2;
 						
 						.labelArea{
 							position: absolute;
@@ -4020,7 +4020,7 @@
 						}
 					}
 				}
-				#companionDescription{
+				#companion_description{
 					border: thin solid black;
 					border-radius: 0.375rem;
 					width: 90%;
@@ -4128,6 +4128,7 @@
 						
 						#companionStressCheckboxArea{
 							width: 100%;
+							display: flex;
 							align-items: center;
 							justify-content: space-between;
 							//margin-bottom: 1rem;
@@ -4171,8 +4172,10 @@
 						.listItem{
 							//margin: 0.1875rem;
 							margin: 3px;
+							display: flex;
 							
 							.checkboxColumn{
+								display: flex;
 								justify-content: flex-end;
 								//min-width: 3.2rem;
 								min-width: calc(var(--buttonSize)*3.2);
@@ -4196,16 +4199,20 @@
 								//margin-bottom: 0.5rem;
 								margin-bottom: 8px;
 							}
-							#companionHopeCheckbox{
+							#companion_hopeCheckboxArea{
 								background-color: lightgrey;
 								//margin: 0.375rem;
 								margin: calc(var(--buttonSize)*0.375);
 								//width: 30px;
 								width: calc(var(--buttonSize)*1.875);
+								height: calc(var(--buttonSize)*3);
 								//border-radius: 0.375rem;
 								border-radius: 6px;
 								//padding: 0.1875rem 0.75rem;
 								padding: calc(var(--buttonSize)*0.1875);
+								display: flex;
+								justify-content: center;
+								align-items: center;
 								
 								.checkboxContainer{
 									margin: auto;
@@ -4380,6 +4387,9 @@
 					p{
 						margin: 0;
 					}
+					div:not(.areaTitle){
+						display: flex;
+					}
 					.checkboxContainer{
 						margin-right: 18px;
 						
@@ -4405,8 +4415,12 @@
 					.areaTitle{
 						align-self: start;
 					}
+					.listItem{
+						display: flex;
+					}
 					.checkboxColumn{
 						min-width: calc(var(--buttonSize)*2.1);
+						display: flex;
 						justify-content: flex-end;
 						margin-right: 3px;
 						
@@ -4462,7 +4476,7 @@
 						.numArea{
 							height: 100px;
 						}
-						#motherboardCurrentQuantum{
+						#motherboard_quantum{
 							aspect-ratio: 1 / 1;
 						}
 					}
@@ -4470,10 +4484,11 @@
 						display: grid;
 						grid-template-columns: auto auto auto;
 						
-						.flow-row{
+						& > div{
+							display: flex;
 							justify-content: space-between;
 						}
-						&.evenly .flow-row{
+						&.evenly > div{
 							justify-content: space-evenly;
 						}
 						p{
@@ -4638,6 +4653,9 @@
 								}
 							}
 						}
+					}
+					.stanceTitle{
+						font-weight: bold;
 					}
 					.twoCol{
 						h4{
@@ -4878,8 +4896,9 @@
 						<div onclick="window.print()">Print Sheet</div>
 					</div>
 				</div>-->
-				<div class="topRow flow-row">
+				<div class="topRow">
 					<div class="corner">
+						<div class="trapezoid"></div>
 						<div class="custom-select">
 							<select id="main_classDropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".class .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();"></select>
 						</div>
@@ -4901,8 +4920,8 @@
 						</div>
 					</div>
 					<div id="infoArea" class="infoArea">
-						<div class="trapezoid"></div>
 						<div class="background"></div>
+						<div class="spacer"></div>
 						<div class="info" id="nameInfo">
 							<div class="innerLabel">NAME</div>
 							<div id="main_name" class="topRowInfo lockable saveValue" data-lock="content" data-valuetype="innerText" contenteditable="true" tabindex="0" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
@@ -4913,16 +4932,16 @@
 						</div>
 						<div class="info" id="communityInfo">
 							<div class="innerLabel">COMMUNITY</div>
-							<div class="custom-select">
-								<select id="main_communityDropdown" class="topRowInfo dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".community .title" name="communityInfo" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
+							<div class="custom-select topRowInfo">
+								<select id="main_communityDropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".community .title" name="communityInfo" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
 									<option value="-">-</option>
 								</select>
 							</div>
 						</div>
 						<div class="info" id="ancestryInfo0">
 							<div class="innerLabel" id="ancestryLabel0">ANCESTRY<span class="hidden"> (Main)</span></div>
-							<div class="custom-select">
-								<select id="main_ancestry0Dropdown" class="topRowInfo dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".ancestry .title" name="ancestry0Info" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
+							<div class="custom-select topRowInfo">
+								<select id="main_ancestry0Dropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".ancestry .title" name="ancestry0Info" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
 									<option value="-">-</option>
 								</select>
 							</div>
@@ -4930,16 +4949,16 @@
 						</div>
 						<div class="info hidden" id="ancestryInfo1">
 							<div class="innerLabel" id="ancestryLabel1">ANCESTRY<span> (Secondary)</span></div>
-							<div class="custom-select">
-								<select id="main_ancestry1Dropdown" class="topRowInfo dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".ancestry .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
+							<div class="custom-select topRowInfo">
+								<select id="main_ancestry1Dropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".ancestry .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
 									<option value="-">-</option>
 								</select>
 							</div>
 						</div>
 						<div class="info" id="classSubclassInfo">
 							<div id="classSubclassLabel" class="innerLabel">SUBCLASS<span class="hidden"> (Main)</span></div>
-							<div class="custom-select">
-								<select id="main_classSubclassDropdown" class="topRowInfo dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".subclass .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
+							<div class="custom-select topRowInfo">
+								<select id="main_classSubclassDropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".subclass .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
 									<option value="-">-</option>
 								</select>
 							</div>
@@ -4948,8 +4967,8 @@
 						</div>
 						<div class="info hidden" id="main_multiclassSubclassInfo">
 							<div id="multiclassSubclassLabel" class="innerLabel">SUBCLASS<span> (Multiclass)</span></div>
-							<div class="custom-select">
-								<select id="main_multiclassSubclassDropdown" class="topRowInfo dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".subclass .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
+							<div class="custom-select topRowInfo">
+								<select id="main_multiclassSubclassDropdown" class="dropdown lockable saveValue" data-valuetype="select" data-lock="select" data-fillfrom=".subclass .title" onchange="updateLocalStorage(this.id); updateSheetVisuals();">
 									<option value="-">-</option>
 								</select>
 							</div>
@@ -4964,7 +4983,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="abilityRow flow-row">
+				<div class="abilityRow">
 					<div id="evasionArea" class="numArea">
 						<input type="number" id="main_evasion" class="num lockable saveValue" data-valuetype="number" data-lock="input" inputmode="numeric" onchange="updateLocalStorage(this.id);" onfocus="this.select();">
 						<div id="evasionLabelArea" class="labelArea">
@@ -5031,7 +5050,7 @@
 					</div>
 					<div class="verticalDivider normal"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">AGILITY</div>
 							<label id="main_agilityCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5043,7 +5062,7 @@
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">STRENGTH</div>
 							<label id="main_strengthCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5055,7 +5074,7 @@
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">FINESSE</div>
 							<label id="main_finesseCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5067,7 +5086,7 @@
 					</div>
 					<div id="middleDivider" class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">INSTINCT</div>
 							<label id="main_instinctCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5079,7 +5098,7 @@
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">PRESENCE</div>
 							<label id="main_presenceCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5091,7 +5110,7 @@
 					</div>
 					<div class="verticalDivider dotted"></div>
 					<div class="numArea abilityArea">
-						<div class="flow-row labelArea abilityLabelArea">
+						<div class="labelArea abilityLabelArea">
 							<div class="label abilityLabel">KNOWLEDGE</div>
 							<label id="main_knowledgeCheckbox" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 								.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -5107,7 +5126,7 @@
 						<div class="colArea" id="hitPointArea">
 							<div class="areaTitle">DAMAGE & HEALTH</div>
 							<p class="caption">Add your current level to your damage thresholds.</p>
-							<div id="damageArea" class="flow-row">
+							<div id="damageArea">
 								<div class="damageTypeArea">
 									<div class="damageType">MINOR<br>DAMAGE</div>
 									<p class="caption">MARK 1 HP</p>
@@ -5123,105 +5142,105 @@
 									<p class="caption">MARK 3 HP</p>
 								</div>
 							</div>
-							<div id="hpArea" class="flow-row">
+							<div id="hpArea">
 								<span id="hpLabel">HP</span>
 								<label id="main_hpCheckbox00" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox01" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox02" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox03" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox04" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox05" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox06" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox07" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox08" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox09" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox10" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_hpCheckbox11" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 							</div>
-							<div id="stressArea" class="flow-row">
+							<div id="stressArea">
 								<span id="stressLabel">STRESS</span>
 								<label id="main_stressCheckbox00" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox01" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox02" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox03" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox04" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox05" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox06" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox07" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox08" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox09" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox10" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<label id="main_stressCheckbox11" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
-									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
+									.<input type="checkbox" readonly class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 							</div>
@@ -5229,7 +5248,7 @@
 						<div class="colArea" id="hopeArea">
 							<div class="areaTitle">HOPE</div>
 							<p class="caption">Spend a Hope to use an experience or help an ally.</p>
-							<div id="hopeCheckboxArea" class="flow-row">
+							<div id="hopeCheckboxArea">
 								<label id="main_hopeCheckbox0" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="false" onclick="if(this.querySelector('input').readOnly){event.preventDefault();}" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
 									.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5264,32 +5283,32 @@
 						</div>
 						<div class="colArea" id="experienceArea">
 							<div class="areaTitle">EXPERIENCE</div>
-							<div class="experience flow-row">
+							<div class="experience">
 								<div id="main_experienceText0" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 								<div id="main_experienceMod0" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"><div></div></div>
 							</div>
-							<div class="experience flow-row">
+							<div class="experience">
 								<div id="main_experienceText1" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 								<div id="main_experienceMod1" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
-							<div class="experience flow-row">
+							<div class="experience">
 								<div id="main_experienceText2" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 								<div id="main_experienceMod2" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
-							<div class="experience flow-row">
+							<div class="experience">
 								<div id="main_experienceText3" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 								<div id="main_experienceMod3" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id)"></div>
 							</div>
-							<div class="experience flow-row">
+							<div class="experience">
 								<div id="main_experienceText4" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 								<div id="main_experienceMod4" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 						<div class="colArea" id="goldArea">
 							<div class="areaTitle inner">GOLD</div>
-							<div class="goldArea flow-row">
+							<div class="goldArea">
 								<div id="handfulsArea">
-									<div id="handfuls" class="flow-row">
+									<div id="handfuls">
 										<label id="main_gold_handfuls0" class="checkboxContainer goldCheckbox handful saveValue" data-valuetype="checkOnly">
 											.<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
@@ -5331,7 +5350,7 @@
 								</div>
 								<div class="verticalDivider dotted shorter"></div>
 								<div id="bagsArea">
-									<div id="bags" class="flow-row">
+									<div id="bags">
 										<label id="main_gold_bags0" class="checkboxContainer goldCheckbox bag saveValue" data-valuetype="checkOnly">
 											.<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
@@ -5395,7 +5414,7 @@
 					<div class="colRight">
 						<div class="colArea" id="weaponsArea">
 							<div class="areaTitle">ACTIVE WEAPONS</div>
-							<div id="proficiency" class="areaSubtitle flow-row">
+							<div id="proficiency" class="areaSubtitle">
 								<div id="proficiencyShape"></div>
 								<span class="label">PROFICIENCY: </span>
 								<label id="main_proficiency0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
@@ -5529,17 +5548,17 @@
 								</div>
 							</div>
 							<div id="inventoryWeapon0" class="equipmentArea inventoryWeapon">
-								<div class="flow-row invWeaponHeader">
+								<div class="invWeaponHeader">
 									<h2>INVENTORY WEAPON</h2>
-									<div class="flow-row weaponTypeCheckboxes">
-										<div class="flow-row weaponTypeBoxAndLabel">
+									<div class="weaponTypeCheckboxes">
+										<div class="weaponTypeBoxAndLabel">
 											<label id="main_inventoryWeapon0_primaryCheck" class="checkboxContainer primaryCheckbox saveValue" data-valuetype="checkOnly">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 												<span class="mark"></span>
 												PRIMARY
 											</label>
 										</div>
-										<div class="flow-row weaponTypeBoxAndLabel">
+										<div class="weaponTypeBoxAndLabel">
 											<label id="main_inventoryWeapon0_secondaryCheck" class="checkboxContainer secondaryCheckbox saveValue" data-valuetype="checkOnly">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 												<span class="mark"></span>
@@ -5582,17 +5601,17 @@
 								</div>
 							</div>
 							<div id="inventoryWeapon1" class="equipmentArea inventoryWeapon">
-								<div class="flow-row invWeaponHeader">
+								<div class="invWeaponHeader">
 									<h2>INVENTORY WEAPON</h2>
-									<div class="flow-row weaponTypeCheckboxes">
-										<div class="flow-row weaponTypeBoxAndLabel">
+									<div class="weaponTypeCheckboxes">
+										<div class="weaponTypeBoxAndLabel">
 											<label id="main_inventoryWeapon1_primaryCheck" class="checkboxContainer primaryCheckbox saveValue" data-valuetype="checkOnly">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 												<span class="mark"></span>
 												PRIMARY
 											</label>
 										</div>
-										<div class="flow-row weaponTypeBoxAndLabel">
+										<div class="weaponTypeBoxAndLabel">
 											<label id="main_inventoryWeapon1_secondaryCheck" class="checkboxContainer secondaryCheckbox saveValue" data-valuetype="checkOnly">
 												<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 												<span class="mark"></span>
@@ -5649,16 +5668,16 @@
 						</div>
 					</div>
 				</div>
-				<div class="levelUpRow flow-row">
+				<div class="levelUpRow">
 					<div id="tier2Col" class="levelUpCol">
 						<div class="areaTitle"><b>Tier 2:</b> LEVELS 2-4</div>
-						<div class="areaSubtitle flow-row">
+						<div class="areaSubtitle">
 							<div class="backgroundShape"></div>
 							<p>At Level 2, gain an additional Experience at +2 and gain a +1 bonus to your Proficiency.</p>
 						</div>
 						<p>Choose two options from the list below and mark them.</p>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_01" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5674,8 +5693,8 @@
 							</div>
 							<p>Gain a +1 bonus to two unmarked character traits and mark them.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_04" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5687,8 +5706,8 @@
 							</div>
 							<p>Permanently gain one Hit Point Slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_06" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5700,8 +5719,8 @@
 							</div>
 							<p>Permanently gain one Stress Slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_08" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5709,8 +5728,8 @@
 							</div>
 							<p>Permanently gain a +1 bonus to two Experiences.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_09" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5718,8 +5737,8 @@
 							</div>
 							<p>Choose an additional domain card of your level or lower from a domain you have access to (up to level 4).</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier2_10" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5731,13 +5750,13 @@
 					</div>
 					<div id="tier3Col" class="levelUpCol">
 						<div id="levelUpTitle" class="areaTitle"><b>Tier 3:</b> LEVELS 5-7</div>
-						<div class="areaSubtitle flow-row">
+						<div class="areaSubtitle">
 							<div class="backgroundShape"></div>
 							<p>At Level 5, gain an additional Experience at +2 and clear all marks on character traits. Then gain a +1 bonus to your Proficiency.</p>
 						</div>
 						<p>Choose two options from the list below or any from the previous tier and mark them.</p>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_01" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5753,8 +5772,8 @@
 							</div>
 							<p>Gain a +1 bonus to two unmarked character traits and mark them.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_04" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5766,8 +5785,8 @@
 							</div>
 							<p>Permanently gain one Hit Point slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_06" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5779,8 +5798,8 @@
 							</div>
 							<p>Permanently gain one Stress slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_08" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5788,8 +5807,8 @@
 							</div>
 							<p>Permanently gain a +1 bonus to two Experiences.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_09" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5797,8 +5816,8 @@
 							</div>
 							<p>Choose an additional domain card of your level or lower from a domain you have access to (up to level 7).</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_10" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5806,8 +5825,8 @@
 							</div>
 							<p>Permanently gain a +1 bonus to your Evasion</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier3_11" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5815,8 +5834,8 @@
 							</div>
 							<p class="lockable" data-lock="button" ondblclick="toggleStrikethrough(this)">Take an upgraded subclass card. Then cross out the multiclass option for this tier.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn bolded flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn bolded">
 								<label id="main_levelCheck_tier3_12" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5828,8 +5847,8 @@
 							</div>
 							<p>Increase your Proficiency by +1.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn bolded flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn bolded">
 								<label id="main_levelCheck_tier3_14" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5845,13 +5864,13 @@
 					</div>
 					<div id="tier4Col" class="levelUpCol">
 						<div class="areaTitle"><b>Tier 4:</b> LEVELS 8-10</div>
-						<div class="areaSubtitle flow-row">
+						<div class="areaSubtitle">
 							<div class="backgroundShape"></div>
 							<p>At Level 8, gain an additional Experience at +2 and clear all marks on character traits. Then gain a +1 bonus to your Proficiency.</p>
 						</div>
 						<p>Choose two options from the list below or any from the previous tier and mark them.</p>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_01" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5867,8 +5886,8 @@
 							</div>
 							<p>Gain a +1 bonus to two unmarked character traits and mark them.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_04" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5880,8 +5899,8 @@
 							</div>
 							<p>Permanently gain one Hit Point slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_06" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5893,8 +5912,8 @@
 							</div>
 							<p>Permanently gain one Stress Slot.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_08" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5902,8 +5921,8 @@
 							</div>
 							<p>Permanently gain a +1 bonus to two Experiences.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_09" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5911,8 +5930,8 @@
 							</div>
 							<p>Choose an additional domain card of your level or lower from a domain you have access to.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_10" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5920,8 +5939,8 @@
 							</div>
 							<p>Permanently gain a +1 bonus to your Evasion.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn">
 								<label id="main_levelCheck_tier4_11" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5929,8 +5948,8 @@
 							</div>
 							<p class="lockable" data-lock="button" ondblclick="toggleStrikethrough(this)">Take an upgraded subclass card. Then cross out the multiclass option for this tier.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn bolded flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn bolded">
 								<label id="main_levelCheck_tier4_12" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -5942,8 +5961,8 @@
 							</div>
 							<p>Increase your Proficiency by +1.</p>
 						</div>
-						<div class="flow-row listItem">
-							<div class="checkboxColumn bolded flow-row">
+						<div class="listItem">
+							<div class="checkboxColumn bolded">
 								<label id="main_levelCheck_tier4_14" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 									.<input type="checkbox" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
@@ -6052,7 +6071,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="beastformSheet" class="sheet" style="display:none;">
+			<div id="beastformSheet" class="sheet hidden">
 				<div class="topRow">
 					<div class="trapezoid"></div>
 					<h2>Druid</h2>
@@ -6444,11 +6463,11 @@
 					</div>
 				</div>
 			</div>
-			<div id="companionSheet" class="sheet" style="display:none;">
+			<div id="companionSheet" class="sheet hidden">
 				<div class="topRow">
 					<div class="trapezoid"></div>
 					<div class="numArea">
-						<input id="companionEvasion" class="num lockable" type="number" data-lock="input" inputmode="numeric" onchange="fillObjectFromSheet();" onfocus="this.select();">
+						<input id="companion_evasion" class="num lockable saveValue" type="number" data-valuetype="number" data-lock="input" inputmode="numeric" onchange="updateLocalStorage(this.id);" onfocus="this.select();">
 						<div class="labelArea">
 							<div class="label">EVASION</div>
 						</div>
@@ -6459,11 +6478,11 @@
 					<div class="equipmentLine">
 						<div class="equipmentTraitArea">
 							<span class="traitLabel">Companion Name</span>
-							<div id="companionName" class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+							<div id="companion_name" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
 					</div>
 				</div>
-				<div id="companionDescription" contenteditable class="lockable" data-lock="content"></div>
+				<div id="companion_description" contenteditable class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" onfocusout="updateLocalStorage(this.id);"></div>
 				<div class="subtitle">Work with the GM to decide what kind of animal you have as your companion. Given them a name and draw or attach a picture of them in the space above. Then create two Experiences for your companion based on their training and the history you have together. Finally, describe their method of dealing damage (their standard attack) and record it in the &quot;Attack &amp; Damage&quot; section. Their damage starts at d6 and their range starts at Melee.</div>
 				<div>
 					<div class="floating">
@@ -6474,25 +6493,25 @@
 					<div id="companionExperienceArea">
 						<h4>Companion Experience</h4>
 						<p class="subtitle">Start with +2 in two Experiences. Whenever you gain a new Experience, your companion also gains one. All new Experiences start at +2.</p>
-						<div class="experience flow-row">
-							<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-							<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+						<div class="experience">
+							<div id="companion_experienceText1" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
+							<div id="companion_experienceMod1" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
-						<div class="experience flow-row">
-							<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-							<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+						<div class="experience">
+							<div id="companion_experienceText2" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
+							<div id="companion_experienceMod2" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
-						<div class="experience flow-row">
-							<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-							<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+						<div class="experience">
+							<div id="companion_experienceText3" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
+							<div id="companion_experienceMod3" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
-						<div class="experience flow-row">
-							<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-							<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+						<div class="experience">
+							<div id="companion_experienceText4" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
+							<div id="companion_experienceMod4" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
-						<div class="experience flow-row">
-							<div class="experienceText lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
-							<div class="experienceMod lockable" data-lock="content" contenteditable onfocus="selectContents(this);" confocusout="fillObjectFromSheet();"></div>
+						<div class="experience">
+							<div id="companion_experienceText5" class="experienceText lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
+							<div id="companion_experienceMod5" class="experienceMod lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
 					</div>	
 				</div>
@@ -6502,33 +6521,33 @@
 						<div id="companionAttackArea" class="colArea">
 							<div class="areaTitle">Attack &amp; Damage</div>
 							<div class="equipmentArea">
-								<div class="equipmentLine flow-row">
+								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">Standard Attack</span>
-										<div id="companionWeaponName" class="text name lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="companion_weaponName" class="text name lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 									<div class="verticalDivider shortest dotted"></div>
 									<div class="equipmentTraitArea">
 										<span class="traitLabel">Range</span>
-										<div id="companionWeaponRange" class="text name lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+										<div id="companion_weaponRange" class="text name lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
-							<div id="companionDieArea" class="flow-row">
-								<label for="d6">
-									<input checked type="radio" name="companionDie" id="d6" value="d6" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div id="companionDieArea">
+								<label id="companion_d6"  class="saveValue" data-valuetype="checkOnly">
+									<input checked type="radio" name="companionDie" value="d6" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									d6
 								</label>
-								<label for="d8">
-									<input type="radio" name="companionDie" id="d8" value="d8" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+								<label id="companion_d8"  class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="companionDie" value="d8" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									d8
 								</label>
-								<label for="d10">
-									<input type="radio" name="companionDie" id="d10" value="d10" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+								<label id="companion_d10"  class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="companionDie" value="d10" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									d10
 								</label>
-								<label for="d12">
-									<input type="radio" name="companionDie" id="d12" value="d12" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+								<label id="companion_d12"  class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="companionDie" value="d12" class="lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									d12
 								</label>
 							</div>
@@ -6536,30 +6555,30 @@
 						</div>
 						<div id="companionStressArea" class="colArea">
 							<div class="areaTitle">Stress</div>
-							<div id="companionStressCheckboxArea" class="flow-row">
+							<div id="companionStressCheckboxArea">
 								<span id="stressLabel">Stress</span>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox0" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="false" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox1" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="false" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox2" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="false" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox3" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox4" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
-								<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="fillObjectFromSheet();">
+								<label id="companion_stressCheckbox5" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="true" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+									<input class="lockable" readonly type="checkbox" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 							</div>
@@ -6575,120 +6594,120 @@
 							<div class="areaTitle">Training</div>
 							<div class="subtitle">When your character levels up, choose one available option for your companion from the following list and mark it here</div>
 							<div class="checkboxes">
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--3 checkboxes-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_01" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_02" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_03" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Intelligent:</em> Your companion gains a permanent +1 bonus to a Companion Experience of your choice.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--1 checkbox-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_04" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Light in the Dark:</em>
-									<div id="companionHopeCheckbox" class="flow-row">
-										<label class="checkboxContainer" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input'));fillObjectFromSheet();}">
-											.<input type="checkbox" class="lockable" data-lock="check" onchange="fillObjectFromSheet();">
+									<div id="companion_hopeCheckboxArea">
+										<label id="companion_hopeCheckbox" class="checkboxContainer saveValue" data-valuetype="checkFull" data-default="false" ondblclick="if(!this.querySelector('input').disabled && !document.querySelector('#lockIcon input').checked){toggleReadonly(this.querySelector('input')); this.querySelector('input').checked = false; updateLocalStorage(this.id);}">
+											.<input type="checkbox" class="lockable" data-lock="check" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									Use this as an additional Hope Slot your character can mark.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--1 checkbox-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_05" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Creature Comfort:</em> Once per rest, when you take time during a quiet moment to give your companion love and attention, you can gain a Hope or you can both clear a Stress.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--1 checkbox-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_06" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Armored:</em> When your companion takes damage, you can <b>mark one of your Armor Slots</b> instead of marking one of their Stress.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--3 checkboxes-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_07" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_08" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_09" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Vicious:</em> Increase your companion’s damage dice or range by one step (d6 to d8, Close to Far, etc.).</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--3 checkboxes-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_10" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_11" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_12" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Resilient:</em> Your companion gains an additional Stress slot.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--1 checkbox-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_13" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
 									<p><em>Bonded:</em> When you mark your last Hit Point, your companion rushes to your side to comfort you. Roll a number of <b>d6s</b> equal to the unmarked Stress slots they have and mark them. If any roll a 6, your companion helps you up. Clear your last Hit Point and return to the scene.</p>
 								</div>
-								<div class="flow-row listItem">
+								<div class="listItem">
 									<!--3 checkboxes-->
-									<div class="checkboxColumn flow-row">
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<div class="checkboxColumn">
+										<label id="companion_trainingCheck_14" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_15" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
-										<label class="checkboxContainer">
-											.<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+										<label id="companion_trainingCheck_16" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+											.<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 											<span class="mark"></span>
 										</label>
 									</div>
@@ -6699,7 +6718,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="motherboardModule" class="sheet" style="display:none;">
+			<div id="motherboardModule" class="sheet hidden">
 				<div class="trapezoid"></div>
 				<div class="corner">
 					<h2>MOTHERBOARD</h2>
@@ -6709,13 +6728,13 @@
 					<div class="equipmentLine">
 						<div class="equipmentTraitArea">
 							<span class="traitLabel">Name</span>
-							<div id="motherboardName" class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+							<div id="motherboard_name" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
 					</div>
 					<div class="equipmentLine">
 						<div class="equipmentTraitArea">
 							<span class="traitLabel">Description</span>
-							<div id="motherboardDescription" class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+							<div id="motherboard_description" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 						</div>
 					</div>
 				</div>
@@ -6725,62 +6744,62 @@
 							<h2>IKONIS</h2>
 							<em>Choose a character trait.</em>
 							<div id="motherboardTraitGrid" class="grid">
-								<label>
-									<input type="radio" name="motherboardTrait" value="agility">
+								<label id="motherboard_trait_agility" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="agility" onchange="updateLocalStorage(this.parentElement.id);">
 									Agility
 								</label>
-								<label>
-									<input type="radio" name="motherboardTrait" value="strength">
+								<label id="motherboard_trait_strength" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="strength" onchange="updateLocalStorage(this.parentElement.id);">
 									Strength
 								</label>
-								<label>
-									<input type="radio" name="motherboardTrait" value="finesse">
+								<label id="motherboard_trait_strength" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="finesse" onchange="updateLocalStorage(this.parentElement.id);">
 									Finesse
 								</label>
-								<label>
-									<input type="radio" name="motherboardTrait" value="presence">
+								<label id="motherboard_trait_strength" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="presence" onchange="updateLocalStorage(this.parentElement.id);">
 									Presence
 								</label>
-								<label>
-									<input type="radio" name="motherboardTrait" value="instinct">
+								<label id="motherboard_trait_strength" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="instinct" onchange="updateLocalStorage(this.parentElement.id);">
 									Instinct
 								</label>
-								<label>
-									<input type="radio" name="motherboardTrait" value="knowledge">
+								<label id="motherboard_trait_strength" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardTrait" value="knowledge" onchange="updateLocalStorage(this.parentElement.id);">
 									Knowledge
 								</label>
 							</div>
 							<em>Choose range and damage dice.</em>
 							<div id="motherboardRangeGrid" class="grid">
-								<label>
-									<input type="radio" name="motherboardRange" value="melee">
+								<label id="motherboard_range_melee" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardRange" value="melee" onchange="updateLocalStorage(this.parentElement.id);">
 									Melee - d12+1
 								</label>
-								<label>
-									<input type="radio" name="motherboardRange" value="veryclose">
+								<label id="motherboard_range_veryclose" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardRange" value="veryclose" onchange="updateLocalStorage(this.parentElement.id);">
 									Very Close - d10+2
 								</label>
-								<label>
-									<input type="radio" name="motherboardRange" value="close">
+								<label id="motherboard_range_close" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardRange" value="close" onchange="updateLocalStorage(this.parentElement.id);">
 									Close - d10
 								</label>
-								<label>
-									<input type="radio" name="motherboardRange" value="far">
+								<label id="motherboard_range_far" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardRange" value="far" onchange="updateLocalStorage(this.parentElement.id);">
 									Far - d8+1
 								</label>
-								<label>
-									<input type="radio" name="motherboardRange" value="veryfar">
+								<label id="motherboard_range_veryfar" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardRange" value="veryfar" onchange="updateLocalStorage(this.parentElement.id);">
 									Very Far - d6+1
 								</label>
 							</div>
 							<em>Choose damage type.</em>
 							<div id="motherboardTypeGrid" class="grid">
-								<label>
-									<input type="radio" name="motherboardType" value="physical">
+								<label id="motherboard_damageType_physical" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardType" value="physical" onchange="updateLocalStorage(this.parentElement.id);">
 									Physical
 								</label>
-								<label>
-									<input type="radio" name="motherboardType" value="tech">
+								<label id="motherboard_damageType_tech" class="saveValue" data-valuetype="checkOnly">
+									<input type="radio" name="motherboardType" value="tech" onchange="updateLocalStorage(this.parentElement.id);">
 									Tech
 								</label>
 							</div>
@@ -6793,58 +6812,58 @@
 						<div id="motherboardInstalledArea" class="colArea">
 							<div class="areaTitle">Installed Augments</div>
 							<p>Start with two slots. Unlock one at each tier.</p>
-							<div class="flow-row">
-								<label class="checkboxContainer">
-									<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div>
+								<label id="motherboard_installedAugmentCheck0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+									<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+										<div id="motherboard_installedAugmentText0" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
-							<div class="flow-row">
-								<label class="checkboxContainer">
-									<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div>
+								<label id="motherboard_installedAugmentCheck1" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+									<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+										<div id="motherboard_installedAugmentText1" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
-							<div class="flow-row">
-								<label class="checkboxContainer">
-									<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div>
+								<label id="motherboard_installedAugmentCheck2" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+									<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+										<div id="motherboard_installedAugmentText2" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
-							<div class="flow-row">
-								<label class="checkboxContainer">
-									<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div>
+								<label id="motherboard_installedAugmentCheck3" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+									<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+										<div id="motherboard_installedAugmentText3" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
-							<div class="flow-row">
-								<label class="checkboxContainer">
-									<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div>
+								<label id="motherboard_installedAugmentCheck4" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+									<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 									<span class="mark"></span>
 								</label>
 								<div class="equipmentLine">
 									<div class="equipmentTraitArea">
-										<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+										<div id="motherboard_installedAugmentText4" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 									</div>
 								</div>
 							</div>
@@ -6856,14 +6875,14 @@
 					<div class="areaTitle">Augments</div>
 					<div class="twoCol">
 						<div class="leftCol">
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck00" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck01" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6873,14 +6892,14 @@
 									<i>3 gears, 2 lenses, 4 aluminum, 1 capacitor</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck02" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck03" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6890,14 +6909,14 @@
 									<i>3 wires, 2 silver, 2 platinum, 3 fuses</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck04" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck05" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6907,10 +6926,10 @@
 									<i>4 coils, 2 crystals, 5 gold, 3 discs</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck06" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6920,14 +6939,14 @@
 									<i>4 crystals, 4 cobalt, 4 copper, 4 capacitors</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck07" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck08" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6937,10 +6956,10 @@
 									<i>5 lenses, 3 silver, 2 circuits, 2 relays</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck09" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6950,10 +6969,10 @@
 									<i>6 coils, 3 wire, 2 copper, 4 batteries</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck10" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6963,10 +6982,10 @@
 									<i>10 wires, 7 gold, 5 fuses, 5 circuits, 2 batteries</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck11" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6976,14 +6995,14 @@
 									<i>12 gears, 5 lenses, 15 aluminum, 9 relays</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck12" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck13" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -6993,14 +7012,14 @@
 									<i>6 coils, 4 wires, 1 crystal, 5 cobalt, 5 silver, 7 relays, 2 batteries</i>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck14" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck15" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7012,14 +7031,14 @@
 							</div>
 						</div>
 						<div class="rightCol">
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck16" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck17" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7031,10 +7050,10 @@
 									<em>Precompile: Tier 2</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck18" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7046,10 +7065,10 @@
 									<em>Precompile: Tier 2</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck19" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7061,10 +7080,10 @@
 									<em>Precompile: Tier 2</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck20" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7076,10 +7095,10 @@
 									<em>Precompile: Tier 3</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck21" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7091,14 +7110,14 @@
 									<em>Precompile: Tier 3</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck22" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+									<label id="motherboard_augmentCheck23" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7110,10 +7129,10 @@
 									<em>Precompile: Tier 3</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck24" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7125,10 +7144,10 @@
 									<em>Precompile: Tier 4</em>
 								</p>
 							</div>
-							<div class="flow-row listItem">
-								<div class="checkboxColumn flow-row">
-									<label class="checkboxContainer">
-										<input class="lockable" type="checkbox" data-lock="disable" onchange="fillObjectFromSheet();">
+							<div class="listItem">
+								<div class="checkboxColumn">
+									<label id="motherboard_augmentCheck25" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+										<input class="lockable" type="checkbox" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
 										<span class="mark"></span>
 									</label>
 								</div>
@@ -7148,211 +7167,210 @@
 					<div id="motherboardQuantum">
 						<div id="motherboardQuantumLabel">Current<br/>Quantum</div>
 						<div class="numArea">
-							<input type="number" class="num lockable" data-lock="input" id="motherboardCurrentQuantum" inputmode="numeric" onchange="fillObjectFromSheet()" onfocus="this.select();">
-							
+							<input id="motherboard_quantum" type="number" class="num lockable saveValue" data-valuetype="number" data-lock="input" inputmode="numeric" onfocus="this.select();" onchange="updateLocalStorage(this.id);">
 						</div>
 					</div>
 					<h2>SHARDS</h2><h3>(D6)</h3>
 					<div class="grid">
-						<div class="flow-row">
+						<div>
 							<p>1. Gear</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_gear" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>3. Wire</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_wire" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>5. Lens</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_lens" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>2. Coil</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_coil" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>4. Trigger</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_trigger" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>6. Crystal</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_shards_crystal" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<h2>METALS</h2><h3>(D8)</h3>
 					<div class="grid">
-						<div class="flow-row">
+						<div>
 							<p>1. Aluminum</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_aluminum" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>5. Cobalt</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_cobalt" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>7. Platinum</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_platinum" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>3. Copper</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_copper" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>6. Silver</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_silver" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>8. Gold</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_metals_gold" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<h2>COMPONENTS</h2><h3>(D10)</h3>
 					<div class="grid">
-						<div class="flow-row">
+						<div>
 							<p>1. Fuse</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_fuse" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
-							<p>6. Dics</p>
+						<div>
+							<p>6. Discs</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_discs" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>9. Capacitor</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_capacitor" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>3. Circuit</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_circuit" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>8. Relay</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_relay" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<p>10. Battery</p>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_components_battery" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<h2>RELICS</h2><h3></h3>
 					<div class="grid evenly">
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics0" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics1" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics2" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics3" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics4" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
-						<div class="flow-row">
+						<div>
 							<div class="equipmentLine">
 								<div class="equipmentTraitArea">
-									<div class="text weaponFeature lockable" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="fillObjectFromSheet();"></div>
+									<div id="motherboard_relics5" class="text weaponFeature lockable saveValue" data-valuetype="innerText" data-lock="content" contenteditable onfocus="selectContents(this)" onfocusout="updateLocalStorage(this.id);"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="martialForm" class="VOID sheet" style="display:none;">
+			<div id="martialForm" class="VOID sheet hidden">
 				<div class="topRow">
 					<div class="trapezoid"></div>
 					<div class="corner">
@@ -7363,116 +7381,116 @@
 				</div>
 				<div class="body">
 					<h3>Tier 1</h3>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier1_activeCheck0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier1_activeStance0" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier1_activeCheck1" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier1_activeStance1" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="body">
 					<h3>Tier 2</h3>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier2_activeCheck0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier2_activeStance0" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier2_activeCheck1" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier2_activeStance1" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="body">
 					<h3>Tier 3</h3>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier3_activeCheck0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier3_activeStance0" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier3_activeCheck1" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier3_activeStance1" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="body">
 					<h3>Tier 4</h3>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier4_activeCheck0" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier4_activeStance0" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
-					<div class="flow-row equipmentArea">
-						<label class="checkboxContainer">
-							<input type="checkbox" class="lockable" data-lock="disable" onchange="fillObjectFromSheet();">
+					<div class="equipmentArea">
+						<label id="martialForm_tier4_activeCheck1" class="checkboxContainer saveValue" data-valuetype="checkOnly">
+							<input type="checkbox" onchange="updateLocalStorage(this.parentElement.id);">
 							<span class="mark"></span>
 							Active
 						</label>
 						<div class="equipmentLine">
 							<div class="equipmentTraitArea">
 								<span class="traitLabel">Stance</span>
-								<div class="lockable" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="fillObjectFromSheet();"></div>
+								<div id="martialForm_tier4_activeStance1" class="lockable saveValue" data-valuetype="innerHTML" data-lock="content" contenteditable="true" onfocus="selectContents(this);" onfocusout="updateLocalStorage(this.id);"></div>
 							</div>
 						</div>
 					</div>
@@ -7480,82 +7498,82 @@
 				<div class="twoCol">
 					<div class="colLeft">
 						<h4>Tier 1 Stances</h4>
-						<p>
-							<b>Brutal:</b> When you roll the maximum value on a damage die, roll an additional damage die.
+						<p class="stance tier1">
+							<span class="stanceTitle">Brutal</span>: When you roll the maximum value on a damage die, roll an additional damage die.
 						</p>
-						<p>
-							<b>Defensive:</b> Attack rolls against you have disadvantage unless the adversary marks a Stress.
+						<p class="stance tier1">
+							<span class="stanceTitle">Defensive</span>: Attack rolls against you have disadvantage unless the adversary marks a Stress.
 						</p>
-						<p>
-							<b>Grappling:</b> On a successful attack, you can spend a Focus to make the target temporarily <i>Restrained</i>.
+						<p class="stance tier1">
+							<span class="stanceTitle">Grappling</span>: On a successful attack, you can spend a Focus to make the target temporarily <i>Restrained</i>.
 						</p>
-						<p>
-							<b>Steady:</b> Gain a -1 penalty to your Evasion. When you deal damage on a successful attack, roll an additional damage die and drop the lowest.
+						<p class="stance tier1">
+							<span class="stanceTitle">Steady</span>: Gain a -1 penalty to your Evasion. When you deal damage on a successful attack, roll an additional damage die and drop the lowest.
 						</p>
-						<p>
-							<b>Precise:</b> Gain a +1 bonus to your attack rolls.
+						<p class="stance tier1">
+							<span class="stanceTitle">Precise</span>: Gain a +1 bonus to your attack rolls.
 						</p>
-						<p>
-							<b>Quick:</b> When making an attack roll, spend a Focus to include an additional target within range.
+						<p class="stance tier1">
+							<span class="stanceTitle">Quick</span>: When making an attack roll, spend a Focus to include an additional target within range.
 						</p>
 						<h4>Tier 2 Stances</h4>
-						<p>
-							<b>Deadly:</b> When you deal Severe damage, the target marks an additional HP.
+						<p class="stance tier2">
+							<span class="stanceTitle">Deadly</span>: When you deal Severe damage, the target marks an additional HP.
 						</p>
-						<p>
-							<b>Hindering:</b> On a successful attack, you can spend a Focus to make the target temporarily <i>Hindered</i>. While <i>Hindered</i>, their attack rolls have a -2 penalty.
+						<p class="stance tier2">
+							<span class="stanceTitle">Hindering</span>: On a successful attack, you can spend a Focus to make the target temporarily <i>Hindered</i>. While <i>Hindered</i>, their attack rolls have a -2 penalty.
 						</p>
-						<p>
-							<b>Invigorating:</b> When you make a successful attack, roll a <b>d4</b>. On a 4, gian a Focus.
+						<p class="stance tier2">
+							<span class="stanceTitle">Invigorating</span>: When you make a successful attack, roll a <span class="stanceTitle">d4</span>. On a 4, gian a Focus.
 						</p>
-						<p>
-							<b>Immovable:</b> Gain a +2 bonus to your damage thresholds and you cannot be moved unwillingly.
+						<p class="stance tier2">
+							<span class="stanceTitle">Immovable</span>: Gain a +2 bonus to your damage thresholds and you cannot be moved unwillingly.
 						</p>
-						<p>
-							<b>Nimble:</b> When an adversary makes a successful attack roll against you, you can spend a number of Focus up to your Tier. Roll a number of <b>d6s</b> equal to 1 + the Focus spent. If any of the dice values match, you take no damage from the attack.
+						<p class="stance tier2">
+							<span class="stanceTitle">Nimble</span>: When an adversary makes a successful attack roll against you, you can spend a number of Focus up to your Tier. Roll a number of <span class="stanceTitle">d6s</span> equal to 1 + the Focus spent. If any of the dice values match, you take no damage from the attack.
 						</p>
-						<p>
-							<b>Otherworldly:</b> You can choose whether to do Physical or Magic damage.
+						<p class="stance tier2">
+							<span class="stanceTitle">Otherworldly</span>: You can choose whether to do Physical or Magic damage.
 						</p>
-						<p>
-							<b>Scary:</b> Successful attacks also force the target to mark a Stress.
+						<p class="stance tier2">
+							<span class="stanceTitle">Scary</span>: Successful attacks also force the target to mark a Stress.
 						</p>
 					</div>
 					<div class="colRight">
 						<h4>Tier 3 Stances</h4>
-						<p>
-							<b>Deflecting:</b> When you are targeted by an attack, you can spend 2 Focus to gain a bonus to your Evasion equal to your Armor Score against the attack.
+						<p class="stance tier3">
+							<span class="stanceTitle">Deflecting</span>: When you are targeted by an attack, you can spend 2 Focus to gain a bonus to your Evasion equal to your Armor Score against the attack.
 						</p>
-						<p>
-							<b>Devastating:</b> Spend a Focus before your attack roll to use <b>d20s</b> as your damage dice instead.
+						<p class="stance tier3">
+							<span class="stanceTitle">Devastating</span>: Spend a Focus before your attack roll to use <span class="stanceTitle">d20s</span> as your damage dice instead.
 						</p>
-						<p>
-							<b>Dueling:</b> Gain advantage on attack rolls when there are no other adversaries or allies in Very Close range of you or your target.
+						<p class="stance tier3">
+							<span class="stanceTitle">Dueling</span>: Gain advantage on attack rolls when there are no other adversaries or allies in Very Close range of you or your target.
 						</p>
-						<p>
-							<b>Compounding:</b> When you roll the maximum value on a Combo Die, increase the size of the subsequent Combo Dice you roll for the attack (at a maximum of <b>d12s</b>).
+						<p class="stance tier3">
+							<span class="stanceTitle">Compounding</span>: When you roll the maximum value on a Combo Die, increase the size of the subsequent Combo Dice you roll for the attack (at a maximum of <span class="stanceTitle">d12s</span>).
 						</p>
-						<p>
-							<b>Inexorable:</b> Attacks against you have disadvantage if you have more than two adversaries within Melee of you.
+						<p class="stance tier3">
+							<span class="stanceTitle">Inexorable</span>: Attacks against you have disadvantage if you have more than two adversaries within Melee of you.
 						</p>
-						<p>
-							<b>Favored:</b> Add the trait of your choice to your damage roll.
+						<p class="stance tier3">
+							<span class="stanceTitle">Favored</span>: Add the trait of your choice to your damage roll.
 						</p>
-						<p>
-							<b>Sheltering:</b> When you mark an Armor Slot, it reduces damage for you and all allies within Melee range of you who took the same damage.
+						<p class="stance tier3">
+							<span class="stanceTitle">Sheltering</span>: When you mark an Armor Slot, it reduces damage for you and all allies within Melee range of you who took the same damage.
 						</p>
 						<h4>Tier 4 Stances</h4>
-						<p>
-							<b>Crushing:</b> When you roll a 1 on a damage die, it can be treated as the highest value on the die instead.
+						<p class="stance tier4">
+							<span class="stanceTitle">Crushing</span>: When you roll a 1 on a damage die, it can be treated as the highest value on the die instead.
 						</p>
-						<p>
-							<b>Infuriating:</b> On a successful attack, the target becomes <i>Furious</i>. While <i>Furious</i>, they are <i>Vulnerable</i> and have a -2 penalty to their attack rolls. They can only clear <i>Furious</i> by succeeding on an attack against you.
+						<p class="stance tier4">
+							<span class="stanceTitle">Infuriating</span>: On a successful attack, the target becomes <i>Furious</i>. While <i>Furious</i>, they are <i>Vulnerable</i> and have a -2 penalty to their attack rolls. They can only clear <i>Furious</i> by succeeding on an attack against you.
 						</p>
-						<p>
-							<b>Sweeping:</b> Your attack targets all adversaries within Very Close range. Deal half damage to all targets you succeed against.
+						<p class="stance tier4">
+							<span class="stanceTitle">Sweeping</span>: Your attack targets all adversaries within Very Close range. Deal half damage to all targets you succeed against.
 						</p>
-						<p>
-							<b>Discerning:</b> You may choose the target of your attack after making your attack roll. The GM will tell you who the attack would succeed against.
+						<p class="stance tier4">
+							<span class="stanceTitle">Discerning</span>: You may choose the target of your attack after making your attack roll. The GM will tell you who the attack would succeed against.
 						</p>
 					</div>
 				</div>
@@ -7567,7 +7585,7 @@
 				<!--WIP FUNCTION--><input type="text" id="myInput" onkeyup="debouncedSearch()" title="Search Cards">
 				<!--WIP FUNCTION--><button onclick="clearSearch()">Clear Choices</button>
 				<div id="cardOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Card Options</div>
 					</div>
@@ -7619,7 +7637,7 @@
 					</div>
 				</div>
 				<div id="tableOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Table Options</div>
 					</div>
@@ -7689,7 +7707,7 @@
 					</div>
 				</div>
 				<div id="adversaryOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Adversary Options</div>
 					</div>
@@ -7749,7 +7767,7 @@
 					</div>
 				</div>
 				<div id="environmentOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Environment Options</div>
 					</div>
@@ -7780,7 +7798,7 @@
 					</div>
 				</div>
 				<div id="tierOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Tier</div>
 					</div>
@@ -7796,7 +7814,7 @@
 					</div>
 				</div>
 				<div id="levelOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
-					<div class="subOptionTitleRow flow-row">
+					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
 						<div class="subOptionTitle">Level</div>
 					</div>
@@ -15581,7 +15599,7 @@
 							<div class="trait">
 								<span class="traitTitle">Combo Strikes</span>
 								<span class="traitDescription">
-									<span class="flow-row brawlerDie">
+									<span class="brawlerDie">
 										<label id="card_brawler_d4" class="checkboxContainer saveValue" data-valuetype="checkOnly">
 											d4
 											<input type="radio" name="brawlerDie" value="d4" class="num lockable" data-lock="disable" onchange="updateLocalStorage(this.parentElement.id);">
@@ -29732,7 +29750,7 @@
 				</label>
 				<br/>
 				<label id="option_toggleMotherboardModule" class="switch saveValue" data-valuetype="option">
-					<input type="checkbox" name="toggleMotherboardModule" onchange="updateLocalStorage(); toggleSheet('motherboardModule');">
+					<input type="checkbox" name="toggleMotherboardModule" onchange="updateLocalStorage(this.parentElement.id); toggleSheet('motherboardModule');">
 					<span class="slider"></span>
 					<span class="sliderLabel">Motherboard Module (Motherboard Campaign)</span>
 				</label>
@@ -32800,6 +32818,10 @@
 		}*/
 	</script>-->
 	<script>
+		//debugging
+		//var hasExecuted = false;
+		var autocompleteHasExecuted = false;
+		
 		//options and character sheet variables
 		var SavedCharacter = new Map();
 		var debouncedSearch = debounce(() => search());
@@ -32853,6 +32875,19 @@
 		autocomplete(document.getElementById('main_wornArmor_name'), allArmorTitles);
 		autocomplete(document.getElementById('main_inventoryWeapon0_name'), allWeaponTitles);
 		autocomplete(document.getElementById('main_inventoryWeapon1_name'), allWeaponTitles);
+		//VOID Martial Form autocomplete
+		var tier1MartialStanceTitles = generateTitles('#martialForm .stance.tier1 .stanceTitle');
+		var tier2MartialStanceTitles = generateTitles('#martialForm .stance.tier2 .stanceTitle');
+		var tier3MartialStanceTitles = generateTitles('#martialForm .stance.tier3 .stanceTitle');
+		var tier4MartialStanceTitles = generateTitles('#martialForm .stance.tier4 .stanceTitle');
+		autocomplete(document.getElementById('martialForm_tier1_activeStance0'), tier1MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier1_activeStance1'), tier1MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier2_activeStance0'), tier2MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier2_activeStance1'), tier2MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier3_activeStance0'), tier3MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier3_activeStance1'), tier3MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier4_activeStance0'), tier4MartialStanceTitles);
+		autocomplete(document.getElementById('martialForm_tier4_activeStance1'), tier4MartialStanceTitles);
 		
 		//populate selection dropdowns
 		fillDropdowns();
@@ -32877,6 +32912,10 @@
 			fillSheet();
 			
 		}
+		else{
+			updateLocalStorage();
+			updateSheetVisuals();
+		}
 		
 		//WIP ADD .domain DIV TO ALL DOMAIN CARDS WHOSE INNERHTML HAS THE DOMAIN NAME IN IT AND HAS DISPLAY:NONE;
 		//WIP ADD CUSTOM CSS TO .domainRow[domain="000"] for domain colors
@@ -32897,10 +32936,10 @@
 			let card = document.createElement('div');
 			let row;
 			let element;
-			card.className = 'domainRow';
+			card.className = 'domainCard';
 			//first row contains the title element and two buttons
 			row = document.createElement('div');
-			row.className = 'flow-row titleRow';
+			row.className = 'titleRow';
 			element = document.createElement('div');
 			element.className = 'text domainCardTitle lockable';
 			element.dataset.lock = 'content';
@@ -32919,11 +32958,11 @@
 			element.innerHTML = '↑';
 			element.addEventListener('click', function(){ //might want to add a moveDomainCard() function back someday
 				if( this.closest('.cardVault').id === 'main_loadout' ){
-					document.getElementById('main_vault').appendChild(this.closest('.domainRow'));
+					document.getElementById('main_vault').appendChild(this.closest('.domainCard'));
 					this.innerHTML = '↑';
 				}
 				else{
-					document.getElementById('main_loadout').appendChild(this.closest('.domainRow'));
+					document.getElementById('main_loadout').appendChild(this.closest('.domainCard'));
 					this.innerHTML = '↓';
 				}
 				updateLocalStorage('main_loadout','main_vault');
@@ -32935,7 +32974,7 @@
 			element.className = 'removeDomainCard lockable';
 			element.dataset.lock = 'hide';
 			element.innerHTML = '-';
-			element.addEventListener('click', function(){this.closest('.domainRow').remove();updateLocalStorage('main_loadout','main_vault');updateSheetVisuals();} );
+			element.addEventListener('click', function(){this.closest('.domainCard').remove();updateLocalStorage('main_loadout','main_vault');updateSheetVisuals();} );
 			row.appendChild(element);
 			card.appendChild(row);
 			//second row contains the description
@@ -32946,7 +32985,6 @@
 			row.appendChild(element);
 			card.appendChild(row);
 			vault.appendChild(card);
-			updateSheetVisuals();
 			return card;
 		}
 		function autocomplete(field, options){
@@ -33000,6 +33038,13 @@
 										i = rows.length;
 									}
 								}
+								//martial form
+								for(let stanceTitle of document.querySelectorAll('#martialForm .stanceTitle')){
+									if( stanceTitle.innerHTML.toLowerCase() === field.innerHTML.toLowerCase() ){
+										field.innerHTML = stanceTitle.closest('.stance').innerHTML;
+										break;
+									}
+								}
 							}
 							updateLocalStorage();
 							updateSheetVisuals();
@@ -33051,14 +33096,31 @@
 					}
 				}
 			}
-			document.addEventListener('click', function(e) {
-				closeAllLists(e.target);
-			});
+			if( !autocompleteHasExecuted ){
+				document.addEventListener('click', function(e) {
+					closeAllLists(e.target);
+				});
+				autocompleteHasExecuted = true;
+			}
 		}
-		function clearSheet(){
-			for(var elem of document.querySelectorAll('.saveValue')){
+		function clearSheet(...sheetIDs){
+			let values;
+			if(sheetIDs.length > 0){
+				values = [];
+				for(let id of sheetIDs){
+					values = values.concat(Array.from(document.querySelectorAll('#' + id + ' .saveValue')));
+				}
+			}
+			else{
+				values = document.querySelectorAll('.sheet .saveValue');
+			}
+			
+			for(var elem of values){
 				switch( elem.dataset.valuetype ){
 					case 'select':
+						elem.value = '-';
+						elem.closest('.custom-select').querySelector('.select-selected').innerHTML = '-';
+						break;
 					case 'number':
 						elem.value = '';
 						break;
@@ -33069,24 +33131,26 @@
 						elem.innerHTML = '';
 						break;
 					case 'checkFull':
-						elem.readOnly = elem.dataset.default;
-						elem.checked = false;
+						elem.querySelector('input').readOnly = (elem.dataset.default === 'true');
+						elem.querySelector('input').checked = false;
 						break;
 					case 'checkOnly':
-						elem.checked = false;
+						elem.querySelector('input').checked = false;
 						break;
-					case 'array':
+					case 'array': //not generalized yet, only works for main sheet loadout and vault
 						for(let title of elem.querySelectorAll(elem.dataset.arrayquery)){
 							title.innerText = '';
+							title.closest('.domainCard').remove();
 						}
 						break;
 					default:
 						break;
 				}
 			}
-			for(var card of mainSheet.querySelectorAll('.domainRow')){
-				card.remove();
-			}
+			
+			updateLocalStorage();
+			updateFeaturesText();
+			updateSheetVisuals();
 		}
 		function debounce(func, timeout = 300){
 			let timer;
@@ -33207,9 +33271,10 @@
 			}
 		}
 		function fillSheet(){
+			console.log('filling sheet');
 			//fill all character Map values,
 			//updating featuresText values first, if possible
-			let majorValues = new Set(['main_classDropdown','main_multiclassDropdown','main_classSubclassDropdown','main_multiclassSubclassDropdown','main_ancestry0Dropdown','main_ancestry1Dropdown','main_communityDropdown']);
+			const majorValues = new Set(['main_classDropdown','main_multiclassDropdown','main_classSubclassDropdown','main_multiclassSubclassDropdown','main_ancestry0Dropdown','main_ancestry1Dropdown','main_communityDropdown']);
 			if( majorValues.intersection(new Set(SavedCharacter.keys())).size > 0 ){
 				for(let id of majorValues){
 					if( SavedCharacter.has(id) ){
@@ -33244,10 +33309,11 @@
 								}
 								break;
 							case 'array':
-								if( value.length === 0)
+								let titles = value.split(',');
+								if( value.length === 0 )
 									break;
-								for(let title of value.split(',')){
-									addDomainCard(key,title);
+								for(let n = 0; n < titles.length; n++){
+									addDomainCard(key,titles[n]);
 								}
 								break;
 							default:
@@ -33259,7 +33325,7 @@
 				updateFeaturesText();
 			}
 			
-			for(const [key,value] of SavedCharacter){
+			for(const [key,value] of Array.from(SavedCharacter)){
 				//special case: lockIcon
 				//interrupt lockIcon being triggered and update it last
 				if( key === 'lockIcon' )
@@ -33294,10 +33360,11 @@
 						}
 						break;
 					case 'array':
-						if( value.length === 0)
+						let titles = value.split(',');
+						if( value.length === 0 )
 							break;
-						for(let title of value.split(',')){
-							addDomainCard(key,title);
+						for(let n = 0; n < titles.length; n++){
+							addDomainCard(key,titles[n]);
 						}
 						break;
 					default:
@@ -33708,11 +33775,12 @@
 			elem.readOnly = !elem.readOnly;
 		}
 		function toggleSheet(sheetID){
-			if( document.getElementById(sheetID).classList.includes('hidden') ){
+			if( document.getElementById(sheetID).classList.contains('hidden') ){
 				show(document.getElementById(sheetID));
 			}
 			else{
 				hide(document.getElementById(sheetID));
+				clearSheet(sheetID);
 			}
 		}
 		function toggleStrikethrough(paragraph){
@@ -33910,7 +33978,7 @@
 			
 			//otherwise clear SavedCharacter and update all values
 			SavedCharacter.clear();
-			for(var elem of document.querySelectorAll('.sheet .saveValue, #optionsArea .saveValue')){
+			for(var elem of document.querySelectorAll('.sheet:not(.hidden) .saveValue, #optionsArea .saveValue')){
 				switch( elem.dataset.valuetype ){
 					case 'select':
 					case 'number':
@@ -33990,12 +34058,14 @@
 			vault = document.getElementById('main_vault');
 			loadoutNum = document.getElementById('loadoutNum');
 			vaultNum = document.getElementById('vaultNum');
-			chosenDomainCards = document.querySelectorAll('.domainRow');
+			chosenDomainCards = document.querySelectorAll('#domainCardArea .domainCard');
 			
 			//update the sheet elements
 			//Multiclass
 			if( SavedCharacter.get('option_toggleMulticlass') == '☑' ){
 				mainSheet.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightTall)';
+				mainSheet.querySelector('.topRow').style.height = 'var(--trapezoidHeightTall)';
+				mainSheet.querySelector('.infoArea .background').style.height = 'calc(var(--trapezoidHeightTall) - 10%)';
 				show(mainSheet.querySelector('.symbol3'),
 					document.getElementById('main_multiclassDropdown').parentElement,
 					document.getElementById('main_multiclassDomainDropdown').parentElement,
@@ -34004,6 +34074,8 @@
 			}
 			else{
 				mainSheet.querySelector('.trapezoid').style.height = 'var(--trapezoidHeightShort)';
+				mainSheet.querySelector('.topRow').style.height = 'var(--trapezoidHeightShort)';
+				mainSheet.querySelector('.infoArea .background').style.height = 'calc(var(--trapezoidHeightShort) - 10%)';
 				hide(mainSheet.querySelector('.symbol3'),
 					document.getElementById('main_multiclassDropdown').parentElement,
 					document.getElementById('main_multiclassDomainDropdown').parentElement,
@@ -34099,7 +34171,7 @@
 					show(option);
 					continue;
 				}
-				let subclassCards = document.querySelectorAll('.subclass.' + classChoice + ':not(.template)');
+				let subclassCards = document.querySelectorAll('#cardArea .subclass.' + classChoice);
 				for(let card of subclassCards){
 					if( card.querySelector('.title').innerHTML.toLowerCase() === optionName )
 						show(option);
@@ -34152,6 +34224,7 @@
 						description.innerHTML += '<span class="cost">Cost: ' + allDomainCards[n].querySelector('.cost').innerHTML  + '</span><br/>';
 						description.innerHTML += allDomainCards[n].querySelector('.description').innerHTML;
 						n = allDomainCards.length;
+						break;
 					}
 				}
 			}
@@ -34173,7 +34246,9 @@
 					cardType = prune(card.querySelector('.type').innerHTML);
 					
 					if( (cardTitle === subclass0Name || cardTitle === subclass1Name) && cardType === 'foundation' ){
-						document.getElementById('main_' + prune(card.querySelector('.spellcast').innerText)).classList.add('spellcast');
+						for(let spellcast of card.querySelectorAll('.spellcast')){
+							document.getElementById('main_' + prune(spellcast.innerText)).classList.add('spellcast');
+						}
 					}
 				}
 			}
@@ -34198,8 +34273,12 @@
 		
 		//function clearSearch()
 		//function search()
-		//function toggleTutorial(elem)
-		//function toggleVOID()
+		function toggleTutorial(elem){
+			console.error('toggleTutorial() is not currently functional');
+		}
+		function toggleVOID(){
+			console.error('toggleVOID() is not currently functional');
+		}
 		
 	</script>
 </html>
