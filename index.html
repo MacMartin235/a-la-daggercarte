@@ -27,6 +27,8 @@
 			:root{
 				font-size: 16px;
 				
+				--sheetWidth: 1050px;
+				
 				--buttonSize: 16px;
 				--domainCardHorizon: 60%;
 				--classCardHorizon: 73%;
@@ -1774,6 +1776,9 @@
 					display: revert;
 				}
 			}
+			#sheetArea{
+				
+			}
 			#testArea{
 				background-color: #efefef;
 			}
@@ -1903,9 +1908,74 @@
 				}
 			}
 			
+			/* TUTORIAL SIDEBARS */
+			#tutorialSidebarLeft,
+			#tutorialSidebarRight{
+				//position: absolute;
+				display: inline-block;
+				width: calc(var(--sheetWidth) / 2);
+				//height: 100%;
+				//top: 0;
+				background: white;
+				border: medium solid black;
+				
+				.tutorialStep{
+					width: 80%;
+					border: thin solid black;
+					padding: 6px;
+					margin: 6px auto;
+					position: relative;
+					font-size: 0.8rem;
+					background-color: white;
+				}
+				.tutorialArrows{
+					width: 60px;
+					height: 32px;
+					position: absolute;
+					
+					&::after{
+						font-size: 3.5rem;
+						font-weight: 900;
+						line-height: 36px;
+					}
+				}
+			}
+			#tutorialSidebarLeft{
+				//left: calc(var(--width)*-1);
+				
+				.tutorialStep{
+					border-right: thick solid black;
+					margin-right: 60px;
+				}
+				.tutorialArrows{
+					right: 0;
+					transform: translate(100%,0);
+					
+					&::after{
+						content: "→";
+					}
+				}
+			}
+			#tutorialSidebarRight{
+				//right: calc(var(--width)*-1);
+				
+				.tutorialStep{
+					border-left: thick solid black;
+					margin-left: 60px;
+				}
+				.tutorialArrows{
+					left: 0;
+					transform: translate(-100%,0);
+					
+					&::after{
+						content: "←";
+						float: right;
+					}
+				}
+			}
+			
 			/* CHARACTER SHEET */
 			.sheet{
-				--sheetWidth: 1050px;
 				border: 5px solid black;
 				padding: 35px;
 				display: flex;
@@ -3774,74 +3844,6 @@
 						}
 					}
 				}
-				#tutorialSidebarLeft:not(.active),
-				#tutorialSidebarRight:not(.active){
-					display: none;
-				}
-				#tutorialSidebarLeft,
-				#tutorialSidebarRight{
-					position: absolute;
-					--width: 50%;
-					width: var(--width);
-					height: 100%;
-					top: 0;
-					background: white;
-					border: medium solid black;
-					
-					.tutorialStep{
-						width: 80%;
-						border: thin solid black;
-						padding: 6px;
-						margin: 6px auto;
-						position: relative;
-						font-size: 0.8rem;
-						background-color: white;
-					}
-					.tutorialArrows{
-						width: 60px;
-						height: 32px;
-						position: absolute;
-						
-						&::after{
-							font-size: 3.5rem;
-							font-weight: 900;
-							line-height: 36px;
-						}
-					}
-				}
-				#tutorialSidebarLeft{
-					left: calc(var(--width)*-1);
-					
-					.tutorialStep{
-						border-right: thick solid black;
-						margin-right: 60px;
-					}
-					.tutorialArrows{
-						right: 0;
-						transform: translate(100%,0);
-						
-						&::after{
-							content: "→";
-						}
-					}
-				}
-				#tutorialSidebarRight{
-					right: calc(var(--width)*-1);
-					
-					.tutorialStep{
-						border-left: thick solid black;
-						margin-left: 60px;
-					}
-					.tutorialArrows{
-						left: 0;
-						transform: translate(-100%,0);
-						
-						&::after{
-							content: "←";
-							float: right;
-						}
-					}
-				}
 			}
 			#beastformSheet{
 				.topRow{
@@ -4880,6 +4882,56 @@
 		</nav>
 		
 		<div id="sheetArea" class="tabBody active">
+			<div id="tutorialSidebarLeft" class="hidden">
+				<div class="tutorialStep" data-target="symbol1">
+					<div class="tutorialArrows"></div>
+					This section denotes your <b>class</b>. Each class is made up of two <b>domains.</b> You'll choose the majority of your <b>abilities and spells</b> from these domains.
+					<br/>
+					Click the name of the class to open a dropdown of class options.
+					<br/>
+					If you choose to multiclass, an extra class and domain will appear here. The class name and domain name can be clicked to open dropdowns to select an option.
+				</div>
+				<div class="tutorialStep" data-target="evasionArea">
+					<div class="tutorialArrows"></div>
+					<b>Evasion</b> represents your ability to not be hit by an attack. The GM will roll against this number when seeing if an adversary hits you. If you do get hit, you'll be able to mark <b>armor slots</b> (the boxes to the right of "armor") to reduce the incoming damage by your <b>armor score</b> (the number in "armor").
+					<br/>
+					Click an <b>armor slot</b> to toggle it on/off, and double click it to enable/disable it.
+				</div>
+				<div class="tutorialStep" data-target="hitPointArea">
+					<div class="tutorialArrows"></div>
+					The two smaller boxes are your <b>damage thresholds.</b> Whenever you take damage, compare it to the numbers here. If the incoming damage is <b>minor</b>, you <b>mark one hit point</b>. If it is <b>major</b>, you <b>mark two hit points</b>. If you should ever need to mark stress and can't, you <b>mark a hit point</b>.
+					<br/>
+					If you ever mark your last hit point, you must make a <b>death move</b>.
+					<br/>
+					Similarly to the armor slots, hp and stress slots can be toggled on/off with a click, and enabled/disabled with a double-click.
+				</div>
+				<div class="tutorialStep" data-target="hopeArea">
+					<div class="tutorialArrows"></div>
+					This is where you record your <b>Hope</b>. You may spend Hope to use an <b>Experience</b>, <b>help an ally</b>, or utilize a <b>Hope Feature</b>. When you help an ally, you explain how you're aiding them and <b>roll a d6 advantage die</b> they add to their action roll total. <b>You start with 2 Hope marked.</b>
+					<br/>
+					You also have a unique Hope Feature from your class in this section.
+					<br/>
+					Similarly to armor, hp, and stress slots, hope slots can be toggled on/off with a click and enabled/disabled with a double-click (disabling Hope is equivalent to taking a <b>scar</b>).
+				</div>
+				<div class="tutorialStep" data-target="experienceArea">
+					<div class="tutorialArrows"></div>
+					<b>Experience</b> represents the particular specializations your character has. These are narrative tags that you create to reflect what your character is skilled in. When they apply to the scene, you can <b>spend Hope</b> before the action roll to add their value as a modifier. You will earn more of these throughout a campaign.
+					<br/>
+					You start the game with two Experiences which each have a +2 modifier.
+				</div>
+				<div class="tutorialStep" data-target="goldArea">
+					<div class="tutorialArrows"></div>
+					This is where you keep track of your <b>gold</b> during a campaign. If you should mark your tenth handful, you instead mark a <b>bag</b> and erase all your handfuls. If you should mark your tenth bag, you instead mark a <b>chest</b> and erase your bags. <b>You start with one handful of gold</b>.
+				</div>
+				<div class="tutorialStep" data-target="featuresAreaTitle">
+					<div class="tutorialArrows"></div>
+					This is where the features from your class, subclass, and heritage are shown. Every class starts with a unique <b>Class Feature</b> that sets them apart from other classes. Make sure to read through them before you begin playing.
+				</div>
+				<div id="testId" class="tutorialStep" data-target="tier2Col">
+					<div class="tutorialArrows"></div>
+					This is where you make your selections when you <b>Level Up</b>. The boxes can be toggled on/off with a click. At Levels 5-7 and 8-10 you have the option to take un upgraded subclass or multiclass. When you do so, you remove the other option. By double-clicking on one of those paragraphs, you can cross it off.
+				</div>
+			</div>
 			<div id="mainSheet" class="sheet">
 				<label id="lockIcon" class="checkboxContainer saveValue" data-valuetype="option">
 					.<input name="lockIcon" type="checkbox" onchange="updateLocalStorage(this.parentElement.id); toggleLock(); updateSheetVisuals();">
@@ -5977,98 +6029,47 @@
 						<p>Update your level and adjust your damage thresholds accordingly. Take an additional domain card of your level or lower from a domain you have access to.</p>
 					</div>
 				</div>
-				<!--TUTORIAL POPOVERS-->
-				<div id="tutorialSidebarLeft">
-					<div class="tutorialStep" data-target="symbol1">
-						<div class="tutorialArrows"></div>
-						This section denotes your <b>class</b>. Each class is made up of two <b>domains.</b> You'll choose the majority of your <b>abilities and spells</b> from these domains.
-						<br/>
-						Click the name of the class to open a dropdown of class options.
-						<br/>
-						If you choose to multiclass, an extra class and domain will appear here. The class name and domain name can be clicked to open dropdowns to select an option.
-					</div>
-					<div class="tutorialStep" data-target="evasionArea">
-						<div class="tutorialArrows"></div>
-						<b>Evasion</b> represents your ability to not be hit by an attack. The GM will roll against this number when seeing if an adversary hits you. If you do get hit, you'll be able to mark <b>armor slots</b> (the boxes to the right of "armor") to reduce the incoming damage by your <b>armor score</b> (the number in "armor").
-						<br/>
-						Click an <b>armor slot</b> to toggle it on/off, and double click it to enable/disable it.
-					</div>
-					<div class="tutorialStep" data-target="hitPointArea">
-						<div class="tutorialArrows"></div>
-						The two smaller boxes are your <b>damage thresholds.</b> Whenever you take damage, compare it to the numbers here. If the incoming damage is <b>minor</b>, you <b>mark one hit point</b>. If it is <b>major</b>, you <b>mark two hit points</b>. If you should ever need to mark stress and can't, you <b>mark a hit point</b>.
-						<br/>
-						If you ever mark your last hit point, you must make a <b>death move</b>.
-						<br/>
-						Similarly to the armor slots, hp and stress slots can be toggled on/off with a click, and enabled/disabled with a double-click.
-					</div>
-					<div class="tutorialStep" data-target="hopeArea">
-						<div class="tutorialArrows"></div>
-						This is where you record your <b>Hope</b>. You may spend Hope to use an <b>Experience</b>, <b>help an ally</b>, or utilize a <b>Hope Feature</b>. When you help an ally, you explain how you're aiding them and <b>roll a d6 advantage die</b> they add to their action roll total. <b>You start with 2 Hope marked.</b>
-						<br/>
-						You also have a unique Hope Feature from your class in this section.
-						<br/>
-						Similarly to armor, hp, and stress slots, hope slots can be toggled on/off with a click and enabled/disabled with a double-click (disabling Hope is equivalent to taking a <b>scar</b>).
-					</div>
-					<div class="tutorialStep" data-target="experienceArea">
-						<div class="tutorialArrows"></div>
-						<b>Experience</b> represents the particular specializations your character has. These are narrative tags that you create to reflect what your character is skilled in. When they apply to the scene, you can <b>spend Hope</b> before the action roll to add their value as a modifier. You will earn more of these throughout a campaign.
-						<br/>
-						You start the game with two Experiences which each have a +2 modifier.
-					</div>
-					<div class="tutorialStep" data-target="goldArea">
-						<div class="tutorialArrows"></div>
-						This is where you keep track of your <b>gold</b> during a campaign. If you should mark your tenth handful, you instead mark a <b>bag</b> and erase all your handfuls. If you should mark your tenth bag, you instead mark a <b>chest</b> and erase your bags. <b>You start with one handful of gold</b>.
-					</div>
-					<div class="tutorialStep" data-target="featuresAreaTitle">
-						<div class="tutorialArrows"></div>
-						This is where the features from your class, subclass, and heritage are shown. Every class starts with a unique <b>Class Feature</b> that sets them apart from other classes. Make sure to read through them before you begin playing.
-					</div>
-					<div id="testId" class="tutorialStep" data-target="tier2Col">
-						<div class="tutorialArrows"></div>
-						This is where you make your selections when you <b>Level Up</b>. The boxes can be toggled on/off with a click. At Levels 5-7 and 8-10 you have the option to take un upgraded subclass or multiclass. When you do so, you remove the other option. By double-clicking on one of those paragraphs, you can cross it off.
-					</div>
+			</div>
+			<div id="tutorialSidebarRight" class="hidden">
+				<div class="tutorialStep" data-target="infoArea">
+					<div class="tutorialArrows"></div>
+					This section gives you a place to record your <b>name, pronouns, heritage</b> (the combination of your community and ancestry), and <b>subclass</b>. There is also a space to record your <b>level</b>.
+					<br/>
+					You can choose a mixed ancestry by pressing the 'plus' button to the right of the ancestry dropdown. Similarly, you can upgrade/downgrade your subclass using the plus/minus buttons to the right of the subclass dropdown.
 				</div>
-				<div id="tutorialSidebarRight">
-					<div class="tutorialStep" data-target="infoArea">
-						<div class="tutorialArrows"></div>
-						This section gives you a place to record your <b>name, pronouns, heritage</b> (the combination of your community and ancestry), and <b>subclass</b>. There is also a space to record your <b>level</b>.
-						<br/>
-						You can choose a mixed ancestry by pressing the 'plus' button to the right of the ancestry dropdown. Similarly, you can upgrade/downgrade your subclass using the plus/minus buttons to the right of the subclass dropdown.
-					</div>
-					<div class="tutorialStep" data-target="middleDivider">
-						<div class="tutorialArrows"></div>
-						This area contains your <b>six character traits</b>. These are what you will use as your primary modifiers on action rolls. They have descriptions beneath each to remind you how to use them.
-						<br/>
-						You can click the circle next to the ability name to 'mark' it when leveling up.
-						<br/>
-						If you choose a subclass that has a spellcasting trait, the border of that ability will be heavier to denote it.
-					</div>
-					<div class="tutorialStep" data-target="weaponsArea">
-						<div class="tutorialArrows"></div>
-						This is the section for your <b>active weapons</b>. Along with a <b>name</b>, weapons have an associated <b>trait</b> that you will roll when using them for an attack. They also have a <b>range</b> (<i>melee, very close, close, far, or very far</i>). The GM will tell you what range a target is in. <b>Damage dice</b> are  what kind of dice you're rolling when you make a successful attack, and the type is either <b>physical</b> or <b>magic</b>. <b>Proficiency</b> tells you how many damage dice you roll. The <b>Feature</b> on a weapon gives you any special ability or requirement it has.<br>The <b>Proficiency</b> circles can be toggled on/off with a click.
-						<br/>
-						When you begin typing in the "name" section, suggestions will automatically pop up. If you select one of these premade options, the corresponding traits will fill in the rest of the blanks for you.
-					</div>
-					<div class="tutorialStep" data-target="wornArmorArea">
-						<div class="tutorialArrows"></div>
-						This is the section for your <b>armor</b>. Along with a <b>name</b>, armor has a <b>base score</b> that will contribute towards your <b>armor score</b>. The <b>Feature</b> on armor gives you any special ability or requirement it has.
-						<br/>
-						The same as above with weapons, when typing in the name of armor, you will be given suggestions. Picking a suggestion will automatically fill in the rest of that armor's traits. The base score will also autofill the armor score next to the armor checkboxes.
-					</div>
-					<div class="tutorialStep" data-target="inventoryArea">
-						<div class="tutorialArrows"></div>
-						<b>Inventory</b> is where you will store all of your <b>items</b> and <b>consumables</b>.
-						<br/>
-						This is also where you would store any <b>weapon</b> you want to carry, but not have active. While in your inventory, Features from these weapons have no effect.
-					</div>
-					<div class="tutorialStep" data-target="domainCardAreaTitle">
-						<div class="tutorialArrows"></div>
-						This is where you can enter your chosen <b>Domain Cards</b> from your subclass. To add a new card, press the "Add New" button at the bottom of this section. An empty card will be added to your <b>Vault</b>. If you type the name of a domain card in the first line, suggestions will appear. The domain, cost, and description of the domain card will automatically fill in the second section if a valid name is entered.
-						<br/>
-						To move cards between your <b>Loadout</b> and <b>Vault</b>, press the arrow button to the right of the name. To permancently remove a card, press the "Minus" button to the right of the name.
-						<br/>
-						You can have at most <b>5</b> cards in your <b>Loadout</b>. You can swap any number of cards between your <b>Loadout</b> and <b>Vault</b> during a <b>Short or Long Rest</b>.
-					</div>
+				<div class="tutorialStep" data-target="middleDivider">
+					<div class="tutorialArrows"></div>
+					This area contains your <b>six character traits</b>. These are what you will use as your primary modifiers on action rolls. They have descriptions beneath each to remind you how to use them.
+					<br/>
+					You can click the circle next to the ability name to 'mark' it when leveling up.
+					<br/>
+					If you choose a subclass that has a spellcasting trait, the border of that ability will be heavier to denote it.
+				</div>
+				<div class="tutorialStep" data-target="weaponsArea">
+					<div class="tutorialArrows"></div>
+					This is the section for your <b>active weapons</b>. Along with a <b>name</b>, weapons have an associated <b>trait</b> that you will roll when using them for an attack. They also have a <b>range</b> (<i>melee, very close, close, far, or very far</i>). The GM will tell you what range a target is in. <b>Damage dice</b> are  what kind of dice you're rolling when you make a successful attack, and the type is either <b>physical</b> or <b>magic</b>. <b>Proficiency</b> tells you how many damage dice you roll. The <b>Feature</b> on a weapon gives you any special ability or requirement it has.<br>The <b>Proficiency</b> circles can be toggled on/off with a click.
+					<br/>
+					When you begin typing in the "name" section, suggestions will automatically pop up. If you select one of these premade options, the corresponding traits will fill in the rest of the blanks for you.
+				</div>
+				<div class="tutorialStep" data-target="wornArmorArea">
+					<div class="tutorialArrows"></div>
+					This is the section for your <b>armor</b>. Along with a <b>name</b>, armor has a <b>base score</b> that will contribute towards your <b>armor score</b>. The <b>Feature</b> on armor gives you any special ability or requirement it has.
+					<br/>
+					The same as above with weapons, when typing in the name of armor, you will be given suggestions. Picking a suggestion will automatically fill in the rest of that armor's traits. The base score will also autofill the armor score next to the armor checkboxes.
+				</div>
+				<div class="tutorialStep" data-target="inventoryArea">
+					<div class="tutorialArrows"></div>
+					<b>Inventory</b> is where you will store all of your <b>items</b> and <b>consumables</b>.
+					<br/>
+					This is also where you would store any <b>weapon</b> you want to carry, but not have active. While in your inventory, Features from these weapons have no effect.
+				</div>
+				<div class="tutorialStep" data-target="domainCardAreaTitle">
+					<div class="tutorialArrows"></div>
+					This is where you can enter your chosen <b>Domain Cards</b> from your subclass. To add a new card, press the "Add New" button at the bottom of this section. An empty card will be added to your <b>Vault</b>. If you type the name of a domain card in the first line, suggestions will appear. The domain, cost, and description of the domain card will automatically fill in the second section if a valid name is entered.
+					<br/>
+					To move cards between your <b>Loadout</b> and <b>Vault</b>, press the arrow button to the right of the name. To permancently remove a card, press the "Minus" button to the right of the name.
+					<br/>
+					You can have at most <b>5</b> cards in your <b>Loadout</b>. You can swap any number of cards between your <b>Loadout</b> and <b>Vault</b> during a <b>Short or Long Rest</b>.
 				</div>
 			</div>
 			<div id="beastformSheet" class="sheet hidden">
@@ -33792,6 +33793,42 @@
 				paragraph.style.textDecoration = 'line-through';
 			}
 		}
+		function toggleTutorial(){
+			let leftSide = document.getElementById('tutorialSidebarLeft');
+			let rightSide = document.getElementById('tutorialSidebarRight');
+			
+			if( !document.getElementById('option_toggleTutorialCheckbox').querySelector('input').checked ){
+				//turn off tutorial
+				hide(leftSide);
+				hide(rightSide);
+				document.getElementById('sheetArea').style.display = '';
+				document.getElementById('sheetArea').style.width = '';
+				
+			}
+			else{
+				//turn on tutorial
+				show(leftSide);
+				show(rightSide);
+				document.getElementById('sheetArea').style.display = 'flex';
+				document.getElementById('sheetArea').style.width = 'fit-content';
+				
+				swapTabs('header','sheetArea');
+				
+				let stepBox, targetBox, offset;
+				for(let step of allTutorialSteps){
+					step.style.marginTop = '';
+					stepBox = step.getBoundingClientRect();
+					targetBox = document.getElementById(step.dataset.target).getBoundingClientRect();
+					if( stepBox.top < targetBox.top ){
+						offset = targetBox.top - stepBox.top;
+						step.style.marginTop = offset + 'px';
+					}
+					console.log(step.style.marginTop);
+				}
+				
+				swapTabs('header','optionsArea');
+			}
+		}
 		function updateFeaturesText(){
 			console.log('updating features text');
 			
@@ -34273,9 +34310,6 @@
 		
 		//function clearSearch()
 		//function search()
-		function toggleTutorial(elem){
-			console.error('toggleTutorial() is not currently functional');
-		}
 		function toggleVOID(){
 			console.error('toggleVOID() is not currently functional');
 		}
