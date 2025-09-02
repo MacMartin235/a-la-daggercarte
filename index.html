@@ -865,6 +865,10 @@
 					margin: 0.72rem;
 					font-size: 1.5rem;
 				}
+				.domain{
+					color: transparent;
+					display: none;
+				}
 				
 				/* UPPER RIGHT CORNER */
 				.minimize{
@@ -1177,12 +1181,16 @@
 					line-height: 1.25;
 					margin-top: 0.225rem;
 				}
-				.traitTitle{
-					font-style: italic;
-					font-weight: 900;
+				.trait{
+					margin-bottom: 3px;
 					
-					&::after{
-						content: ':';
+					.traitTitle{
+						font-style: italic;
+						font-weight: 900;
+						
+						&::after{
+							content: ':';
+						}
 					}
 				}
 				.description{
@@ -1241,7 +1249,6 @@
 				outline: 1px solid black;
 				outline-offset: 12px;
 				border-radius: 6px;
-				
 				
 				caption{
 					//margin-top: 24px;
@@ -1664,6 +1671,9 @@
 				overflow: scroll;
 				overscroll-behavior: contain;
 				
+				fieldset{
+					position: relative;
+				}
 				.VOID{
 					color: maroon;
 					
@@ -1689,11 +1699,26 @@
 					margin-bottom: 2%;
 					font-family: Overpass;
 				}
+				button.clearButton{
+					width: fit-content;
+					position: absolute;
+					right: 8px;
+					bottom: -6px;
+					background: none;
+					border: none;
+					text-decoration: underline;
+					font-size: 12px;
+					cursor: pointer;
+					
+					&:hover{
+						color: red;
+					}
+				}
 				input[type="text"]{
 					margin-bottom: 2%;
 				}
 				fieldset{
-					margin-bottom: 2.5%;
+					margin: 0 2.5% 2.5% 2.5%;
 				}
 				.subOptionHeader{
 					margin-bottom: 2.5%;
@@ -1717,7 +1742,7 @@
 					position: relative;
 					width: 0;
 					height: 0;
-					margin-right: 6px;
+					margin-right: 15px;
 					margin-left: 6px;
 				}
 				.subOptionArrow:after{
@@ -1743,16 +1768,17 @@
 				}
 				.subOptionContainer{
 					display: none;
+					width: 100%;
 					
 					&.active{
 						display: inline-block;
 					}
 				}
 			}
-			#cardArea, #tableArea, #adversaryArea, #environmentArea{
+			.searchableItemsBlock{
 				display: inline-block;
 				position: relative;
-				width: 100%;
+				width: calc(100% - var(--sidebarWidth));
 				height: auto;
 				overflow: scroll;
 				//min-height: 50px;
@@ -2099,17 +2125,18 @@
 				}
 				.autocomplete-items{
 					position: absolute;
-					border: 0.0625em solid grey;
-					border-bottom: none;
+					border: thin solid grey;
 					border-top: none;
+					border-radius: 0 0 5px 5px;
+					box-shadow: 0px 4px 6px 2px lightgrey;
 					z-index: 10;
 					top: 100%;
 					left: 0;
 					right: 0;
-					display: flex;
-					flex-direction: column;
-					flex-grow: 1;
 					width: max-content;
+					max-height: calc(37.6px * 6);
+					overflow-x: scroll;
+					scroll-snap-type: y mandatory;
 					
 					div{
 						//padding: 12px;
@@ -2117,6 +2144,7 @@
 						cursor: pointer;
 						background-color: lightgrey;
 						border-bottom: thin solid black;
+						scroll-snap-align: start;
 					}
 					div:hover{
 						background-color: grey;
@@ -2556,11 +2584,13 @@
 							font-size: 2rem;
 							font-weight: 900;
 							display: inline-block;
+							background-color: white;
+							min-width: 0;
 							
 							.select-selected{
 								background-color: black;
 								min-width: 0;
-								//width: fit-content;
+								width: fit-content;
 								height: auto;
 								border: none;
 								border-radius: 0;
@@ -2582,7 +2612,7 @@
 							}
 							.select-items{
 								background-color: black;
-								height: calc(31.2px * 6);
+								max-height: calc(31.2px * 6);
 							}
 							.select-items div:hover, .same-as-selected{
 								background-color: rgba(255, 255, 255, 0.24);
@@ -2682,6 +2712,9 @@
 							}
 							.select-items{
 								height: calc(34.4px * 6);
+								border: thin solid grey;
+								border-radius: 0 0 5px 5px;
+								box-shadow: 0px 4px 6px 2px lightgrey;
 							}
 						}
 						.addChoiceButton{
@@ -4869,8 +4902,8 @@
 	</head>
 	<body>
 		<nav id="header" class="header tabArea">
-			<div class="tab" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
-			<div class="tab active" data-target="sheetArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Character Sheet</div>
+			<div class="tab active" data-target="searchableItemsArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Search</div>
+			<div class="tab" data-target="sheetArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Character Sheet</div>
 			<div class="tab" data-target="notesArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Notes</div>
 			<div class="tab" data-target="encounterArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Encounter Builder</div>
 			<div class="tab" data-target="testArea" onclick="swapTabs(this.parentElement.id, this.dataset.target);">Images</div>
@@ -4881,7 +4914,7 @@
 			<img src="images/DH_CGL_logos_final_full_color.svg"></img>
 		</nav>
 		
-		<div id="sheetArea" class="tabBody active">
+		<div id="sheetArea" class="tabBody">
 			<div id="tutorialSidebarLeft" class="hidden">
 				<div class="tutorialStep" data-target="symbol1">
 					<div class="tutorialArrows"></div>
@@ -7581,10 +7614,9 @@
 			</div>
 		</div>
 		
-		<div id="searchableItemsArea" class="tabBody">
+		<div id="searchableItemsArea" class="tabBody active">
 			<div class="sidebar">
 				<!--WIP FUNCTION--><input type="text" id="myInput" onkeyup="debouncedSearch()" title="Search Cards">
-				<!--WIP FUNCTION--><button onclick="clearSearch()">Clear Choices</button>
 				<div id="cardOptions" class="subOptionHeader" onclick="this.querySelector('.subOptionArrow').classList.toggle('active'); this.classList.toggle('active'); this.querySelector('.subOptionContainer').classList.toggle('active'); this.querySelector('.subOptionTitleRow').classList.toggle('active');">
 					<div class="subOptionTitleRow">
 						<div class="subOptionArrow"></div>
@@ -7597,6 +7629,7 @@
 								<input type="checkbox" name="sheet" value="sheet" onchange="search()">
 								Character Sheet Cards
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 						<fieldset>
 							<legend>Card Type</legend>
@@ -7628,12 +7661,15 @@
 								<input type="radio" name="cardType" value="transformation" onchange="search()">
 								Transformation
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 						<fieldset id="domainSet">
 							<legend>Domain</legend>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 						<fieldset id="classSet">
 							<legend>Class</legend>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7662,7 +7698,7 @@
 								Physical
 							</label>
 							<label>
-								<input type="radio" name="tableType" value="magical" onchange="search()">
+								<input type="radio" name="tableType" value="magic" onchange="search()">
 								Magical
 							</label>
 							<label>
@@ -7673,6 +7709,7 @@
 								<input type="radio" name="tableType" value="secondary" onchange="search()">
 								Secondary
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 						<fieldset>
 							<legend>Ability</legend>
@@ -7704,6 +7741,7 @@
 								<input type="radio" name="ability" value="knowledge" onchange="search()">
 								Knowledge
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7764,6 +7802,7 @@
 								<input type="radio" name="adversaryType" value="colossus" onchange="search()">
 								Colossus
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7795,6 +7834,7 @@
 								<input type="radio" name="environmentType" value="event" onchange="search()">
 								Events
 							</label>
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7811,6 +7851,7 @@
 							<span>-</span>
 							<label for="maxTier">To</label>
 							<input id="maxTier" name="maxTier" type="number" inputmode="numeric" min="1" max="4" data-default="4" onchange="search()">
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7827,6 +7868,7 @@
 							<span>-</span>
 							<label for="maxLevel">To</label>
 							<input id="maxLevel" name="maxLevel" type="number" inputmode="numeric" min="1" max="10" data-default="10" onchange="search()">
+							<button class="clearButton" onclick="clearSearch(this.parentElement);">clear</button>
 						</fieldset>
 					</div>
 				</div>
@@ -7834,7 +7876,7 @@
 			</div>
 		
 			<!--CARDS-->
-			<div id="cardArea">
+			<div id="cardArea" class="searchableItemsBlock">
 				
 				<!--ANCESTRY-->
 				
@@ -10090,6 +10132,7 @@
 					- div.domainFlag
 						- div.level
 						- div.domainSymbol
+						- div.domain
 					- div.minimize
 					- div.costCircle
 						- span.cost
@@ -10106,6 +10149,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10136,6 +10180,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="minimize" onclick="hide(this.parentElement)"></div>
 					<div class="costCircle">
@@ -10169,6 +10214,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10197,6 +10243,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10225,6 +10272,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10253,6 +10301,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10281,6 +10330,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10311,6 +10361,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10339,6 +10390,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10367,6 +10419,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10399,6 +10452,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10431,6 +10485,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10463,6 +10518,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10491,6 +10547,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10519,6 +10576,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10553,6 +10611,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10581,6 +10640,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10611,6 +10671,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10641,6 +10702,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10675,6 +10737,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10704,6 +10767,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10733,6 +10797,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10760,6 +10825,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10789,6 +10855,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10816,6 +10883,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10849,6 +10917,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10878,6 +10947,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10905,6 +10975,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10934,6 +11005,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10961,6 +11033,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -10988,6 +11061,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11015,6 +11089,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11042,6 +11117,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11075,6 +11151,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11106,6 +11183,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11137,6 +11215,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11164,6 +11243,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11191,6 +11271,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11220,6 +11301,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11247,6 +11329,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11276,6 +11359,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11305,6 +11389,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11332,6 +11417,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11359,6 +11445,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11386,6 +11473,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11415,6 +11503,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11442,6 +11531,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11469,6 +11559,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11496,6 +11587,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11525,6 +11617,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11552,6 +11645,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11581,6 +11675,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11612,6 +11707,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11641,6 +11737,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11668,6 +11765,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11697,6 +11795,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11726,6 +11825,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11753,6 +11853,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11780,6 +11881,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11809,6 +11911,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11836,6 +11939,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11865,6 +11969,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11892,6 +11997,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11919,6 +12025,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11946,6 +12053,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -11973,6 +12081,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12000,6 +12109,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12027,6 +12137,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12054,6 +12165,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12081,6 +12193,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12110,6 +12223,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12141,6 +12255,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12168,6 +12283,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12195,6 +12311,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12224,6 +12341,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12251,6 +12369,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12284,6 +12403,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12313,6 +12433,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12340,6 +12461,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12369,6 +12491,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12396,6 +12519,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12423,6 +12547,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12450,6 +12575,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12477,6 +12603,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12510,6 +12637,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12543,6 +12671,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12577,6 +12706,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12604,6 +12734,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12631,6 +12762,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12665,6 +12797,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12694,6 +12827,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12723,6 +12857,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12752,6 +12887,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12779,6 +12915,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12808,6 +12945,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12851,6 +12989,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12880,6 +13019,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12907,6 +13047,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12936,6 +13077,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12963,6 +13105,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -12992,6 +13135,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13019,6 +13163,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13046,6 +13191,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13075,6 +13221,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13102,6 +13249,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13129,6 +13277,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13158,6 +13307,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13185,6 +13335,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13212,6 +13363,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13239,6 +13391,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13272,6 +13425,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13301,6 +13455,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13328,6 +13483,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13391,6 +13547,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13422,6 +13579,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13449,6 +13607,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13476,6 +13635,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13505,6 +13665,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13537,6 +13698,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13564,6 +13726,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13595,6 +13758,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13622,6 +13786,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13653,6 +13818,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13680,6 +13846,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13709,6 +13876,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13740,6 +13908,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13767,6 +13936,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13798,6 +13968,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13829,6 +14000,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13856,6 +14028,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13887,6 +14060,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13916,6 +14090,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13943,6 +14118,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -13974,6 +14150,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14001,6 +14178,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14032,6 +14210,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14059,6 +14238,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14086,6 +14266,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14113,6 +14294,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14142,6 +14324,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14169,6 +14352,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14196,6 +14380,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14225,6 +14410,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14254,6 +14440,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14283,6 +14470,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14310,6 +14498,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14337,6 +14526,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14366,6 +14556,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14398,6 +14589,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14427,6 +14619,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14456,6 +14649,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14485,6 +14679,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14512,6 +14707,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14539,6 +14735,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14568,6 +14765,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14595,6 +14793,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14624,6 +14823,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14651,6 +14851,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14678,6 +14879,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14705,6 +14907,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14734,6 +14937,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14761,6 +14965,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14788,6 +14993,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14815,6 +15021,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14842,6 +15049,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14871,6 +15079,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14904,6 +15113,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14931,6 +15141,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14960,6 +15171,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -14987,6 +15199,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15016,6 +15229,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15043,6 +15257,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15070,6 +15285,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">arcana</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15097,6 +15313,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15124,6 +15341,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">blade</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15153,6 +15371,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15182,6 +15401,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">bone</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15209,6 +15429,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15238,6 +15459,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">codex</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15265,6 +15487,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15292,6 +15515,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">grace</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15321,6 +15545,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15352,6 +15577,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">midnight</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15379,6 +15605,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15412,6 +15639,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">sage</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15444,6 +15672,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15471,6 +15700,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">splendor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15500,6 +15730,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15527,6 +15758,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">valor</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -15995,6 +16227,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16022,6 +16255,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16049,6 +16283,7 @@
 					<div class="domainFlag">
 						<div class="level">1</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16076,6 +16311,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16103,6 +16339,7 @@
 					<div class="domainFlag">
 						<div class="level">2</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16130,6 +16367,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16157,6 +16395,7 @@
 					<div class="domainFlag">
 						<div class="level">3</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16184,6 +16423,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16211,6 +16451,7 @@
 					<div class="domainFlag">
 						<div class="level">4</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16240,6 +16481,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16267,6 +16509,7 @@
 					<div class="domainFlag">
 						<div class="level">5</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16294,6 +16537,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16321,6 +16565,7 @@
 					<div class="domainFlag">
 						<div class="level">6</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16348,6 +16593,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16379,6 +16625,7 @@
 					<div class="domainFlag">
 						<div class="level">7</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16406,6 +16653,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16435,6 +16683,7 @@
 					<div class="domainFlag">
 						<div class="level">8</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16466,6 +16715,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16493,6 +16743,7 @@
 					<div class="domainFlag">
 						<div class="level">9</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16520,6 +16771,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -16549,6 +16801,7 @@
 					<div class="domainFlag">
 						<div class="level">10</div>
 						<div class="domainSymbol"></div>
+						<div class="domain">dread</div>
 					</div>
 					<div class="costCircle">
 						<span class="cost">
@@ -17339,7 +17592,7 @@
 			</div><!--END CARD AREA-->
 			
 			<!--ADVERSARIES-->
-			<div id="adversaryArea">
+			<div id="adversaryArea" class="searchableItemsBlock">
 				
 				<!-- adversaries have: 
 					classList: adversary tierN TYPE
@@ -25431,10 +25684,138 @@
 					<div class="version">Age of Umbra Adversaries (Standard Play)</div>
 				</div>
 				
+				<div class="SABLEWOOD adversary tier1 bruiser">
+					<h2 class="title">Bullfrog</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Bruiser</span>
+					</h3>
+					<p class="subtitle">
+						An amphibious bull-sized hybrid with springing legs.
+					</p>
+					<p class="motives">
+						Leap Out of Danger, Spear with Horns, Lash with Tongue
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">11</span>
+						<span class="thresholds">8/13</span>
+						<span class="hp">4</span>
+						<span class="stress">2</span>
+						<span class="atk">+1</span>
+						<span class="weapon">Horns</span>
+						<span class="range">Melee</span>
+						<span class="damage">1d8+6</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Territorial +5</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Tongue Strike</span>
+							<span class="featureType">Action</span>
+							Make an attack against a target within Close range. On a success, deal 1d8+4 phy damage and pull the target into melee.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Powerful Gore</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to leap forward, making an attack with the bullfrog's horns against all enemies in a straight line within close range. Any that are hit take 1d4+8 phy damage and mark one armor slot that does not reduce any damage. The PC may still mark armor to reduce damage.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Leaping Dodge</span>
+							<span class="featureType">Reaction</span>
+							Whenever an attack against this creature misses, the bullfrog may leap anywhere within Far range.
+						</div>
+					</div>
+				</div>
+				<div class="SABLEWOOD adversary tier1 skulk">
+					<h2 class="title">Strixwolf</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Skulk</span>
+					</h3>
+					<p class="subtitle">
+						A wolf-owl pack hunter with wings and a rotating head.
+					</p>
+					<p class="motives">
+						Stalk, Surround, Protect Pack
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">13</span>
+						<span class="thresholds">5/10</span>
+						<span class="hp">4</span>
+						<span class="stress">2</span>
+						<span class="atk">+2</span>
+						<span class="weapon">Bite and Claw</span>
+						<span class="range">Melee</span>
+						<span class="damage">1d6+3</span>
+						<span class="damageType">phy</span>
+						<hr>
+						<span class="experience">Tracker +4</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Pack Tactics</span>
+							<span class="featureType">Passive</span>
+							When making a Bite & Claw attack, if another Strixwolf is also in melee range of the target, deal 2d8+2 phy damage instead.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Powerful Senses</span>
+							<span class="featureType">Passive</span>
+							This creature ignores the Hidden condition on anyone within close range.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Fly</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to make the Strixwolf take flight, increasing their Difficulty by +2 and making their attacks worth +2 damage until the Strixwolf lands.
+						</div>
+					</div>
+				</div>
+				<div class="SABLEWOOD adversary tier1 solo">
+					<h2 class="title">Eeligator</h2>
+					<h3>
+						<span class="tier">1</span> 
+						<span class="type">Solo</span>
+					</h3>
+					<p class="subtitle">
+						A large reptile-fish hybrid with a powerful jaw.
+					</p>
+					<p class="motives">
+						Hide, Hunt, Subsume
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">14</span>
+						<span class="thresholds">12/25</span>
+						<span class="hp">7</span>
+						<span class="stress">5</span>
+						<span class="atk">+3</span>
+						<span class="weapon">Bite</span>
+						<span class="range">Very Close</span>
+						<span class="damage">1d12+4</span>
+						<span class="damageType">phy</span>
+					</div>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Healing Skin</span>
+							<span class="featureType">Action</span>
+							Mark a Stress to heal 1 HP.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Pull Under</span>
+							<span class="featureType">Action</span>
+							If a target is within close range of a body of water, you can spend a Fear to make an attack against them. On a success, deal 1d20 phy damage, then move both the Eeligator and the target into the water that’s within close range. The Eeligator pulls the target under, making them Restrained and <i>Drowning</i>. While <i>Drowning</i>, that target must mark a Stress for every action roll that is made.
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Death Grip</span>
+							<span class="featureType">Action</span>
+							On a successful Bite attack, mark a Stress to lock this creature’s jaw onto the target, dealing 1 additional hit point and making them Restrained until the Eeligator is dealt Major damage. When released, the target must mark a Stress.
+						</div>
+					</div>
+				</div>
+				
 			</div>
 			
 			<!--ENVIRONMENTS-->
-			<div id="environmentArea">
+			<div id="environmentArea" class="searchableItemsBlock">
 				
 				<!-- environments have: 	
 					classList: environment, tierN, TYPE
@@ -26383,10 +26764,152 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="SABLEWOOD environment tier1 exploration">
+					<h2 class="title">Bandit Hideout</h2>
+					<h3>
+						<span class="tier">1</span>
+						<span class="type">Exploration</span>
+					</h3>
+					<p class="subtitle">
+						A shabby but well-defended hideout nestled among the brambles of the Sablewood.
+					</p>
+					<p class="impulses">
+						Keep Out Intruders, Take Watch, Maintain Readiness to Fight
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">12</span>
+						<span class="adversaries">Jagged Knife Bandits (Bandit, Shadow, Hexer, Sniper, Lieutenant, Lackey, Kneebreaker)</span>
+					</div>
+					<h4>Features</h4>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Thorn Fence</span>
+							<span class="featureType">Passive</span>
+							Make an attack against a target within Close range. On a success, deal 1d8+4 phy damage and pull the target into melee.
+							<span class="question">How would the bandits notice the brambles have been disturbed? How did the wall get there—do they have a druid or ranger among their number?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Patrols</span>
+							<span class="featureType">Passive</span>
+							The bandits post a constant watch, mostly directed outside the camp. Entrance will require stealth (Finesse), deception (Presence), or special information (Knowledge).
+							<span class="question">When do they change the watch? What weapons do they have prepared in case of attack?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Fight Your Way Through</span>
+							<span class="featureType">Passive</span>
+							 If the party decides to fight their way through but you want to abstract the battle to save time, call for a Group Action, asking each member of the party how they contribute to the fight, with one PC making the main roll for the group. On a success with Fear, each PC must mark Stress and 1 HP or 1 armor slot. On a failure, each PC must mark 2 Stress and some combination of 2 HP and/or armor slots.
+							<span class="question">What defenses do the bandits have to bring to bear? Does anyone notice the combat or is it over before other bandits take notice?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">On The Hunt</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to have a pack of 1d4+2 hungry Strixwolves infiltrate the hideout, desperate for food.
+							<span class="question">Do the PCs avoid the animals? Do they try to use them as a distraction or backup? Do the PCs have food on them that would draw the animals’ attention?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Alarm</span>
+							<span class="featureType">Reaction</span>
+							On a failure or success with fear, some of the bandits grow suspicious and more actively patrol. Attempts to pass through the hideout using stealth have disadvantage for the rest of the scene or until the actively patrolling bandits are defeated or distracted by something else.
+							<span class="question">How is it clear the bandits are on higher alert? What additional defense tactics are they preparing?</span>
+						</div>
+					</div>
+				</div>
+				<div class="SABLEWOOD environment tier1 traversal">
+					<h2 class="title">Underroot Tunnels</h2>
+					<h3>
+						<span class="tier">1</span>
+						<span class="type">Traversal</span>
+					</h3>
+					<p class="subtitle">
+						Fortified and well-kept tunnels leading to underborne communities within the great forest.
+					</p>
+					<p class="impulses">
+						Confound Travelers, Bar Passage, Connect Communities
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">11</span>
+						<span class="adversaries">Acid Burrower, Stonewraith, Jagged Knife Bandits</span>
+					</div>
+					<h4>Features</h4>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Hidden Entrance</span>
+							<span class="featureType">Passive</span>
+							The first challenge of the Underroot Tunnels is finding them. PCs must complete a Progress Countdown (3) to find a viable entrance to the tunnels (Instinct and Knowledge are most applicable, though Finesse could be used to search manually for a seam or switch and Presence could be used to gain information from a denizen of the Sablewood).
+							<span class="question">How do they camouflage the tunnels so well? What traps might they leave in the way?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">A Series of Passageways, All Alike</span>
+							<span class="featureType">Passive</span>
+							Navigating to a particular location in the tunnels requires a Progress Countdown (4 for most known settlements, 6 for less well-known or more-remote destinations).
+							<br/>
+							Potential Challenges include identical passageways, damaged stairwells leading to a lower level, root blockage, flooded tunnel.
+							<span class="question">How was this place built to purposefully confuse outsiders? How are patrols run within the tunnels?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Root Blockage</span>
+							<span class="featureType">Action</span>
+							Reveal that the path ahead has been blocked by the shifting of a great Sablewood tree. The party can dig around the root (Finesse), try to cut through it (Strength), or double back to find another path (Instinct).
+							<span class="question">What other obstacles did the Underroot community build their passages around? What unique approach have they taken to dealing with them?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Toll-Keepers</span>
+							<span class="featureType">Action</span>
+							Spend a Fear to introduce a number of Jagged Knife Lackeys equal to the size of the party plus two Jagged Knife Bandits and a Jagged Knife Lieutenant seeking a ‘toll’ of two handfuls of gold per character for passing through their “protected territory.”
+							<span class="question">How do the Underroot folk feel about these toll-keepers? What else might they be guarding?</span>
+						</div>
+					</div>
+				</div>
+				<div class="SABLEWOOD environment tier1 social">
+					<h2 class="title">The Village of Hush</h2>
+					<h3>
+						<span class="tier">1</span>
+						<span class="type">Social</span>
+					</h3>
+					<p class="subtitle">
+						A small but friendly village nestled into the heart of the Sablewood.
+					</p>
+					<p class="impulses">
+						Display Hospitality, Provide Respite from Danger
+					</p>
+					<div class="statBlock">
+						<span class="difficulty">10</span>
+						<span class="adversaries">Merchant, Bladed Guards, Strixwolves</span>
+					</div>
+					<h4>Features</h4>
+					<div class="description">
+						<div class="feature">
+							<span class="featureTitle">Guest Privileges</span>
+							<span class="featureType">Passive</span>
+							 Any overnight visitor is taken in by a family and given shelter for three nights. During this time, the guest's needs have priority and they can use anything that belongs to their hosts. After three nights, the visitors must trade families or leave the town.
+							<span class="question">Which family takes in the PCs? What visitor has been abusing guest privileges and what do they want here?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Clover's Tavern</span>
+							<span class="featureType">Passive</span>
+							At the center of the town is a massive six-story tavern built around the trunk of an ancient tree. The tavern is where most of the village gathers in the evening. Here, PCs can learn rumors, meet the villagers, and relax. When they leave, the shoes they put up on the clothing line have minor trinkets inside that reflect how the villagers see them or that provide some minor portent of challenges to come.
+							<span class="question">What’s the talk of the tavern? What clues do the trinkets left in the PC’s shoes/boots provide?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Preparations</span>
+							<span class="featureType">Action</span>
+							A prominent member of the community approaches the PCs asking for help with unique preparations for the arrival of the town's leaders, the Faceless Six.
+							<span class="question">Why are the Faceless Six coming to town? What preparations must be done that the party is particularly equipped to help with?</span>
+						</div>
+						<div class="feature">
+							<span class="featureTitle">Leave it to the Trees</span>
+							<span class="featureType">Reaction</span>
+							Spend a Fear when someone abuses guest privileges to summon twelve Young Dryads. They kidnap the culprit and drag them off to face the justice of the Sablewoods.
+							<span class="question">Do the villagers notice when this happens? How do they alert the guardians to these abuses, or do the dryads just know? What is the origin of the guest privilege custom?</span>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 			
 			<!--TABLES-->
-			<div id="tableArea">
+			<div id="tableArea" class="searchableItemsBlock">
 				
 				<table class="table weapon primary physical tier1">
 					<caption>
@@ -26394,27 +26917,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -26549,27 +27072,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -26664,27 +27187,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -26891,27 +27414,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27078,27 +27601,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27313,27 +27836,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27500,27 +28023,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27727,27 +28250,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27914,31 +28437,31 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Tier
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 2)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 3)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 4)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 6, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 6)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -27989,31 +28512,31 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Tier
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 2)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 3)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 4)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 6, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 6)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28064,31 +28587,31 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Tier
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 2)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 3)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 4)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 6, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 6)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28139,27 +28662,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28230,27 +28753,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28345,27 +28868,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28460,27 +28983,27 @@
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Name
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">
 								Trait
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'range')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'range', 2)">
 								Range
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'dice')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'dice', 3)">
 								Damage
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 4, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 4)">
 								Burden
 								<span class='sortedArrow'></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 5, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 5)">
 								Feature
 								<span class='sortedArrow'></span>
 							</th>
@@ -28573,19 +29096,19 @@
 					<caption>Tier 1 Armor</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Armor
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 1)">
 								Base Thresholds
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 2)">
 								Base Score
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 3)">
 								Feature
 								<span class="sortedArrow"></span>
 							</th>
@@ -28622,19 +29145,19 @@
 					<caption>Tier 2 Armor</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Armor
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 1)">
 								Base Thresholds
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 2)">
 								Base Score
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 3)">
 								Feature
 								<span class="sortedArrow"></span>
 							</th>
@@ -28707,19 +29230,19 @@
 					<caption>Tier 3 Armor</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Armor
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 1)">
 								Base Threshold
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 2)">
 								Base Score
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 3)">
 								Feature
 								<span class="sortedArrow"></span>
 							</th>
@@ -28792,19 +29315,19 @@
 					<caption>Tier 4 Armor</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">
 								Armor
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 1)">
 								Base Thresholds
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'number')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 2)">
 								Base Score
 								<span class="sortedArrow"></span>
 							</th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 3, 'string')">
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 3)">
 								Feature
 								<span class="sortedArrow"></span>
 							</th>
@@ -28879,9 +29402,9 @@
 					<caption class="subcaption">Common: Roll 1d12 or 2d12 | Uncommon: Roll 2d12 or 3d12 | Rare: Roll 3d12 or 4d12 | Legendary: Roll 4d12 or 5d12</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'number')">Roll<span class="sortedArrow"></span></th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">Loot<span class="sortedArrow"></span></th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'string')">Description<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 0)">Roll<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">Loot<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 2)">Description<span class="sortedArrow"></span></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29192,9 +29715,9 @@
 					<caption class="subcaption"><b>Common:</b> Roll 1d12 or 2d12 | <b>Uncommon:</b> Roll 2d12 or 3d12 | <b>Rare:</b> Roll 3d12 or 4d12 | <b>Legendary:</b> Roll 4d12 or 5d12</caption>
 					<thead>
 						<tr>
-							<th scope="col" onclick="sortTable(this.closest('table'), 0, 'number')">Roll<span class="sortedArrow"></span></th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 1, 'string')">Loot<span class="sortedArrow"></span></th>
-							<th scope="col" onclick="sortTable(this.closest('table'), 2, 'string')">Description<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'number', 0)">Roll<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">Loot<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 2)">Description<span class="sortedArrow"></span></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29501,7 +30024,224 @@
 					</tbody>
 				</table>
 				
+				<table class="SABLEWOOD table items" style="display:none">
+					<caption>Sablewood Items</caption>
+					<thead>
+						<tr>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">Loot<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">Description<span class="sortedArrow"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Returning Stone</td>
+							<td>This small stone can be placed anywhere, and will teleport to your hand under one of the following conditions: somebody comes within close range, somebody within very close range is dealt damage, a certain amount of time passes, when you speak a keyword.</td>
+						</tr>
+						<tr>
+							<td>Ward of the Whitefire Arcanist</td>
+							<td>A carved figurine in the shape of a ratcoon. While carrying this in the Sablewood, it gives you +1 to your Evasion.</td>
+						</tr>
+						<tr>
+							<td>Sableleaf Shoes</td>
+							<td>A set of shoes sewn out of the leaves of sablewood trees. They are light and flexible. Wearing them lets you spend Hope to take advantage on agility rolls while in the Sablewood.</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="SABLEWOOD table consumables" style="display:none">
+					<caption>Sablewood Consumables</caption>
+					<thead>
+						<tr>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 0)">Loot<span class="sortedArrow"></span></th>
+							<th scope="col" onclick="sortTable(this.closest('table'), 'string', 1)">Description<span class="sortedArrow"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Bugbane Berry</td>
+							<td>A delicacy among the residents here, this is a large, red-orange berry with a small insect floating in its center like a pit. When consumed, it provides resistance to magic damage until your next short rest.</td>
+						</tr>
+						<tr>
+							<td>Sable Sap</td>
+							<td>The sweet sap from the sablewood trees can be drizzled over food or eaten by the spoonful. Once per long rest, when you have a calm moment to consume this, you may clear 2 Stress.</td>
+						</tr>
+						<tr>
+							<td>Vial of Briarpowder</td>
+							<td>Made from shaving thorns of the Wandering Briar, when used on an enemy, it inhibits the clotting of blood. After coating a blade with this powder, the next successful attack you deal one additional hit point.</td>
+						</tr>
+					</tbody>
+				</table>
+				
 			</div><!--END TABLE AREA-->
+			
+			<!--TEMPLATES-->
+			<div id="templateArea" style="display:none;" class="searchableItemsBlock">
+				<div class="template card">
+					<div class="title">Marlowe Fairwind, the Loreborne Elf Sorcerer</div>
+					<div class="description">She is the personal mage to King Emeris, and is responsible for bringing this group together. She appears calm, until she isn’t. Marlowe must be played during this adventure.</div>
+					<div class="name">Marlowe Fairwind</div>
+					<div class="pronouns">She/Her</div>
+					<div class="community">Loreborne</div>
+					<div class="ancestry">Elf</div>
+					<div class="class">Sorcerer</div>
+					<div class="subclass">Primal Origin</div>
+					<div class="traits">
+						<div class="agility">0</div>
+						<div class="strength">-1</div>
+						<div class="finesse">1</div>
+						<div class="instinct">2</div>
+						<div class="prsence">1</div>
+						<div class="knowledge">0</div>
+					</div>
+					<div class="experiences">
+						<div class="experience">Royal Mage</div>
+						<div class="experience">Not On My Watch</div>
+					</div>
+					<div class="items">
+						<div class="primaryWeapon">Dualstaff</div>
+						<div class="secondaryWeapn"></div>
+						<div class="armor">Leather Armor</div>
+						<div class="inventory">Minor Stamina Potion (clear 1d4 stress)</div>
+					</div>
+					<div class="domainCards">
+						<div class="domainCard">Unleash Chaos</div>
+						<div class="domainCard">Rain of Blades</div>
+					</div>
+					<div class="question">Why do you think King Emeris trusts you more than anyone else to deliver this package?</div>
+				</div>
+				<div class="template card">
+					<div class="title">Barnacle, the Underborne Ribbet Rogue</div>
+					<div class="description">There is no danger he will not get into, and no situation he cannot get out of. He fears water and will not swim.</div>
+					<div class="name">Barnacle</div>
+					<div class="pronouns">He/Him</div>
+					<div class="community">Underborne</div>
+					<div class="ancestry">Ribbet</div>
+					<div class="class">Rogue</div>
+					<div class="subclass">Nightwalker</div>
+					<div class="traits">
+						<div class="agility">1</div>
+						<div class="strength">-1</div>
+						<div class="finesse">2</div>
+						<div class="instinct">0</div>
+						<div class="prsence">1</div>
+						<div class="knowledge">0</div>
+					</div>
+					<div class="experiences">
+						<div class="experience">They don't see me coming!</div>
+						<div class="experience">Strike a deal</div>
+					</div>
+					<div class="items">
+						<div class="primaryWeapon">Dagger</div>
+						<div class="secondaryWeapn"></div>
+						<div class="armor">Gambeson Armor</div>
+						<div class="inventory">Minor Stamina Potion (clear 1d4 stress)</div>
+					</div>
+					<div class="domainCards">
+						<div class="domainCard">Pick and Pull</div>
+						<div class="domainCard">Inspirational Words</div>
+					</div>
+					<div class="question">What strange or interesting rumor have you heard about the Sablewood?</div>
+				</div>
+				<div class="template card">
+					<div class="title">Garrick Reed, the Highborne Human Warrior</div>
+					<div class="description">A defector from a distant military force, he approaches most conflict with a “kill ‘em with kindness” attitude.</div>
+					<div class="name">Garrick Reed</div>
+					<div class="pronouns">He/Him</div>
+					<div class="community">Highborne</div>
+					<div class="ancestry">Human</div>
+					<div class="class">Warrior</div>
+					<div class="subclass">Call of the Brave</div>
+					<div class="traits">
+						<div class="agility">2</div>
+						<div class="strength">1</div>
+						<div class="finesse">1</div>
+						<div class="instinct">0</div>
+						<div class="prsence">-1</div>
+						<div class="knowledge">0</div>
+					</div>
+					<div class="experiences">
+						<div class="experience">Affable</div>
+						<div class="experience">Hit Them Hard</div>
+					</div>
+					<div class="items">
+						<div class="primaryWeapon">Longsword</div>
+						<div class="secondaryWeapn"></div>
+						<div class="armor">Leather Armor</div>
+						<div class="inventory">Minor Health Potion (clear 1d4 Hit Points)</div>
+					</div>
+					<div class="domainCards">
+						<div class="domainCard">Not Good Enough</div>
+						<div class="domainCard">I See It Coming</div>
+					</div>
+					<div class="question">What has Marlowe asked of you previously that made this mission difficult to say yes to?</div>
+				</div>
+				<div class="template card">
+					<div class="title">Khari Nix, the Ridgeborne Giant Guardian</div>
+					<div class="description">Loyal to the end, with a dry sense of humor, she will suffer no fools. Khari was practically born with an axe in her hand.</div>
+					<div class="name">Khari Nix</div>
+					<div class="pronouns">She/Her</div>
+					<div class="community">Ridgeborne</div>
+					<div class="ancestry">Giant</div>
+					<div class="class">Guardian</div>
+					<div class="subclass">Stalwart</div>
+					<div class="traits">
+						<div class="agility">0</div>
+						<div class="strength">2</div>
+						<div class="finesse">-1</div>
+						<div class="instinct">1</div>
+						<div class="prsence">0</div>
+						<div class="knowledge">1</div>
+					</div>
+					<div class="experiences">
+						<div class="experience">I've Got Your Back</div>
+						<div class="experience">Not Afraid of Anything</div>
+					</div>
+					<div class="items">
+						<div class="primaryWeapon">Battleaxe</div>
+						<div class="secondaryWeapn"></div>
+						<div class="armor">Chainmail Armor</div>
+						<div class="inventory">Minor Health Potion (clear 1d4 Hit Points)</div>
+					</div>
+					<div class="domainCards">
+						<div class="domainCard">Whirlwind</div>
+						<div class="domainCard">I Am Your Shield</div>
+					</div>
+					<div class="question">Your community called the Sablewood something else. What was their name for it, and why?</div>
+				</div>
+				<div class="template card">
+					<div class="title">Varian Soto, the Wildborne Katari Ranger</div>
+					<div class="description">They take a “shoot first, ask questions later” approach. Any problem that can’t be solved with a bow, isn’t a problem yet.</div>
+					<div class="name">Varian Soto</div>
+					<div class="pronouns">They/Them</div>
+					<div class="community">Wildborne</div>
+					<div class="ancestry">Katari</div>
+					<div class="class">Ranger</div>
+					<div class="subclass">Wayfinder</div>
+					<div class="traits">
+						<div class="agility">2</div>
+						<div class="strength">0</div>
+						<div class="finesse">1</div>
+						<div class="instinct">1</div>
+						<div class="prsence">-1</div>
+						<div class="knowledge">0</div>
+					</div>
+					<div class="experiences">
+						<div class="experience">Deadly Aim</div>
+						<div class="experience">Nature's Friend</div>
+					</div>
+					<div class="items">
+						<div class="primaryWeapon">Shortbow</div>
+						<div class="secondaryWeapn"></div>
+						<div class="armor">Leather Armor</div>
+						<div class="inventory">Minor Stamina Potion (clear 1d4 stress)</div>
+					</div>
+					<div class="domainCards">
+						<div class="domainCard">Untouchable</div>
+						<div class="domainCard">Vicious Entangle</div>
+					</div>
+					<div class="question">What hybrid animal have you been hunting for years that you’re hoping to see while in the Sablewood?</div>
+				</div>
+			</div>
+			
 		</div>
 		
 		<div id="notesArea" class="tabBody">
@@ -30631,13 +31371,13 @@
 				}
 			}
 		}*/
-		function download(content, fileName, contentType){ //download JSON of characterSheet as .txt file
+		/*function download(content, fileName, contentType){ //download JSON of characterSheet as .txt file
 			var a = document.createElement('a');
 			var file = new Blob([content], {type: contentType});
 			a.href = URL.createObjectURL(file);
 			a.download = fileName;
 			a.click();
-		}
+		}*/
 		/*function selectContents(elem){
 			var range = document.createRange();
 			range.selectNodeContents(elem);
@@ -32618,7 +33358,7 @@
 				}
 			}
 		}
-		/*function compare(type, x, y){ //custom comparison algorithm that includes a comparison for dice rolls and distances
+		<!--/*function compare(type, x, y){ //custom comparison algorithm that includes a comparison for dice rolls and distances
 			//hidden: display="none" ranks low; is more important than any other sort
 			
 			//string: compare strings as normal
@@ -32782,14 +33522,14 @@
 			}
 			
 		}*/
-		function matchOne(toMatch, filter){ //match at least one part of a card's info
+		/*function matchOne(toMatch, filter){ //match at least one part of a card's info
 			for(let [key, value] of toMatch){
 				if( value.indexOf(filter) > -1 )
 					return true;
 			}
 			return false;
-		}
-		function clearSearch(){
+		}*/
+		/*function clearSearch(){
 			searchElements = document.querySelectorAll('.sidebar input');
 			
 			for(var elem of searchElements){
@@ -32801,7 +33541,7 @@
 			}
 			
 			search();
-		}
+		}*/
 		/*function prune(string){ //filter a string to lowercase, trim whitespace, and remove line breaks
 			return string.toLowerCase().trim().replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'');
 		}*/
@@ -32891,6 +33631,7 @@
 		autocomplete(document.getElementById('martialForm_tier4_activeStance1'), tier4MartialStanceTitles);
 		
 		//populate selection dropdowns
+		fillFieldsets();
 		fillDropdowns();
 		initializeCustomDropdowns();
 		allLockableElements = document.querySelectorAll(':not(.card) .lockable');
@@ -32917,6 +33658,8 @@
 			updateLocalStorage();
 			updateSheetVisuals();
 		}
+		
+		search();
 		
 		//WIP ADD .domain DIV TO ALL DOMAIN CARDS WHOSE INNERHTML HAS THE DOMAIN NAME IN IT AND HAS DISPLAY:NONE;
 		//WIP ADD CUSTOM CSS TO .domainRow[domain="000"] for domain colors
@@ -33104,6 +33847,23 @@
 				autocompleteHasExecuted = true;
 			}
 		}
+		function clearSearch(...fieldsets){
+			let searchElements;
+
+			if( fieldsets.length > 0 )
+				searchElements = fieldsets[0].querySelectorAll('input');
+			else
+				searchElements = document.querySelectorAll('.sidebar input');
+			
+			for(let elem of searchElements){
+				if(elem.type === 'radio' || elem.type === 'checkbox')
+					elem.checked = false;
+				else
+					elem.value = '';
+			}
+			
+			search();
+		}
 		function clearSheet(...sheetIDs){
 			let values;
 			if(sheetIDs.length > 0){
@@ -33175,6 +33935,13 @@
 			dropdown.nextElementSibling.innerHTML = choice;
 			dropdown.dispatchEvent(new Event('change'));
 		}
+		function download(content, fileName, contentType){
+			let a = document.createElement('a');
+			let file = new Blob([content], {type: contentType});
+			a.href = URL.createObjectURL(file);
+			a.download = fileName;
+			a.click();
+		}
 		function fillDropdowns(){
 			var dropdowns, dFill;
 			var text, a, usedElems = [];
@@ -33202,7 +33969,24 @@
 					}
 				}
 				
-				usedElems.sort();
+				usedElems.sort((a,b) => { // WIP maybe add this to the custom compare() function
+					let aTitle = prune(a).slice(0, prune(a).indexOf('(')-1);
+					let aRank = prune(a).slice(prune(a).indexOf('(')+1,prune(a).indexOf(')'));
+					let bTitle = prune(b).slice(0, prune(b).indexOf('(')-1);
+					let bRank = prune(b).slice(prune(b).indexOf('(')+1,prune(b).indexOf(')'));
+					
+					if( aTitle > bTitle )
+						return 1;
+					if( aTitle < bTitle )
+						return -1;
+					
+					if( allSubclassRanks.indexOf(aRank) > allSubclassRanks.indexOf(bRank) )
+						return 1;
+					if( allSubclassRanks.indexOf(aRank) < allSubclassRanks.indexOf(bRank) )
+						return -1;
+					
+					return 0;
+				});
 				
 				a = document.createElement('option');
 				a.setAttribute('value','-');
@@ -33222,15 +34006,16 @@
 		function fillFieldsets(){
 			//domain fieldset
 			const domainFieldset = document.getElementById('domainSet');
-			for(let label of domainFieldset.getElementsByTagName('label')){
-				label.remove();
+			let domainArray = Array.from(domainFieldset.getElementsByTagName('label'));
+			for(let i = domainArray.length-1; i >= 0; i--){
+				domainArray[i].remove();
 			}
 			let a, b;
 			for(let domain of allDomains){
 				a = document.createElement('label');
 				b = document.createElement('input');
 				b.type = 'checkbox';
-				b.name = 'domain';
+				b.name = 'domain-' + domain.toLowerCase();
 				if(domain.includes('VOID')){
 					a.classList.add('VOID');
 					domain = domain.replace('VOID','').trim();
@@ -33243,8 +34028,9 @@
 			}
 			//class fieldset
 			const classFieldset = document.getElementById('classSet');
-			for(let label of domainFieldset.getElementsByTagName('label')){
-				label.remove();
+			let classArray = Array.from(classFieldset.getElementsByTagName('label'));
+			for(let i = classArray.length-1; i >= 0; i--){
+				classArray[i].remove();
 			}
 			a = document.createElement('label');
 			b = document.createElement('input');
@@ -33385,6 +34171,7 @@
 			for( var item of document.querySelectorAll(query) ){
 				arr.push( item.innerText.trim() );
 			}
+			arr.sort();
 			
 			return arr;
 		}
@@ -33490,7 +34277,7 @@
 				elem.classList.remove('hidden');
 			}
 		}
-		function sortTable(table, col, compareType){
+		function sortTable(table, compareType, col = 0){
 			var rows, x, y, shouldSwitch;
 			var switchcount = 0;
 			var switching = true;
@@ -33501,10 +34288,10 @@
 				switching = false;
 				rows = table.rows;
 				
-				for( i = 1; i < (rows.length - 1); i++ ) {
+				nextRow: for( i = 1; i < (rows.length - 1); i++ ) {
 					shouldSwitch = false;
 					
-					if( col > -1 ){
+					if( col >= 0 ){
 						x = rows[i].getElementsByTagName('td')[col];
 						y = rows[i + 1].getElementsByTagName('td')[col];
 					}
@@ -33513,17 +34300,13 @@
 						y = rows[i + 1].getElementsByTagName('td')[0];
 					}
 					
-					if( dir == 'asc' ) {
-						if ( compare(compareType, x, y) > 0 ){
-							shouldSwitch = true;
-							break;
-						}
+					if( dir == 'asc' && compare(compareType, x, y) > 0 ) {
+						shouldSwitch = true;
+						break nextRow;
 					} 
-					else if (dir == 'desc') {
-						if ( compare(compareType, x, y) < 0 ){
-							shouldSwitch = true;
-							break;
-						}
+					if (dir == 'desc' && compare(compareType, x, y) < 0 ) {
+						shouldSwitch = true;
+						break nextRow;
 					}
 				}
 				if( shouldSwitch ){
@@ -33556,20 +34339,21 @@
 			}
 			
 			function compare(type, x, y){
-				//hidden: display="none" ranks low; is more important than any other sort
+				//hidden: classList.contains('hidden') ranks low; is more important than any other sort
 				
 				//string: compare strings as normal
 				//range: melee>very close>close>far>very far
 				//dice: d4>d4+1>d4+2>d6>d6+1>d8 etc
 				//number: convert string to number and compare
 				
-				let xDisplay = x.parentElement.style.display;
-				let yDisplay = y.parentElement.style.display;
-				
-				if( xDisplay != 'none' && yDisplay == 'none' )
+				//even if another compareType is selected, one element being hidden overrides any other logic
+				if( !x.closest('tr').classList.contains('hidden') && y.closest('tr').classList.contains('hidden') )
 					return 1;
-				if( xDisplay == 'none' && yDisplay != 'none' )
+				if( x.closest('tr').classList.contains('hidden') && !y.closest('tr').classList.contains('hidden') )
 					return -1;
+				//if compareType is 'hidden', then we don't need to compare any other values
+				if( type === 'hidden' || (x.closest('tr').classList.contains('hidden') && y.closest('tr').classList.contains('hidden')) )
+					return 0;
 				
 				let xString = prune(x.innerHTML);
 				let yString = prune(y.innerHTML);
@@ -34145,6 +34929,9 @@
 					show(downgradeButton1);
 				}
 			}
+			//Dual Ancestry
+			if( SavedCharacter.has('main_ancestry1Dropdown') && SavedCharacter.get('main_ancestry1Dropdown') != '-' && document.getElementById('ancestryInfo1').classList.contains('hidden') )
+				toggleDualAncestry();
 			//Other Static Sheet Elements
 			if( classChoice !== '-' ){
 				symbol1.style.backgroundImage = 'var(--' + document.querySelector('.' + classChoice + ' .domain-1').innerHTML.toLowerCase() + 'Icon)';
@@ -34308,8 +35095,515 @@
 			dropdown.dispatchEvent(new Event('change'));
 		}
 		
-		//function clearSearch()
-		//function search()
+		//WIP FUNCTIONS
+		function search(){
+			let option;
+			let searchValue;
+			let searchInputs = new Map();
+			let toMatch = new Map();
+			let valuesToSearch, valuesToHighlight;
+			
+			//get text entered in search bar
+			//make a regex to be used for highlighting matches
+			searchValue = prune(document.getElementById('myInput').value);
+			const regex = new RegExp(searchValue, 'gi');
+			
+			//fill other search input values
+			document.querySelectorAll('.sidebar input:checked').forEach(function (val){
+				searchInputs.set(val.name, val.value);
+			});
+			document.querySelectorAll('.sidebar input[type="number"]').forEach(function (val){
+				if( val.value !== '' && val.value != null )
+					searchInputs.set(val.name, parseInt(val.value));
+			});
+			
+			console.log(searchInputs);
+			
+			//open any submenus for selected inputs
+			let sidebarElems = document.querySelectorAll('.sidebar .subOptionHeader, .sidebar .subOptionTitleRow, .sidebar .subOptionContainer');
+			for(let name of searchInputs.keys()){
+				let header = document.querySelector('.sidebar input[name="' + name + '"]').closest('.subOptionHeader');
+				header.classList.add('active');
+				header.querySelector('.subOptionTitleRow').classList.add('active');
+				header.querySelector('.subOptionContainer').classList.add('active');
+			}
+			
+			//hide areas for which the selected filters will show no results, to improve search speed later
+			let excludeCard = ['ability','tableType','adversaryType','environmentType','minTier','maxTier'];
+			let excludeTable = ['sheet','cardType','domain','class','adversaryType','environmentType','minLevel','maxLevel'];
+			let excludeAdversary = ['sheet','cardType','domain','class','tableType','ability','environmentType','minLevel','maxLevel'];
+			let excludeEnvironment = ['sheet','cardType','domain','class','tableType','ability','adversaryType','minLevel','maxLevel'];
+			show(document.getElementById('cardArea'));
+			show(document.getElementById('tableArea'));
+			show(document.getElementById('adversaryArea'));
+			show(document.getElementById('environmentArea'));
+			for(let filter of searchInputs.keys()){
+				if( excludeCard.includes(filter.split('-')[0]) )
+					hide(document.getElementById('cardArea'));
+				if( excludeTable.includes(filter.split('-')[0]) )
+					hide(document.getElementById('tableArea'));
+				if( excludeAdversary.includes(filter.split('-')[0]) )
+					hide(document.getElementById('adversaryArea'));
+				if( excludeEnvironment.includes(filter.split('-')[0]) )
+					hide(document.getElementById('environmentArea'));
+			}
+			
+			
+			//CARDS
+			valuesToSearch = ['.title','.type','.level','.tier','.domain','.cost','.medallion','.description'];
+			valuesToHighlight = ['.title','.medallion','.description'];
+			if( !document.getElementById('cardArea').classList.contains('hidden') ){
+				//iterate over cards and check for matches
+				nextCard: for(let card of allCards){
+					//by default hide all cards
+					hide(card);
+					
+					//if cardType is chosen and the type doesn't match, don't bother checking any values, just move on to the next card
+					if( searchInputs.has('cardType') && searchInputs.get('cardType') !== 'allType' && !card.classList.contains(searchInputs.get('cardType')) ){
+						continue;
+					}
+					
+					//reset toMatch
+					toMatch.clear();
+					
+					//set toMatch values and remove marks
+					for(let value of valuesToSearch){
+						if( valuesToHighlight.includes(value) ){
+							card.querySelector(value).innerHTML = card.querySelector(value).innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+						}
+						try{
+							toMatch.set(value,prune(card.querySelector(value).innerHTML));
+						}catch(err){}
+					}
+					
+					//if there is a search term, and no values match the search term, go to the next card
+					if( searchValue.length > 0 && !matchOne(toMatch, searchValue) )
+						continue nextCard;
+					
+					//then disqualify the card if any other filter options are selected
+					
+					//match cards used on character sheet
+					if( searchInputs.has('sheet') ){
+						for(let name of card.classList.values()){
+							switch(name){
+								case 'ancestry':
+									if( toMatch.get('.title') != prune(SavedCharacter.get('main_ancestry0Dropdown')) && toMatch.get('.title') != prune(SavedCharacter.get('main_ancestry1Dropdown')) )
+										continue nextCard;
+									break;
+								case 'community':
+									if( toMatch.get('.title') != prune(SavedCharacter.get('main_communityDropdown')) )
+										continue nextCard;
+									break;
+								case 'class':
+									if( toMatch.get('.title') != prune(SavedCharacter.get('main_classDropdown')) )
+										continue nextCard;
+									break;
+								case 'subclass':
+									let classSubclassName = prune(SavedCharacter.get('main_classSubclassDropdown')).slice(0, prune(SavedCharacter.get('main_classSubclassDropdown')).indexOf('(')-1);
+									let classSubclassType = prune(SavedCharacter.get('main_classSubclassDropdown')).slice(prune(SavedCharacter.get('main_classSubclassDropdown')).indexOf('(')+1,prune(SavedCharacter.get('main_classSubclassDropdown')).indexOf(')'));
+									let multiclassSubclassName = prune(SavedCharacter.get('main_multiclassSubclassDropdown')).slice(0, prune(SavedCharacter.get('main_multiclassSubclassDropdown')).indexOf('(')-1);
+									let multiclassSubclassType = prune(SavedCharacter.get('main_multiclassSubclassDropdown')).slice(prune(SavedCharacter.get('main_multiclassSubclassDropdown')).indexOf('(')+1,prune(SavedCharacter.get('main_multiclassSubclassDropdown')).indexOf(')'));
+									if( toMatch.get('.title') != classSubclassName && toMatch.get('.title') != multiclassSubclassName )
+										continue nextCard;
+									if( toMatch.get('.title') === classSubclassName && allSubclassRanks.indexOf(toMatch.get('.type')) > allSubclassRanks.indexOf(classSubclassType) )
+										continue nextCard;
+									if( toMatch.get('.title') === multiclassSubclassName && allSubclassRanks.indexOf(toMatch.get('.type')) > allSubclassRanks.indexOf(multiclassSubclassType) )
+										continue nextCard;
+									break;
+								case 'domain':
+									let domainTitles = SavedCharacter.get('main_loadout').replaceAll(',','|') + '|' + SavedCharacter.get('main_vault').replaceAll(',','|');
+									let reg = new RegExp(domainTitles, 'i');
+									if( !reg.test(toMatch.get('.title')) )
+										continue nextCard;
+									break;
+								case 'transformation':
+									continue nextCard; //cannot currently choose a transformation card on character sheet
+									break;
+								default:
+									break;
+							}
+						}
+					}
+					
+					//match card domain
+					if( Array.from(searchInputs.keys()).some((elem) => elem.includes('domain-')) ){
+						if( !toMatch.has('.domain') )
+							continue nextCard;
+						let flag = false;
+						for(let [key,value] of searchInputs.entries()){
+							if( key.includes('domain-') && toMatch.get('.domain') == value )
+								flag = true;
+						}
+						if( !flag )
+							continue nextCard;
+					}
+					
+					//match card class
+					//if card class is selected,
+					//then check if card is class, subclass, or associated domain
+					if( searchInputs.has('class') ){
+						if( !(card.classList.contains('class') || card.classList.contains('subclass') || card.classList.contains('domain')) )
+							continue nextCard;
+						if( card.classList.contains('class') && toMatch.get('.title') != searchInputs.get('class') )
+							continue nextCard;
+						if( card.classList.contains('subclass') && toMatch.get('.medallion') != searchInputs.get('class') )
+							continue nextCard;
+						if( card.classList.contains('domain') ){
+							if( toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class') + ' .domain-1').innerHTML) && toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class') + ' .domain-2').innerHTML) )
+								continue nextCard;
+						}
+					}
+					
+					
+					//match level
+					//lower bound
+					if( searchInputs.has('minLevel') ){
+						if( !toMatch.has('.level') || parseInt(toMatch.get('.level')) < searchInputs.get('minLevel') )
+							continue nextCard;
+					}
+					//upper bound
+					if( searchInputs.has('maxLevel') ){
+						if( !toMatch.has('.level') || parseInt(toMatch.get('.level')) > searchInputs.get('maxLevel') )
+							continue nextCard;
+					}
+					
+					//highlight text matches and show card
+					if( searchValue.length > 0 ){
+						for(let value of valuesToHighlight){
+							card.querySelector(value).innerHTML = card.querySelector(value).innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
+						}
+					}
+					
+					show(card);
+				}
+			}
+			
+			//TABLES
+			if( !document.getElementById('tableArea').classList.contains('hidden') ){
+				nextTable: for(let table of allTables){
+					//by default hide all tables
+					hide(table);
+					
+					//match table type
+					if( searchInputs.has('tableType') && searchInputs.get('tableType') !== 'allTables' && !table.classList.contains(searchInputs.get('tableType')) )
+						continue nextTable;
+					
+					
+					//match table tier if filter is selected
+					if( searchInputs.has('minTier') || searchInputs.has('maxTier') ){
+						let tableTier = 0;
+						try{
+							tableTier = parseInt(table.className.match(/(?:tier)(\d)/)[1]);
+						}catch(err){}
+						//lower bound
+						if( searchInputs.has('minTier') && tableTier < searchInputs.get('minTier') )
+							continue nextTable;
+						//upper bound
+						if( searchInputs.has('maxTier') && tableTier > searchInputs.get('maxTier') )
+							continue nextTable;
+					}
+					
+					//go through each row of the table, excluding the header row
+					let rows = table.getElementsByTagName('tr');
+					nextRow: for( let j = 1; j < rows.length; j++ ){
+						//get each column of the row
+						let rowData = rows[j].getElementsByTagName('td');
+						//hide the row by default
+						hide(rows[j]);
+						//if an ability filter is chosen, make sure the table has a 'trait' column
+						if( searchInputs.has('ability') && !Array.from(table.getElementsByTagName('th')).some((header) => prune(header.innerText) === 'trait') )
+							continue nextTable;
+						//go through each column and check for a match
+						//on at least one match, the row and table will both be displayed
+						nextCol: for( let i = 0; i < rowData.length; i++ ){
+							//remove highlights
+							rowData[i].innerHTML = rowData[i].innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+							//match ability filter if selected
+							if( searchInputs.has('ability') && searchInputs.get('ability') !== 'allAbility' && prune(table.getElementsByTagName('th')[i].innerText) === 'trait' ){
+								if( searchInputs.get('ability') === prune(rowData[i].innerHTML) ){
+									show(rows[j]);
+									show(table);
+								}
+								else{
+									hide(rows[j]);
+									continue nextRow;
+								}
+							}
+							if( searchValue.length > 0 && prune(rowData[i].innerHTML).includes(searchValue) ){
+								show(rows[j]);
+								rowData[i].innerHTML = rowData[i].innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
+							}
+							if( searchValue.length <= 0 ){
+								show(rows[j]);
+							}
+						}
+						if( !rows[j].classList.contains('hidden') )
+							show(table);
+					}
+					
+					//if the table is shown, sort the table, grouping 'hidden' elements together to make zebra striping consistent
+					if( !table.classList.contains('hidden') )
+						sortTable(table, 'hidden', -1);
+				}
+			}
+			
+			//ADVERSARIES
+			valuesToSearch = ['.title','.tier','.description'];
+			valuesToHighlight = ['.title','.description'];
+			if( !document.getElementById('adversaryArea').classList.contains('hidden') ){
+				nextAdversary: for(let adversary of allAdversaries){
+					//by default hide all adversaries
+					hide(adversary);
+					
+					//if adversaryType is chosen and the type doesn't match, don't bother checking any values, just move on to the next adversary
+					if( searchInputs.has('adversaryType') && searchInputs.get('adversaryType') !== 'allType' && !adversary.classList.contains(searchInputs.get('adversaryType')) ){
+						continue nextAdversary;
+					}
+					
+					//reset toMatch
+					toMatch.clear();
+					
+					//set toMatch values and remove marks
+					for(let value of valuesToSearch){
+						if( valuesToHighlight.includes(value) ){
+							adversary.querySelector(value).innerHTML = adversary.querySelector(value).innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+						}
+						try{
+							toMatch.set(value,prune(adversary.querySelector(value).innerHTML));
+						}catch(err){}
+					}
+					
+					//if there is a search term, and no values match the search term, go to the next adversary
+					if( searchValue.length > 0 && !matchOne(toMatch, searchValue) )
+						continue nextAdversary;
+					
+					//then disqualify the adversary if any other filter options are selected
+					
+					//match tier
+					//lower bound
+					if( searchInputs.has('minTier') ){
+						if( !toMatch.has('.tier') || parseInt(toMatch.get('.tier')) < searchInputs.get('minTier') )
+							continue nextAdversary;
+					}
+					//upper bound
+					if( searchInputs.has('maxTier') ){
+						if( !toMatch.has('.tier') || parseInt(toMatch.get('.tier')) > searchInputs.get('maxTier') )
+							continue nextAdversary;
+					}
+					
+					//highlight text matches and show adversary
+					if( searchValue.length > 0 ){
+						for(let value of valuesToHighlight){
+							adversary.querySelector(value).innerHTML = adversary.querySelector(value).innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
+						}
+					}
+					
+					show(adversary);
+				}
+			}
+			
+			//ENVIRONMENTS
+			valuesToSearch = ['.title','.tier','.description'];
+			valuesToHighlight = ['.title','.description'];
+			if( !document.getElementById('environmentArea').classList.contains('hidden') ){
+				nextEnvironment: for(let environment of allEnvironments){
+					//by default hide all environments
+					hide(environment);
+					
+					//if environmentType is chosen and the type doesn't match, don't bother checking any values, just move on to the next environment
+					if( searchInputs.has('environmentType') && searchInputs.get('environmentType') !== 'allType' && !environment.classList.contains(searchInputs.get('environmentType')) ){
+						continue nextEnvironment;
+					}
+					
+					//reset toMatch
+					toMatch.clear();
+					
+					//set toMatch values and remove marks
+					for(let value of valuesToSearch){
+						if( valuesToHighlight.includes(value) ){
+							environment.querySelector(value).innerHTML = environment.querySelector(value).innerHTML.replace(/(<mark class="highlight">|<\/mark>)/gim, '');
+						}
+						try{
+							toMatch.set(value,prune(environment.querySelector(value).innerHTML));
+						}catch(err){}
+					}
+					
+					//if there is a search term, and no values match the search term, go to the next environment
+					if( searchValue.length > 0 && !matchOne(toMatch, searchValue) )
+						continue nextEnvironment;
+					
+					//then disqualify the environment if any other filter options are selected
+					
+					//match tier
+					//lower bound
+					if( searchInputs.has('minTier') ){
+						if( !toMatch.has('.tier') || parseInt(toMatch.get('.tier')) < searchInputs.get('minTier') )
+							continue nextEnvironment;
+					}
+					//upper bound
+					if( searchInputs.has('maxTier') ){
+						if( !toMatch.has('.tier') || parseInt(toMatch.get('.tier')) > searchInputs.get('maxTier') )
+							continue nextEnvironment;
+					}
+					
+					//highlight text matches and show environment
+					if( searchValue.length > 0 ){
+						for(let value of valuesToHighlight){
+							environment.querySelector(value).innerHTML = environment.querySelector(value).innerHTML.replace(regex, '<mark class="highlight">$&</mark>');
+						}
+					}
+					
+					show(environment);
+				}
+			}
+			
+			
+			
+			function matchOne(toMatch, filter){
+				for(let [key, value] of toMatch){
+					if( value.indexOf(filter) > -1 )
+						return true;
+				}
+				return false;
+			}
+		}
+		//function matchOne()
+		function autofillSheet(){
+			let classChoice;
+			let level;
+			let evasion, armor;
+			let agility, strength, finesse, instinct, presence, knowledge;
+			let major, severe, hp;
+			let experience;
+			let primaryWeapon, secondaryWeapon, wornArmor;
+			
+			classChoice = prune(document.getElementById('main_classDropdown').value);
+			if( classChoice === '-' )
+				return -1;
+			
+			level = document.getElementById('main_level');
+			evasion = document.getElementById('main_evasion');
+			armor = document.getElementById('main_armor');
+			agility = document.getElementById('main_agility');
+			strength = document.getElementById('main_strength');
+			finesse = document.getElementById('main_finesse');
+			instinct = document.getElementById('main_instinct');
+			presence = document.getElementById('main_presence');
+			knowledge = document.getElementById('main_knowledge');
+			major = document.getElementById('main_majorThreshold');
+			severe = document.getElementById('main_severeThreshold');
+			experience = document.getElementById('experienceArea');
+			primaryWeapon = document.getElementById('main_primaryWeapon_name');
+			secondaryWeapon = document.getElementById('main_secondaryWeapon_name');
+			wornArmor = document.getElementById('main_wornArmor_name');
+			
+			//overwrite level
+			level.value = 1;
+			
+			//overwrite trait values
+			const numFields = [evasion, agility, strength, finesse, instinct, presence, knowledge];
+			for(let field of numFields){
+				field.value = parseInt(prune(document.querySelector('.card:not(.template).' + classChoice + ' .' + field.id.replace('main_','')).innerHTML));
+			}
+			
+			//overwrite checkboxes for hp, stress, and hope
+			let checks;
+			checks = document.querySelectorAll('#hpArea input');
+			for(let i = 0; i < checks.length; i++){
+				checks[i].checked = false;
+				checks[i].readOnly = true;
+				if( i < parseInt(document.querySelector('.card:not(.template).' + classChoice + ' .hp').innerText.trim()) ){
+					checks[i].readOnly = false;
+				}
+			}
+			checks = document.querySelectorAll('#stressArea input');
+			for(let i = 0; i < checks.length; i++){
+				checks[i].checked = false;
+				if( i < checks.length / 2 ){
+					checks[i].readOnly = false;
+				}
+				else{
+					checks[i].readOnly = true;
+				}
+			}
+			checks = document.querySelectorAll('#hopeCheckboxArea input');
+			for(let i = 0; i < checks.length; i++){
+				checks[i].readOnly = false;
+				if( i < 2 )
+					checks[i].checked = true;
+				else
+					checks[i].checked = false;
+			}
+			
+			//overwrite experiences
+			const experiences = experience.querySelectorAll('.experience');
+			for(let i = 0; i < experiences.length; i++){
+				experiences[i].querySelector('.experienceText').innerHTML = '';
+				experiences[i].querySelector('.experienceMod').innerHTML = '';
+				if( i < 2 ){
+					experiences[i].querySelector('.experienceText').innerHTML = 'Experience ' + (i+1);
+					experiences[i].querySelector('.experienceMod').innerHTML = '+2';
+				}
+			}
+			
+			//overwrite weapons and armor
+			primaryWeapon.innerHTML = document.querySelector('.card:not(.template).' + classChoice + ' .primaryWeapon').innerHTML;
+			secondaryWeapon.innerHTML = document.querySelector('.card:not(.template).' + classChoice + ' .secondaryWeapon').innerHTML;
+			wornArmor.innerHTML = document.querySelector('.card:not(.template).' + classChoice + ' .armor').innerHTML;
+			
+			let rows, rowTitle;
+			let primaryWeaponRow = ['','','','','',''], secondaryWeaponRow = ['','','','','',''], armorRow = ['','','',''];
+			for(let table of allTables){
+				rows = table.rows;
+				for(let i = 1; i < rows.length; i++){
+					rowTitle = prune(rows[i].getElementsByTagName('td')[0].innerText);
+					if( prune(primaryWeapon.innerHTML) === rowTitle ){
+						primaryWeaponRow = rows[i].getElementsByTagName('td');
+					}
+					if( prune(secondaryWeapon.innerHTML) === rowTitle ){
+						secondaryWeaponRow = rows[i].getElementsByTagName('td');
+					}
+					if( prune(wornArmor.innerHTML) === rowTitle ){
+						armorRow = rows[i].getElementsByTagName('td');
+					}
+				}
+			}
+			let primaryWeaponLine = primaryWeapon.closest('.equipmentArea');
+			primaryWeaponLine.querySelector('.trait').innerHTML = primaryWeaponRow[1].innerText;
+			primaryWeaponLine.querySelector('.range').innerHTML = primaryWeaponRow[2].innerText;
+			primaryWeaponLine.querySelector('.dice').innerHTML = primaryWeaponRow[3].innerText;
+			primaryWeaponLine.querySelector('.hands').innerHTML = primaryWeaponRow[4].innerText.split('-')[0];
+			primaryWeaponLine.querySelector('.weaponFeature').innerHTML = primaryWeaponRow[5].innerText;
+			let secondaryWeaponLine = secondaryWeapon.closest('.equipmentArea');
+			secondaryWeaponLine.querySelector('.trait').innerHTML = secondaryWeaponRow[1].innerText;
+			secondaryWeaponLine.querySelector('.range').innerHTML = secondaryWeaponRow[2].innerText;
+			secondaryWeaponLine.querySelector('.dice').innerHTML = secondaryWeaponRow[3].innerText;
+			secondaryWeaponLine.querySelector('.hands').innerHTML = secondaryWeaponRow[4].innerText.split('-')[0];
+			secondaryWeaponLine.querySelector('.weaponFeature').innerHTML = secondaryWeaponRow[5].innerText;
+			let armorLine = wornArmor.closest('.equipmentArea');
+			armorLine.querySelector('.thresholds').innerHTML = armorRow[1].innerText;
+			armorLine.querySelector('.score').innerHTML = armorRow[2].innerText;
+			armorLine.querySelector('.weaponFeature').innerHTML = armorRow[3].innerText;
+			
+			//overwrite armor and armor slots
+			armor.value = parseInt(armorRow[2].innerText);
+			let armorSlots = document.querySelectorAll('#armorCheckboxArea input');
+			for(let i = 0; i < armorSlots.length; i++){
+				armorSlots[i].checked = false;
+				armorSlots[i].readOnly = true;
+				if( i < armor.value ){
+					armorSlots[i].readOnly = false;
+				}
+			}
+			
+			//overwrite major and severe thresholds
+			major.value = parseInt(thresholds[0].trim());
+			severe.value = parseInt(thresholds[1].trim());
+			
+			updateFeaturesText();
+			updateSheetVisuals();
+			
+		}
 		function toggleVOID(){
 			console.error('toggleVOID() is not currently functional');
 		}
