@@ -853,6 +853,32 @@
 				&.subclass{
 					background-image: var(--subclassFiligree), var(--classFiligreeInset), linear-gradient(0, white var(--subclassCardHorizon), var(--classFirstColor) var(--subclassCardHorizon), var(--classSecondColor) 100%);
 				}
+				&.ancestry{
+					background: 
+						no-repeat var(--ancestryFiligree) center / 100%, 
+						no-repeat var(--cardImage, transparent) top / 100%,
+						linear-gradient(4deg, white 40%, lightgray 40%, lightgray 50%, var(--sageSecondColor) 100%);
+				}
+				&.community{
+					background: 
+						no-repeat var(--communityFiligree) center / 100%, 
+						no-repeat var(--cardImage, transparent) top / 100%,
+						linear-gradient(0, white 45%, white 50%, var(--codexSecondColor) 100%);
+				}
+				&.domain{
+					background: 
+						no-repeat var(--domainFiligree) center / 100%, 
+						no-repeat var(--domainFiligreeInset) center / 100%, 
+						no-repeat var(--cardImage, transparent) top / 100%,
+						linear-gradient(0, white var(--domainCardHorizon), var(--domainThirdColor) var(--domainCardHorizon), var(--domainMainColor) 100%);
+				}
+				&.subclass{
+					background:
+						no-repeat var(--subclassFiligree) center / 100%, 
+						no-repeat var(--classFiligreeInset) center / 100%, 
+						no-repeat var(--cardImage, transparent) top / 100%,
+						linear-gradient(0, white var(--subclassCardHorizon), var(--classFirstColor) var(--subclassCardHorizon), var(--classSecondColor) 100%);
+				}
 				
 				/* UPPER LEFT CORNER */
 				.domainFlag{
@@ -1010,6 +1036,7 @@
 						margin: auto;
 						margin-top: 6px;
 						font-size: 0.625rem;
+						box-shadow: none;
 						
 						td, th{
 							border: thin solid grey;
@@ -34584,6 +34611,7 @@
 		var allLockableElements;
 		
 		//string arrays/sets for use in autocomplete and filtering
+		var allCardTypes = ['ancestry','community','class','subclass','domain','transformation'];
 		var allDomainCardTitles = generateTitles('.card.domain .title');
 		var allPrimaryWeaponTitles = generateTitles('.weapon.primary td:first-child');
 		var allSecondaryWeaponTitles = generateTitles('.weapon.secondary td:first-child');
@@ -34639,7 +34667,7 @@
 		
 		//style the text of all the cards
 		styleDescription();
-		
+		styleCards();
 		
 		//check if localstorage is allowed
 		// if yes, load any values in localstorage
@@ -35557,6 +35585,16 @@
 				return 0;
 			}
 		}
+		function styleCards(){
+			for(let card of allCards){
+				let imageString = '';
+				imageString += Array.from(new Set(card.className.split(' ')).intersection(new Set(allCardTypes)))[0] + '_';
+				if(imageString === 'domain_')
+					imageString += prune(card.querySelector('.domain').innerText) + '_';
+				imageString += prune(card.querySelector('.title').innerText).replaceAll(' ','-');
+				card.style.setProperty('--cardImage','url("images/' + imageString + '.jpg")');
+			}
+		}
 		function styleDescription(){
 			var elements = document.querySelectorAll('.traitDescription, .featureDescription');
 			/*BOLD:
@@ -36383,7 +36421,7 @@
 						if( card.classList.contains('subclass') && toMatch.get('.medallion') != searchInputs.get('class') )
 							continue nextCard;
 						if( card.classList.contains('domain') ){
-							if( toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class') + ' .domain-1').innerHTML) && toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class') + ' .domain-2').innerHTML) )
+							if( toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class').replaceAll(' ','') + ' .domain-1').innerHTML) && toMatch.get('.domain') != prune(document.querySelector('.card.class.' + searchInputs.get('class').replaceAll(' ','') + ' .domain-2').innerHTML) )
 								continue nextCard;
 						}
 					}
